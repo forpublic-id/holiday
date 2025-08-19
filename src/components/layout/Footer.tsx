@@ -5,15 +5,31 @@ interface FooterProps {
   locale: string
 }
 
+function getCurrentMonthUrl(locale: string) {
+  const now = new Date()
+  const year = now.getFullYear()
+  const month = now.getMonth() + 1
+  
+  const monthNames = locale === 'id' 
+    ? ['januari', 'februari', 'maret', 'april', 'mei', 'juni',
+       'juli', 'agustus', 'september', 'oktober', 'november', 'desember']
+    : ['january', 'february', 'march', 'april', 'may', 'june',
+       'july', 'august', 'september', 'october', 'november', 'december']
+  
+  const monthName = monthNames[month - 1]
+  return `/${locale}/${year}/${monthName}`
+}
+
 export function Footer({ locale }: FooterProps) {
   const currentYear = new Date().getFullYear()
+  const currentMonthUrl = getCurrentMonthUrl(locale)
   
   return (
     <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto max-w-6xl px-4 md:px-6 lg:px-8">
         <div className="text-center">
           {/* Logo and Brand */}
-          <Link href={`/${locale}`} className="inline-flex items-center space-x-2 mb-4 hover:opacity-80 transition-opacity">
+          <Link href={currentMonthUrl} className="inline-flex items-center space-x-2 mb-4 hover:opacity-80 transition-opacity">
             <div className="w-6 h-6">
               <Image
                 src="/logo.svg"
@@ -39,7 +55,7 @@ export function Footer({ locale }: FooterProps) {
           {/* Quick Links */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8 text-sm">
             <Link 
-              href={`/${locale}`}
+              href={currentMonthUrl}
               className="text-gray-300 hover:text-white transition-colors"
             >
               {locale === 'id' ? 'Kalender' : 'Calendar'}

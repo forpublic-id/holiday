@@ -47,7 +47,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
-    }))
+    })),
+    // Yearly holiday list pages
+    ...years.flatMap(year => [
+      {
+        url: `${baseUrl}/id/${year}/libur`,
+        lastModified: getDataLastModified(year),
+        changeFrequency: year === currentYear ? 'weekly' as const : 'monthly' as const,
+        priority: year === currentYear ? 0.8 : 0.6,
+      },
+      {
+        url: `${baseUrl}/en/${year}/holidays`,
+        lastModified: getDataLastModified(year),
+        changeFrequency: year === currentYear ? 'weekly' as const : 'monthly' as const,
+        priority: year === currentYear ? 0.8 : 0.6,
+      }
+    ])
   ]
   
   // Generate all month pages

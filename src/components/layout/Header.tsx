@@ -62,6 +62,14 @@ export function Header({ locale }: HeaderProps) {
             </span>
           </Link>
           <Link 
+            href={`/${locale}/${new Date().getFullYear()}/${locale === 'id' ? 'libur' : 'holidays'}`}
+            className="text-muted-foreground hover:text-foreground transition-colors duration-200"
+          >
+            <span className="whitespace-nowrap">
+              {locale === 'id' ? 'Daftar Libur' : 'Holiday List'}
+            </span>
+          </Link>
+          <Link 
             href={`/${locale}/about`}
             className="text-muted-foreground hover:text-foreground transition-colors duration-200"
           >

@@ -177,9 +177,9 @@ export function CalendarGrid({ year, month, holidays, onDateClick, locale = 'id'
                     <div className="hidden sm:block mt-1">
                       <Badge
                         variant={getHolidayTypeBadge(calendarDay.holiday.type)}
-                        className="text-xs px-1 py-0 h-auto leading-tight"
+                        className="text-[9px] px-1 py-0.5 h-auto leading-tight max-w-full whitespace-normal break-words"
                       >
-                        {calendarDay.holiday.name[locale as 'id' | 'en'].slice(0, 8)}...
+                        {calendarDay.holiday.name[locale as 'id' | 'en']}
                       </Badge>
                     </div>
                   )}

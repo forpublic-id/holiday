@@ -107,7 +107,7 @@ export function HolidayList({ holidays, year, month, locale = 'id' }: HolidayLis
           const daysUntil = getDaysUntil(holiday.date)
           const isUpcoming = daysUntil > 0
           const isToday = daysUntil === 0
-          const isPast = daysUntil < 0
+          // const isPast = daysUntil < 0
 
           return (
             <div

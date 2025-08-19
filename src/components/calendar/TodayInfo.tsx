@@ -2,8 +2,7 @@
 
 import { Holiday } from '@/types/holiday'
 import { Badge } from '@/components/ui/badge'
-import { Calendar, Clock, CheckCircle2, XCircle } from 'lucide-react'
-import { formatHolidayDate } from '@/lib/holiday-utils'
+import { Calendar, CheckCircle2, XCircle } from 'lucide-react'
 
 interface TodayInfoProps {
   holidays: Holiday[]

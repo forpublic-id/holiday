@@ -25,13 +25,12 @@ export function Calendar({
 }: CalendarProps) {
   const router = useRouter()
   const currentDate = new Date()
-  const [year, setYear] = useState(initialYear || currentDate.getFullYear())
-  const [month, setMonth] = useState(initialMonth || currentDate.getMonth() + 1)
+  const [year] = useState(initialYear || currentDate.getFullYear())
+  const [month] = useState(initialMonth || currentDate.getMonth() + 1)
   const [selectedHoliday, setSelectedHoliday] = useState<Holiday | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const { holidays } = useHolidays(year)
-  const monthHolidays = useMonthHolidays(year, month, holidays)
   
   const availableYears = getAvailableYears()
 

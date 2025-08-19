@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react'
 import { Holiday } from '@/types/holiday'
-import { useIsHoliday } from '@/hooks/use-holidays'
+// import { useIsHoliday } from '@/hooks/use-holidays'
 import { formatHolidayDate, isWeekend } from '@/lib/holiday-utils'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'

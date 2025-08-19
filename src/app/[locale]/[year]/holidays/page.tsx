@@ -117,7 +117,7 @@ export default async function YearlyHolidayPage({ params }: YearlyHolidayPagePro
     return type === 'national' ? 'National Holiday' : 'Joint Leave'
   }
   
-  const getTypeVariant = (type: string) => {
+  const getTypeVariant = (_type: string): 'outline' => {
     return 'outline'
   }
   

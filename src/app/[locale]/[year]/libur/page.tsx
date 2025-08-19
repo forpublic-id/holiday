@@ -1,4 +1,3 @@
-import { getTranslations } from 'next-intl/server'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { getHolidaysForYear } from '@/lib/holiday-data'
@@ -118,7 +117,7 @@ export default async function YearlyHolidayPage({ params }: YearlyHolidayPagePro
     return type === 'national' ? 'Libur Nasional' : 'Cuti Bersama'
   }
   
-  const getTypeVariant = (type: string) => {
+  const getTypeVariant = (_type: string): 'outline' => {
     return 'outline'
   }
   

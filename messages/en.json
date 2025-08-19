@@ -1,0 +1,32 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "calendar": "Calendar",
+    "holidays": "Holidays",
+    "about": "About"
+  },
+  "HomePage": {
+    "title": "Holiday Calendar Indonesia",
+    "subtitle": "Comprehensive Indonesian holiday calendar with national holidays, regional celebrations, and smart planning tools",
+    "poweredBy": "Powered by",
+    "comingSoon": "Coming Soon",
+    "features": {
+      "calendar": {
+        "title": "📅 Calendar View",
+        "description": "Interactive calendar with all Indonesian holidays"
+      },
+      "bilingual": {
+        "title": "🌍 Bilingual Support",
+        "description": "Indonesian and English holiday information"
+      },
+      "regional": {
+        "title": "📍 Regional Holidays",
+        "description": "Province and city-specific celebrations"
+      },
+      "export": {
+        "title": "📤 Export Features",
+        "description": "PDF, iCal, and Google Calendar integration"
+      }
+    }
+  }
+}

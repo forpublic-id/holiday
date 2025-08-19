@@ -1,0 +1,32 @@
+{
+  "Navigation": {
+    "home": "Beranda",
+    "calendar": "Kalender",
+    "holidays": "Hari Libur",
+    "about": "Tentang"
+  },
+  "HomePage": {
+    "title": "Kalender Hari Libur Indonesia",
+    "subtitle": "Kalender hari libur nasional dan regional Indonesia yang lengkap",
+    "poweredBy": "Dipersembahkan oleh",
+    "comingSoon": "Segera Hadir",
+    "features": {
+      "calendar": {
+        "title": "📅 Tampilan Kalender",
+        "description": "Kalender interaktif dengan semua hari libur Indonesia"
+      },
+      "bilingual": {
+        "title": "🌍 Dukungan Bilingual",
+        "description": "Informasi hari libur dalam bahasa Indonesia dan Inggris"
+      },
+      "regional": {
+        "title": "📍 Hari Libur Regional",
+        "description": "Perayaan khusus provinsi dan kota"
+      },
+      "export": {
+        "title": "📤 Fitur Ekspor",
+        "description": "Integrasi PDF, iCal, dan Google Calendar"
+      }
+    }
+  }
+}

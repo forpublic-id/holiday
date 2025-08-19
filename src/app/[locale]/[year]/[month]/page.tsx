@@ -171,30 +171,6 @@ export default async function MonthPage({ params }: MonthPageProps) {
             locale={locale}
           />
 
-          {/* Features Section */}
-          <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
-            <h2 className="mb-4 text-2xl font-semibold text-card-foreground">
-              {locale === 'id' ? 'Fitur Unggulan' : 'Key Features'}
-            </h2>
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-md bg-secondary p-4 border border-border">
-                <h3 className="font-medium text-secondary-foreground">{t('features.calendar.title')}</h3>
-                <p className="text-sm text-muted-foreground mt-1">{t('features.calendar.description')}</p>
-              </div>
-              <div className="rounded-md bg-secondary p-4 border border-border">
-                <h3 className="font-medium text-secondary-foreground">{t('features.bilingual.title')}</h3>
-                <p className="text-sm text-muted-foreground mt-1">{t('features.bilingual.description')}</p>
-              </div>
-              <div className="rounded-md bg-secondary p-4 border border-border">
-                <h3 className="font-medium text-secondary-foreground">{t('features.regional.title')}</h3>
-                <p className="text-sm text-muted-foreground mt-1">{t('features.regional.description')}</p>
-              </div>
-              <div className="rounded-md bg-secondary p-4 border border-border">
-                <h3 className="font-medium text-secondary-foreground">{t('features.export.title')}</h3>
-                <p className="text-sm text-muted-foreground mt-1">{t('features.export.description')}</p>
-              </div>
-            </div>
-          </div>
         </div>
       </main>
       

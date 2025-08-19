@@ -28,5 +28,33 @@
         "description": "PDF, iCal, and Google Calendar integration"
       }
     }
+  },
+  "AboutPage": {
+    "features": {
+      "calendar": {
+        "title": "Interactive Calendar",
+        "description": "Easy-to-use calendar display with month and year navigation, showing all holidays with clear color coding."
+      },
+      "bilingual": {
+        "title": "Bilingual Support",
+        "description": "Complete interface in Indonesian and English for easy access for all users."
+      },
+      "regional": {
+        "title": "Regional Holiday Filter",
+        "description": "Separate national holidays from regional/provincial holidays with an easy-to-use filter system."
+      },
+      "realtime": {
+        "title": "Real-time Information",
+        "description": "Automatic today detection and countdown to next holidays with working day status information."
+      },
+      "responsive": {
+        "title": "Responsive Design",
+        "description": "Perfect display on desktop, tablet, and smartphone with design optimized for all screen sizes."
+      },
+      "export": {
+        "title": "Export Features",
+        "description": "Export to various calendar formats and integration with popular calendar apps (coming soon)."
+      }
+    }
   }
 }

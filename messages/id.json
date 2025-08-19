@@ -28,5 +28,33 @@
         "description": "Integrasi PDF, iCal, dan Google Calendar"
       }
     }
+  },
+  "AboutPage": {
+    "features": {
+      "calendar": {
+        "title": "Kalender Interaktif",
+        "description": "Tampilan kalender yang mudah digunakan dengan navigasi bulan dan tahun, menampilkan semua hari libur dengan kode warna yang jelas."
+      },
+      "bilingual": {
+        "title": "Dukungan Bilingual",
+        "description": "Antarmuka lengkap dalam bahasa Indonesia dan Inggris untuk kemudahan akses semua pengguna."
+      },
+      "regional": {
+        "title": "Filter Libur Daerah",
+        "description": "Pisahkan libur nasional dengan libur daerah/provinsi dengan sistem filter yang mudah digunakan."
+      },
+      "realtime": {
+        "title": "Informasi Real-time",
+        "description": "Deteksi hari ini otomatis dan countdown ke hari libur berikutnya dengan informasi status hari kerja."
+      },
+      "responsive": {
+        "title": "Desain Responsif",
+        "description": "Tampil sempurna di desktop, tablet, dan smartphone dengan desain yang optimized untuk semua ukuran layar."
+      },
+      "export": {
+        "title": "Fitur Ekspor",
+        "description": "Ekspor ke berbagai format kalender dan integrasi dengan aplikasi kalender populer (coming soon)."
+      }
+    }
   }
 }

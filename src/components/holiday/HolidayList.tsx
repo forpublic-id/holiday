@@ -48,11 +48,22 @@ export function HolidayList({ holidays, year, month, locale = 'id' }: HolidayLis
   const getTypeVariant = (type: Holiday['type']) => {
     switch (type) {
       case 'national': return 'destructive'
-      case 'religious': return 'secondary'
-      case 'regional': return 'default'
-      case 'joint_leave': return 'outline'
+      case 'religious': return 'secondary'  
+      case 'regional': return 'outline' // Will override with custom colors
+      case 'joint_leave': return 'outline' // Will override with custom colors
       case 'commemoration': return 'outline'
       default: return 'outline'
+    }
+  }
+
+  const getTypeBadgeClassName = (type: Holiday['type']) => {
+    switch (type) {
+      case 'regional': 
+        return 'bg-blue-500 text-white hover:bg-blue-600 border-blue-500'
+      case 'joint_leave': 
+        return 'bg-orange-500 text-white hover:bg-orange-600 border-orange-500'
+      default: 
+        return '' // Use default badge styling
     }
   }
 
@@ -129,7 +140,10 @@ export function HolidayList({ holidays, year, month, locale = 'id' }: HolidayLis
 
                   {/* Holiday type and timing info */}
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <Badge variant={getTypeVariant(holiday.type)}>
+                    <Badge 
+                      variant={getTypeVariant(holiday.type)}
+                      className={getTypeBadgeClassName(holiday.type)}
+                    >
                       {getTypeLabel(holiday.type)}
                     </Badge>
                     

@@ -15,13 +15,15 @@ interface CalendarProps {
   initialYear?: number
   initialMonth?: number
   selectedProvince?: Province | null
+  overrideHolidays?: Holiday[] // Allow override of holidays for filtering
 }
 
 export function Calendar({ 
   locale = 'id', 
   initialYear,
   initialMonth,
-  selectedProvince 
+  selectedProvince,
+  overrideHolidays
 }: CalendarProps) {
   const router = useRouter()
   const currentDate = new Date()
@@ -30,7 +32,10 @@ export function Calendar({
   const [selectedHoliday, setSelectedHoliday] = useState<Holiday | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const { holidays } = useHolidays(year)
+  const { holidays: allHolidays } = useHolidays(year)
+  
+  // Use override holidays if provided, otherwise use all holidays
+  const holidays = overrideHolidays || allHolidays
   
   const availableYears = getAvailableYears()
 

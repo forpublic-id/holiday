@@ -2,8 +2,8 @@ import { HolidayYear } from '@/types/holiday'
 
 export const holidays2025: HolidayYear = {
   year: 2025,
-  lastUpdated: '2025-08-19T00:00:00Z',
-  source: 'SKB 3 Menteri No. 1218 Tahun 2024, No. 1 Tahun 2025, No. HK.02.01-MENKES-5435-2024',
+  lastUpdated: '2025-08-19T12:00:00Z',
+  source: 'SKB 3 Menteri Terbaru Tahun 2024/2025 - Data per 19 Agustus 2025',
   holidays: [
     // National Holidays
     {
@@ -19,10 +19,22 @@ export const holidays2025: HolidayYear = {
       year: 2025
     },
     {
+      id: 'isra-miraj-2025',
+      name: {
+        id: 'Isra Mi\'raj Nabi Muhammad SAW',
+        en: 'Isra Mi\'raj'
+      },
+      date: '2025-01-27',
+      type: 'national',
+      religion: 'islam',
+      isVariable: true,
+      year: 2025
+    },
+    {
       id: 'chinese-new-year-2025',
       name: {
-        id: 'Tahun Baru Imlek',
-        en: 'Chinese New Year'
+        id: 'Tahun Baru Imlek 2576 Kongzili',
+        en: 'Chinese New Year 2576 Kongzili'
       },
       date: '2025-01-29',
       type: 'national',
@@ -33,8 +45,8 @@ export const holidays2025: HolidayYear = {
     {
       id: 'nyepi-2025',
       name: {
-        id: 'Hari Raya Nyepi Tahun Baru Saka',
-        en: 'Nyepi (Balinese New Year)'
+        id: 'Hari Suci Nyepi (Tahun Baru Saka 1947)',
+        en: 'Nyepi (Balinese New Year 1947)'
       },
       date: '2025-03-29',
       type: 'national',
@@ -45,8 +57,8 @@ export const holidays2025: HolidayYear = {
     {
       id: 'eid-al-fitr-1-2025',
       name: {
-        id: 'Hari Raya Idul Fitri',
-        en: 'Eid al-Fitr'
+        id: 'Idul Fitri 1446 H (Hari 1)',
+        en: 'Eid al-Fitr 1446 H (Day 1)'
       },
       date: '2025-03-31',
       type: 'national',
@@ -57,8 +69,8 @@ export const holidays2025: HolidayYear = {
     {
       id: 'eid-al-fitr-2-2025',
       name: {
-        id: 'Hari Raya Idul Fitri (Hari Kedua)',
-        en: 'Eid al-Fitr (Second Day)'
+        id: 'Idul Fitri 1446 H (Hari 2)',
+        en: 'Eid al-Fitr 1446 H (Day 2)'
       },
       date: '2025-04-01',
       type: 'national',
@@ -69,10 +81,22 @@ export const holidays2025: HolidayYear = {
     {
       id: 'good-friday-2025',
       name: {
-        id: 'Wafat Isa Al Masih',
+        id: 'Wafat Yesus Kristus',
         en: 'Good Friday'
       },
       date: '2025-04-18',
+      type: 'national',
+      religion: 'christian',
+      isVariable: true,
+      year: 2025
+    },
+    {
+      id: 'easter-2025',
+      name: {
+        id: 'Paskah (Kebangkitan Yesus Kristus)',
+        en: 'Easter (Resurrection of Jesus Christ)'
+      },
+      date: '2025-04-20',
       type: 'national',
       religion: 'christian',
       isVariable: true,
@@ -93,7 +117,7 @@ export const holidays2025: HolidayYear = {
     {
       id: 'ascension-2025',
       name: {
-        id: 'Kenaikan Isa Al Masih',
+        id: 'Kenaikan Yesus Kristus',
         en: 'Ascension of Jesus Christ'
       },
       date: '2025-05-29',
@@ -117,10 +141,10 @@ export const holidays2025: HolidayYear = {
     {
       id: 'eid-al-adha-2025',
       name: {
-        id: 'Hari Raya Idul Adha',
-        en: 'Eid al-Adha'
+        id: 'Hari Raya Idul Adha 1446 H',
+        en: 'Eid al-Adha 1446 H'
       },
-      date: '2025-06-07',
+      date: '2025-06-06',
       type: 'national',
       religion: 'islam',
       isVariable: true,
@@ -129,10 +153,10 @@ export const holidays2025: HolidayYear = {
     {
       id: 'islamic-new-year-2025',
       name: {
-        id: 'Tahun Baru Islam (1 Muharram)',
-        en: 'Islamic New Year'
+        id: 'Tahun Baru Islam 1447 H',
+        en: 'Islamic New Year 1447 H'
       },
-      date: '2025-06-26',
+      date: '2025-06-27',
       type: 'national',
       religion: 'islam',
       isVariable: true,
@@ -165,8 +189,8 @@ export const holidays2025: HolidayYear = {
     {
       id: 'vesak-2025',
       name: {
-        id: 'Hari Raya Waisak',
-        en: 'Vesak Day'
+        id: 'Hari Raya Waisak 2569 BE',
+        en: 'Vesak Day 2569 BE'
       },
       date: '2025-05-12',
       type: 'national',
@@ -191,29 +215,29 @@ export const holidays2025: HolidayYear = {
     {
       id: 'joint-leave-chinese-ny-2025',
       name: {
-        id: 'Cuti Bersama Tahun Baru Imlek',
+        id: 'Cuti Bersama Imlek',
         en: 'Chinese New Year Joint Leave'
       },
-      date: '2025-01-30',
+      date: '2025-01-28',
       type: 'joint_leave',
       religion: 'confucian',
       isVariable: true,
       year: 2025
     },
     {
-      id: 'joint-leave-eid-2025-1',
+      id: 'joint-leave-nyepi-2025',
       name: {
-        id: 'Cuti Bersama Idul Fitri',
-        en: 'Eid al-Fitr Joint Leave'
+        id: 'Cuti Bersama Nyepi',
+        en: 'Nyepi Joint Leave'
       },
       date: '2025-03-28',
       type: 'joint_leave',
-      religion: 'islam',
+      religion: 'hindu',
       isVariable: true,
       year: 2025
     },
     {
-      id: 'joint-leave-eid-2025-2',
+      id: 'joint-leave-eid-2025-1',
       name: {
         id: 'Cuti Bersama Idul Fitri',
         en: 'Eid al-Fitr Joint Leave'
@@ -225,7 +249,7 @@ export const holidays2025: HolidayYear = {
       year: 2025
     },
     {
-      id: 'joint-leave-eid-2025-3',
+      id: 'joint-leave-eid-2025-2',
       name: {
         id: 'Cuti Bersama Idul Fitri',
         en: 'Eid al-Fitr Joint Leave'
@@ -234,6 +258,78 @@ export const holidays2025: HolidayYear = {
       type: 'joint_leave',
       religion: 'islam',
       isVariable: true,
+      year: 2025
+    },
+    {
+      id: 'joint-leave-eid-2025-3',
+      name: {
+        id: 'Cuti Bersama Idul Fitri',
+        en: 'Eid al-Fitr Joint Leave'
+      },
+      date: '2025-04-04',
+      type: 'joint_leave',
+      religion: 'islam',
+      isVariable: true,
+      year: 2025
+    },
+    {
+      id: 'joint-leave-eid-2025-4',
+      name: {
+        id: 'Cuti Bersama Idul Fitri',
+        en: 'Eid al-Fitr Joint Leave'
+      },
+      date: '2025-04-07',
+      type: 'joint_leave',
+      religion: 'islam',
+      isVariable: true,
+      year: 2025
+    },
+    {
+      id: 'joint-leave-waisak-2025',
+      name: {
+        id: 'Cuti Bersama Waisak',
+        en: 'Vesak Joint Leave'
+      },
+      date: '2025-05-13',
+      type: 'joint_leave',
+      religion: 'buddhist',
+      isVariable: true,
+      year: 2025
+    },
+    {
+      id: 'joint-leave-ascension-2025',
+      name: {
+        id: 'Cuti Bersama Kenaikan Yesus Kristus',
+        en: 'Ascension Joint Leave'
+      },
+      date: '2025-05-30',
+      type: 'joint_leave',
+      religion: 'christian',
+      isVariable: true,
+      year: 2025
+    },
+    {
+      id: 'joint-leave-eid-adha-2025',
+      name: {
+        id: 'Cuti Bersama Idul Adha',
+        en: 'Eid al-Adha Joint Leave'
+      },
+      date: '2025-06-09',
+      type: 'joint_leave',
+      religion: 'islam',
+      isVariable: true,
+      year: 2025
+    },
+    {
+      id: 'joint-leave-independence-2025',
+      name: {
+        id: 'Cuti Bersama Kemerdekaan',
+        en: 'Independence Day Joint Leave'
+      },
+      date: '2025-08-18',
+      type: 'joint_leave',
+      religion: 'secular',
+      isVariable: false,
       year: 2025
     },
     {

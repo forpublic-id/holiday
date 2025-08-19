@@ -92,30 +92,37 @@ export function Calendar({
     : holidays
 
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-6">
-      {/* Calendar Header */}
-      <CalendarHeader
-        year={year}
-        month={month}
-        onYearChange={handleYearChange}
-        onMonthChange={handleMonthChange}
-        onPrevMonth={handlePrevMonth}
-        onNextMonth={handleNextMonth}
-        locale={locale}
-        availableYears={availableYears}
-      />
+    <div className="w-full space-y-6">
+      {/* Calendar Container */}
+      <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
+        {/* Calendar Header */}
+        <CalendarHeader
+          year={year}
+          month={month}
+          onYearChange={handleYearChange}
+          onMonthChange={handleMonthChange}
+          onPrevMonth={handlePrevMonth}
+          onNextMonth={handleNextMonth}
+          locale={locale}
+          availableYears={availableYears}
+        />
 
-      {/* Calendar Legend */}
-      <CalendarLegend locale={locale} />
+        {/* Calendar Legend */}
+        <div className="mt-4">
+          <CalendarLegend locale={locale} />
+        </div>
 
-      {/* Calendar Grid */}
-      <CalendarGrid
-        year={year}
-        month={month}
-        holidays={filteredHolidays}
-        onDateClick={handleDateClick}
-        locale={locale}
-      />
+        {/* Calendar Grid */}
+        <div className="mt-6">
+          <CalendarGrid
+            year={year}
+            month={month}
+            holidays={filteredHolidays}
+            onDateClick={handleDateClick}
+            locale={locale}
+          />
+        </div>
+      </div>
 
       {/* Holiday Details Modal */}
       <HolidayModal

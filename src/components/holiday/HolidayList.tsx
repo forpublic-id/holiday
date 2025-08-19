@@ -71,7 +71,7 @@ export function HolidayList({ holidays, year, month, locale = 'id' }: HolidayLis
 
   if (sortedHolidays.length === 0) {
     return (
-      <div className="rounded-lg border border-border bg-card p-6">
+      <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
         <h2 className="text-xl font-semibold text-card-foreground mb-4 flex items-center gap-2">
           <Calendar className="h-5 w-5" />
           {locale === 'id' 
@@ -90,7 +90,7 @@ export function HolidayList({ holidays, year, month, locale = 'id' }: HolidayLis
   }
 
   return (
-    <div className="rounded-lg border border-border bg-card p-6">
+    <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
       <h2 className="text-xl font-semibold text-card-foreground mb-4 flex items-center gap-2">
         <Calendar className="h-5 w-5" />
         {locale === 'id' 

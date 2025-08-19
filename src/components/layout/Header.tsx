@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { LanguageSwitcher } from '@/components/ui/language-switcher'
 
 interface HeaderProps {
   locale: string
@@ -24,10 +25,10 @@ export function Header({ locale }: HeaderProps) {
           </div>
           <div className="flex flex-col">
             <span className="text-xl font-bold text-foreground">
-              ForPublic<span className="text-red-600">.id</span>
+              {locale === 'id' ? 'Kalender Hari Libur Indonesia' : 'Holiday Calendar Indonesia'}
             </span>
-            <span className="text-xs text-muted-foreground">
-              {locale === 'id' ? 'Kalender Hari Libur' : 'Holiday Calendar'}
+            <span className="text-xs text-muted-foreground font-medium">
+              by ForPublic<span className="text-red-600">.id</span>
             </span>
           </div>
         </Link>
@@ -47,22 +48,12 @@ export function Header({ locale }: HeaderProps) {
           >
             {locale === 'id' ? 'Website Utama' : 'Main Website'}
           </Link>
-          <Link
-            href={locale === 'id' ? '/en' : '/id'}
-            className="text-sm px-2 py-1 rounded border border-border hover:bg-accent transition-colors"
-          >
-            {locale === 'id' ? 'EN' : 'ID'}
-          </Link>
+          <LanguageSwitcher locale={locale} />
         </nav>
 
-        {/* Mobile menu button - simplified for now */}
+        {/* Mobile menu - language switcher only */}
         <div className="md:hidden">
-          <Link
-            href={locale === 'id' ? '/en' : '/id'}
-            className="text-sm px-2 py-1 rounded border border-border hover:bg-accent transition-colors"
-          >
-            {locale === 'id' ? 'EN' : 'ID'}
-          </Link>
+          <LanguageSwitcher locale={locale} />
         </div>
       </div>
     </header>

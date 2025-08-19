@@ -1,7 +1,8 @@
 import { getTranslations } from 'next-intl/server'
-import { Calendar } from '@/components/calendar'
+import { Calendar, TodayInfo } from '@/components/calendar'
 import { HolidayList } from '@/components/holiday/HolidayList'
 import { Header } from '@/components/layout/Header'
+import { Footer } from '@/components/layout/Footer'
 import { getHolidaysForYear } from '@/lib/holiday-data'
 import { regionalHolidays2024 } from '@/data/holidays/regional-2024'
 import { regionalHolidays2025 } from '@/data/holidays/regional-2025'
@@ -80,6 +81,12 @@ export default async function MonthPage({ params }: MonthPageProps) {
             </p>
           </header>
 
+          {/* Today Info */}
+          <TodayInfo 
+            holidays={allHolidays}
+            locale={locale}
+          />
+
           {/* Main Calendar */}
           <Calendar 
             locale={locale} 
@@ -121,6 +128,8 @@ export default async function MonthPage({ params }: MonthPageProps) {
           </div>
         </div>
       </main>
+      
+      <Footer locale={locale} />
     </div>
   )
 }

@@ -33,29 +33,31 @@ export function CalendarGrid({ year, month, holidays, onDateClick, locale = 'id'
     const endDate = new Date(lastDay)
     
     // Get first day of the week (Sunday = 0, Monday = 1)
-    const firstDayOfWeek = firstDay.getDay()
+    // Convert to Monday = 0, Sunday = 6 for European week start
+    const firstDayOfWeek = (firstDay.getDay() + 6) % 7
     
-    // Add days from previous month
+    // Add days from previous month to start from Monday
     startDate.setDate(startDate.getDate() - firstDayOfWeek)
     
     // Add days until we have complete weeks
     const daysToShow = Math.ceil((endDate.getDate() + firstDayOfWeek) / 7) * 7
     
     const days: CalendarDay[] = []
-    const today = new Date().toISOString().split('T')[0]
+    const today = new Date()
+    const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
     
     for (let i = 0; i < daysToShow; i++) {
       const currentDate = new Date(startDate)
       currentDate.setDate(startDate.getDate() + i)
       
-      const dateString = currentDate.toISOString().split('T')[0]
+      const dateString = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`
       const isCurrentMonth = currentDate.getMonth() === month - 1
       
       days.push({
         date: dateString,
         day: currentDate.getDate(),
         isCurrentMonth,
-        isToday: dateString === today,
+        isToday: dateString === todayString,
         isWeekend: isWeekend(dateString),
         holiday: holidays.find(h => h.date === dateString) || null
       })
@@ -65,8 +67,8 @@ export function CalendarGrid({ year, month, holidays, onDateClick, locale = 'id'
   }, [year, month, holidays])
 
   const weekDays = locale === 'id' 
-    ? ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab']
-    : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    ? ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min']
+    : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
   const getHolidayTypeColor = (type: Holiday['type']) => {
     switch (type) {
@@ -102,15 +104,27 @@ export function CalendarGrid({ year, month, holidays, onDateClick, locale = 'id'
     }
   }
 
+  const isSunday = (date: string) => {
+    const d = new Date(date)
+    return d.getDay() === 0
+  }
+
+  const isNationalHoliday = (holiday: Holiday | null) => {
+    return holiday?.type === 'national'
+  }
+
   return (
     <TooltipProvider>
       <div className="calendar-grid">
         {/* Header with day names */}
         <div className="grid grid-cols-7 gap-1 mb-2">
-          {weekDays.map((day) => (
+          {weekDays.map((day, index) => (
             <div
               key={day}
-              className="h-8 flex items-center justify-center text-sm font-medium text-muted-foreground"
+              className={cn(
+                "h-8 flex items-center justify-center text-sm font-medium",
+                index === 6 ? "text-red-600" : "text-muted-foreground" // Sunday in red
+              )}
             >
               {day}
             </div>
@@ -126,15 +140,24 @@ export function CalendarGrid({ year, month, holidays, onDateClick, locale = 'id'
                   className={cn(
                     "relative h-12 sm:h-16 border border-border rounded-md p-1 cursor-pointer transition-colors hover:bg-accent",
                     !calendarDay.isCurrentMonth && "opacity-50",
-                    calendarDay.isToday && "ring-2 ring-primary",
+                    calendarDay.isToday && "ring-2 ring-blue-500 bg-blue-50 shadow-md",
                     calendarDay.isWeekend && "bg-muted/50",
                     calendarDay.holiday && "bg-accent"
                   )}
                   onClick={() => onDateClick?.(calendarDay.date)}
                 >
                   {/* Day number */}
-                  <div className="text-sm font-medium">
+                  <div className={cn(
+                    "text-sm font-medium",
+                    calendarDay.isToday && "text-blue-700 font-bold",
+                    !calendarDay.isToday && (isSunday(calendarDay.date) || isNationalHoliday(calendarDay.holiday)) && "text-red-600"
+                  )}>
                     {calendarDay.day}
+                    {calendarDay.isToday && (
+                      <div className="text-[8px] text-blue-600 font-normal leading-none mt-0.5">
+                        {locale === 'id' ? 'HARI INI' : 'TODAY'}
+                      </div>
+                    )}
                   </div>
                   
                   {/* Holiday indicator */}

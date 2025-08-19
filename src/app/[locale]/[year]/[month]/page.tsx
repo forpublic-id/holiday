@@ -2,10 +2,11 @@ import { getTranslations } from 'next-intl/server'
 import { Calendar } from '@/components/calendar'
 import { HolidayList } from '@/components/holiday/HolidayList'
 import { Header } from '@/components/layout/Header'
-import { useMonthHolidays } from '@/hooks/use-holidays'
 import { getHolidaysForYear } from '@/lib/holiday-data'
 import { regionalHolidays2024 } from '@/data/holidays/regional-2024'
+import { regionalHolidays2025 } from '@/data/holidays/regional-2025'
 import { getHolidaysInMonth } from '@/lib/holiday-utils'
+import { Holiday } from '@/types/holiday'
 import { notFound } from 'next/navigation'
 
 interface MonthPageProps {
@@ -50,7 +51,15 @@ export default async function MonthPage({ params }: MonthPageProps) {
 
   // Get all holidays for the year
   const nationalHolidays = getHolidaysForYear(year)
-  const regionalForYear = regionalHolidays2024.filter(h => h.year === year)
+  
+  // Get regional holidays for the specific year
+  let regionalForYear: Holiday[] = []
+  if (year === 2024) {
+    regionalForYear = regionalHolidays2024.filter(h => h.year === year)
+  } else if (year === 2025) {
+    regionalForYear = regionalHolidays2025.filter(h => h.year === year)
+  }
+  
   const allHolidays = [...nationalHolidays, ...regionalForYear]
   
   // Get holidays for this specific month

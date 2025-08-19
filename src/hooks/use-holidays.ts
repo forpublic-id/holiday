@@ -5,6 +5,7 @@ import { Holiday, HolidayFilter, HolidaySearchResult, Province } from '@/types/h
 import { getHolidaysForYear, getCurrentYear, hasYearData } from '@/lib/holiday-data'
 import { filterHolidays, getNextHoliday, isHoliday, getHolidaysInMonth } from '@/lib/holiday-utils'
 import { regionalHolidays2024 } from '@/data/holidays/regional-2024'
+import { regionalHolidays2025 } from '@/data/holidays/regional-2025'
 
 /**
  * Hook for managing holiday data
@@ -16,7 +17,15 @@ export function useHolidays(initialYear?: number) {
   // Get all holidays for the current year (national + regional)
   const allHolidays = useMemo(() => {
     const nationalHolidays = getHolidaysForYear(currentYear)
-    const regionalForYear = regionalHolidays2024.filter(h => h.year === currentYear)
+    
+    // Get regional holidays for the specific year
+    let regionalForYear: Holiday[] = []
+    if (currentYear === 2024) {
+      regionalForYear = regionalHolidays2024.filter(h => h.year === currentYear)
+    } else if (currentYear === 2025) {
+      regionalForYear = regionalHolidays2025.filter(h => h.year === currentYear)
+    }
+    
     return [...nationalHolidays, ...regionalForYear]
   }, [currentYear])
 

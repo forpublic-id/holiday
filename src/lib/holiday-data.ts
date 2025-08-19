@@ -1,5 +1,6 @@
 import { HolidayData, HolidayYear, Holiday } from '@/types/holiday'
 import { holidays2024 } from '@/data/holidays/2024'
+import { holidays2025 } from '@/data/holidays/2025'
 
 /**
  * Main holiday data store
@@ -7,13 +8,15 @@ import { holidays2024 } from '@/data/holidays/2024'
 export const holidayData: HolidayData = {
   years: {
     2024: holidays2024,
-    // Will be expanded with 2025-2030 data
+    2025: holidays2025,
+    // Will be expanded with 2026-2030 data
   },
   metadata: {
-    lastUpdated: '2024-08-19T00:00:00Z',
-    version: '1.0.0',
+    lastUpdated: '2025-08-19T00:00:00Z',
+    version: '1.1.0',
     sources: [
       'SKB 3 Menteri No. 1067 Tahun 2023',
+      'SKB 3 Menteri No. 1218 Tahun 2024',
       'Peraturan Pemerintah Republik Indonesia',
       'Kementerian Agama RI'
     ]

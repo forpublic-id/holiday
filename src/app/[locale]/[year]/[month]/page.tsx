@@ -58,11 +58,16 @@ export async function generateMetadata({ params }: MonthPageProps): Promise<Meta
   
   const allHolidays = [...nationalHolidays, ...regionalForYear]
   const monthHolidays = getHolidaysInMonth(year, month, allHolidays)
+  
+  // Filter for national + joint leave holidays only (for SEO title accuracy)
+  const defaultHolidays = allHolidays.filter(h => h.type === 'national' || h.type === 'joint_leave')
+  const monthDefaultHolidays = getHolidaysInMonth(year, month, defaultHolidays)
+  
   const monthName = getMonthName(month, locale)
 
-  // Generate SEO-optimized content
-  const title = generateMonthTitle(monthHolidays, monthName, year, locale)
-  const description = generateMonthDescription(monthHolidays, monthName, year, locale)
+  // Generate SEO-optimized content (using default holidays for accurate count)
+  const title = generateMonthTitle(monthDefaultHolidays, monthName, year, locale)
+  const description = generateMonthDescription(monthDefaultHolidays, monthName, year, locale)
   const keywords = generateMonthKeywords(month, year, locale)
 
   // Add holiday-specific keywords
@@ -133,6 +138,9 @@ export default async function MonthPage({ params }: MonthPageProps) {
   const defaultCalendarHolidays = allHolidays.filter(h => 
     h.type === 'national' || h.type === 'joint_leave'
   )
+  
+  // Get national + joint leave holidays for this month (for SEO title)
+  const monthDefaultHolidays = getHolidaysInMonth(year, month, defaultCalendarHolidays)
 
   return (
     <div className="min-h-screen bg-background">

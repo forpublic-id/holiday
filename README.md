@@ -2,6 +2,8 @@
 
 <div align="center">
 <img src="public/logo.svg" alt="Holiday Calendar Indonesia" width="80" height="80">
+<br><br>
+<strong>by</strong> <span style="color: #ffffff; background: #000000; padding: 2px 4px; border-radius: 4px;">ForPublic</span><span style="color: #dc2626; background: #000000; padding: 2px 4px; border-radius: 4px;">.id</span>
 </div>
 
 A comprehensive and user-friendly Indonesian holiday calendar application with bilingual support.

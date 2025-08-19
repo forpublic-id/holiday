@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { Calendar, TodayInfo } from '@/components/calendar'
-import { HolidayList } from '@/components/holiday/HolidayList'
+import { FilteredHolidayDisplay } from '@/components/holiday/FilteredHolidayDisplay'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { getHolidaysForYear } from '@/lib/holiday-data'
@@ -128,6 +128,11 @@ export default async function MonthPage({ params }: MonthPageProps) {
   
   // Get holidays for this specific month
   const monthHolidays = getHolidaysInMonth(year, month, allHolidays)
+  
+  // Default calendar holidays (national + joint leave only)
+  const defaultCalendarHolidays = allHolidays.filter(h => 
+    h.type === 'national' || h.type === 'joint_leave'
+  )
 
   return (
     <div className="min-h-screen bg-background">
@@ -146,7 +151,7 @@ export default async function MonthPage({ params }: MonthPageProps) {
 
           {/* Today Info */}
           <TodayInfo 
-            holidays={allHolidays}
+            holidays={defaultCalendarHolidays}
             locale={locale}
           />
 
@@ -155,10 +160,11 @@ export default async function MonthPage({ params }: MonthPageProps) {
             locale={locale} 
             initialYear={year}
             initialMonth={month}
+            overrideHolidays={defaultCalendarHolidays}
           />
 
-          {/* Holiday List for Current Month */}
-          <HolidayList 
+          {/* Filtered Holiday List for Current Month */}
+          <FilteredHolidayDisplay 
             holidays={monthHolidays}
             year={year}
             month={month}

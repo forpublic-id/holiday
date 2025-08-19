@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
 import { Holiday, Province } from '@/types/holiday'
 import { useHolidays, useMonthHolidays } from '@/hooks/use-holidays'
 import { CalendarGrid } from './CalendarGrid'
@@ -23,6 +23,7 @@ export function Calendar({
   initialMonth,
   selectedProvince 
 }: CalendarProps) {
+  const router = useRouter()
   const currentDate = new Date()
   const [year, setYear] = useState(initialYear || currentDate.getFullYear())
   const [month, setMonth] = useState(initialMonth || currentDate.getMonth() + 1)
@@ -34,21 +35,34 @@ export function Calendar({
   
   const availableYears = getAvailableYears()
 
+  // Convert month number to name for URL
+  const getMonthName = (monthNum: number) => {
+    const monthNames = locale === 'id' 
+      ? ['januari', 'februari', 'maret', 'april', 'mei', 'juni',
+         'juli', 'agustus', 'september', 'oktober', 'november', 'desember']
+      : ['january', 'february', 'march', 'april', 'may', 'june',
+         'july', 'august', 'september', 'october', 'november', 'december']
+    return monthNames[monthNum - 1]
+  }
+
+  const navigateToMonth = (newYear: number, newMonth: number) => {
+    const monthName = getMonthName(newMonth)
+    router.push(`/${locale}/${newYear}/${monthName}`)
+  }
+
   const handlePrevMonth = () => {
     if (month === 1) {
-      setYear(year - 1)
-      setMonth(12)
+      navigateToMonth(year - 1, 12)
     } else {
-      setMonth(month - 1)
+      navigateToMonth(year, month - 1)
     }
   }
 
   const handleNextMonth = () => {
     if (month === 12) {
-      setYear(year + 1)
-      setMonth(1)
+      navigateToMonth(year + 1, 1)
     } else {
-      setMonth(month + 1)
+      navigateToMonth(year, month + 1)
     }
   }
 
@@ -61,11 +75,11 @@ export function Calendar({
   }
 
   const handleYearChange = (newYear: number) => {
-    setYear(newYear)
+    navigateToMonth(newYear, month)
   }
 
   const handleMonthChange = (newMonth: number) => {
-    setMonth(newMonth)
+    navigateToMonth(year, newMonth)
   }
 
   // Filter holidays by province if selected

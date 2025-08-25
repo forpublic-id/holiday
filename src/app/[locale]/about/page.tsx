@@ -173,27 +173,6 @@ export default async function AboutPage({ params }: AboutPageProps) {
             </div>
           </section>
 
-          {/* Technology Section */}
-          <section className="mb-16">
-            <h2 className="mb-8 text-2xl font-bold text-foreground text-center">
-              {locale === 'id' ? 'Teknologi yang Digunakan' : 'Technology Stack'}
-            </h2>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {[
-                { name: 'Next.js 15', desc: locale === 'id' ? 'Framework React modern' : 'Modern React framework' },
-                { name: 'TypeScript', desc: locale === 'id' ? 'Type safety & DX' : 'Type safety & DX' },
-                { name: 'Tailwind CSS', desc: locale === 'id' ? 'Styling responsif' : 'Responsive styling' },
-                { name: 'next-intl', desc: locale === 'id' ? 'Dukungan multi-bahasa' : 'Multi-language support' },
-                { name: 'Lucide Icons', desc: locale === 'id' ? 'Ikon modern' : 'Modern icons' },
-                { name: 'Vercel', desc: locale === 'id' ? 'Hosting & deployment' : 'Hosting & deployment' }
-              ].map((tech, index) => (
-                <div key={index} className="rounded-md border border-border bg-secondary p-4">
-                  <h3 className="font-medium text-secondary-foreground">{tech.name}</h3>
-                  <p className="text-sm text-muted-foreground mt-1">{tech.desc}</p>
-                </div>
-              ))}
-            </div>
-          </section>
 
           {/* Contact Section */}
           <section>

@@ -2,8 +2,8 @@ import { HolidayYear } from '@/types/holiday'
 
 export const holidays2024: HolidayYear = {
   year: 2024,
-  lastUpdated: '2024-08-19T00:00:00Z',
-  source: 'SKB 3 Menteri No. 1067 Tahun 2023, No. 1 Tahun 2024, No. HK.02.01-MENKES-4653-2023',
+  lastUpdated: '2025-08-25T12:00:00Z',
+  source: 'SKB 3 Menteri No. 855, 3, dan 4 Tahun 2023 - Data lengkap 17 hari libur nasional dan 10 cuti bersama',
   holidays: [
     // National Holidays
     {
@@ -16,6 +16,18 @@ export const holidays2024: HolidayYear = {
       type: 'national',
       religion: 'secular',
       isVariable: false,
+      year: 2024
+    },
+    {
+      id: 'isra-miraj-2024',
+      name: {
+        id: 'Isra Mi\'raj Nabi Muhammad SAW',
+        en: 'Isra Mi\'raj'
+      },
+      date: '2024-02-08',
+      type: 'national',
+      religion: 'islam',
+      isVariable: true,
       year: 2024
     },
     {
@@ -49,6 +61,18 @@ export const holidays2024: HolidayYear = {
         en: 'Good Friday'
       },
       date: '2024-03-29',
+      type: 'national',
+      religion: 'christian',
+      isVariable: true,
+      year: 2024
+    },
+    {
+      id: 'easter-2024',
+      name: {
+        id: 'Hari Paskah',
+        en: 'Easter Sunday'
+      },
+      date: '2024-03-31',
       type: 'national',
       religion: 'christian',
       isVariable: true,
@@ -188,6 +212,33 @@ export const holidays2024: HolidayYear = {
     }
   ],
   jointLeaves: [
+    // Cuti bersama Tahun Baru Imlek
+    {
+      id: 'joint-leave-imlek-2024',
+      name: {
+        id: 'Cuti Bersama Tahun Baru Imlek',
+        en: 'Chinese New Year Joint Leave'
+      },
+      date: '2024-02-09',
+      type: 'joint_leave',
+      religion: 'confucian',
+      isVariable: true,
+      year: 2024
+    },
+    // Cuti bersama Hari Suci Nyepi
+    {
+      id: 'joint-leave-nyepi-2024',
+      name: {
+        id: 'Cuti Bersama Hari Suci Nyepi',
+        en: 'Nyepi Joint Leave'
+      },
+      date: '2024-03-12',
+      type: 'joint_leave',
+      religion: 'hindu',
+      isVariable: true,
+      year: 2024
+    },
+    // Cuti bersama Idul Fitri
     {
       id: 'joint-leave-eid-2024-1',
       name: {
@@ -225,9 +276,61 @@ export const holidays2024: HolidayYear = {
       year: 2024
     },
     {
+      id: 'joint-leave-eid-2024-4',
+      name: {
+        id: 'Cuti Bersama Idul Fitri',
+        en: 'Eid al-Fitr Joint Leave'
+      },
+      date: '2024-04-15',
+      type: 'joint_leave',
+      religion: 'islam',
+      isVariable: true,
+      year: 2024
+    },
+    // Cuti bersama Kenaikan Isa Almasih
+    {
+      id: 'joint-leave-ascension-2024',
+      name: {
+        id: 'Cuti Bersama Kenaikan Isa Almasih',
+        en: 'Ascension Day Joint Leave'
+      },
+      date: '2024-05-10',
+      type: 'joint_leave',
+      religion: 'christian',
+      isVariable: true,
+      year: 2024
+    },
+    // Cuti bersama Hari Raya Waisak
+    {
+      id: 'joint-leave-vesak-2024',
+      name: {
+        id: 'Cuti Bersama Hari Raya Waisak',
+        en: 'Vesak Day Joint Leave'
+      },
+      date: '2024-05-24',
+      type: 'joint_leave',
+      religion: 'buddhist',
+      isVariable: true,
+      year: 2024
+    },
+    // Cuti bersama Hari Raya Idul Adha
+    {
+      id: 'joint-leave-adha-2024',
+      name: {
+        id: 'Cuti Bersama Hari Raya Idul Adha',
+        en: 'Eid al-Adha Joint Leave'
+      },
+      date: '2024-06-18',
+      type: 'joint_leave',
+      religion: 'islam',
+      isVariable: true,
+      year: 2024
+    },
+    // Cuti bersama Hari Raya Natal
+    {
       id: 'joint-leave-christmas-2024',
       name: {
-        id: 'Cuti Bersama Natal',
+        id: 'Cuti Bersama Hari Raya Natal',
         en: 'Christmas Joint Leave'
       },
       date: '2024-12-26',

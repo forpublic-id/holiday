@@ -1,6 +1,7 @@
 import { HolidayData, HolidayYear, Holiday } from '@/types/holiday'
 import { holidays2024 } from '@/data/holidays/2024'
 import { holidays2025 } from '@/data/holidays/2025'
+import { holidays2026 } from '@/data/holidays/2026'
 
 /**
  * Main holiday data store
@@ -9,7 +10,8 @@ export const holidayData: HolidayData = {
   years: {
     2024: holidays2024,
     2025: holidays2025,
-    // Will be expanded with 2026-2030 data
+    2026: holidays2026,
+    // Will be expanded with 2027-2030 data
   },
   metadata: {
     lastUpdated: '2025-08-19T00:00:00Z',
@@ -30,7 +32,7 @@ export function getHolidaysForYear(year: number): Holiday[] {
   const yearData = holidayData.years[year]
   if (!yearData) return []
   
-  return [...yearData.holidays, ...yearData.jointLeaves]
+  return [...yearData.holidays, ...(yearData.jointLeaves || [])]
 }
 
 /**

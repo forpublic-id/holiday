@@ -15,16 +15,17 @@ function getMonthName(month: number, locale: string): string {
 
 // Get data last modified date (when holiday data was updated)
 function getDataLastModified(year: number): Date {
-  // Return actual data update dates
+  // Return actual data update dates based on when we updated the data
+  if (year === 2024) return new Date('2025-08-25T12:00:00Z') // Updated with SKB 2023 data
   if (year === 2025) return new Date('2025-08-19T12:00:00Z') // When we updated 2025 data
-  if (year === 2024) return new Date('2024-12-01T00:00:00Z') // Estimated 2024 data date
+  if (year === 2026) return new Date('2025-08-25T12:00:00Z') // When we added 2026 data
   return new Date()
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://holiday.forpublic.id'
   const locales = ['id', 'en'] as const
-  const years = getAvailableYears() // [2024, 2025]
+  const years = getAvailableYears() // [2024, 2025, 2026]
   const currentYear = new Date().getFullYear()
   
   // Base pages
@@ -73,13 +74,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
         const monthName = getMonthName(month, locale)
         const lastModified = getDataLastModified(year)
         
-        // Higher priority for current year, current month gets highest
-        let priority = 0.6
+        // Higher priority for current and upcoming years
+        let priority = 0.5
         if (year === currentYear) {
           priority = 0.8
           if (month === new Date().getMonth() + 1) {
             priority = 0.9 // Current month gets highest priority
           }
+        } else if (year === currentYear + 1) {
+          priority = 0.7 // Next year gets higher priority
+        } else if (year === currentYear - 1) {
+          priority = 0.6 // Previous year gets medium priority
         }
         
         // More frequent updates for current year

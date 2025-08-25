@@ -1,7 +1,8 @@
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
-import { getHolidaysForYear } from '@/lib/holiday-data'
+import { getHolidaysForYear, getAvailableYears } from '@/lib/holiday-data'
 import { Badge } from '@/components/ui/badge'
+import { YearNavigation } from '@/components/ui/year-navigation'
 import { Calendar, Download, ExternalLink } from 'lucide-react'
 import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -79,11 +80,13 @@ export default async function YearlyHolidayPage({ params }: YearlyHolidayPagePro
   }
   
   const allHolidays = getHolidaysForYear(year)
+  const availableYears = getAvailableYears()
   
   // Filter to show only national holidays and joint leave
   const holidays = allHolidays.filter(h => 
     h.type === 'national' || h.type === 'joint_leave'
   )
+  
   
   // Group holidays by month
   const holidaysByMonth = holidays.reduce((groups, holiday) => {
@@ -133,6 +136,14 @@ export default async function YearlyHolidayPage({ params }: YearlyHolidayPagePro
       
       <main className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-4xl">
+          {/* Year Navigation */}
+          <YearNavigation
+            currentYear={year}
+            availableYears={availableYears}
+            locale={locale}
+            basePath="holidays"
+          />
+
           {/* Header Section */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-foreground mb-4 flex items-center justify-center gap-3">

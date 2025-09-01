@@ -1,38 +1,40 @@
-import { Header } from '@/components/layout/Header'
-import { Footer } from '@/components/layout/Footer'
-import { getHolidaysForYear, getAvailableYears } from '@/lib/holiday-data'
-import { Badge } from '@/components/ui/badge'
-import { YearNavigation } from '@/components/ui/year-navigation'
-import { Calendar, Download, ExternalLink } from 'lucide-react'
-import { notFound, redirect } from 'next/navigation'
-import Link from 'next/link'
-import type { Metadata } from 'next'
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
+import { getHolidaysForYear, getAvailableYears } from '@/lib/holiday-data';
+import { Badge } from '@/components/ui/badge';
+import { YearNavigation } from '@/components/ui/year-navigation';
+import { Calendar, Download, ExternalLink } from 'lucide-react';
+import { notFound, redirect } from 'next/navigation';
+import Link from 'next/link';
+import type { Metadata } from 'next';
 
 interface YearlyHolidayPageProps {
-  params: Promise<{ 
-    locale: string
-    year: string
-  }>
+  params: Promise<{
+    locale: string;
+    year: string;
+  }>;
 }
 
 // Generate metadata for the yearly holiday list page
-export async function generateMetadata({ params }: YearlyHolidayPageProps): Promise<Metadata> {
-  const { locale, year: yearParam } = await params
-  const year = parseInt(yearParam)
-  
+export async function generateMetadata({
+  params,
+}: YearlyHolidayPageProps): Promise<Metadata> {
+  const { locale, year: yearParam } = await params;
+  const year = parseInt(yearParam);
+
   // Redirect ID users to /libur instead of /holidays
   if (locale === 'id') {
-    redirect(`/${locale}/${year}/libur`)
+    redirect(`/${locale}/${year}/libur`);
   }
-  
-  const holidays = getHolidaysForYear(year)
-  const nationalAndJointLeave = holidays.filter(h => 
-    h.type === 'national' || h.type === 'joint_leave'
-  )
-  
-  const title = `Indonesian National Holidays ${year} - ${nationalAndJointLeave.length} Days | Holiday Calendar Indonesia`
-  const description = `Complete list of Indonesian national holidays and joint leave days for ${year}. Total ${nationalAndJointLeave.length} holidays including New Year, Eid al-Fitr, Eid al-Adha, Independence Day, and joint leave days.`
-  
+
+  const holidays = getHolidaysForYear(year);
+  const nationalAndJointLeave = holidays.filter(
+    (h) => h.type === 'national' || h.type === 'joint_leave'
+  );
+
+  const title = `Indonesian National Holidays ${year} - ${nationalAndJointLeave.length} Days | Holiday Calendar Indonesia`;
+  const description = `Complete list of Indonesian national holidays and joint leave days for ${year}. Total ${nationalAndJointLeave.length} holidays including New Year, Eid al-Fitr, Eid al-Adha, Independence Day, and joint leave days.`;
+
   return {
     title,
     description,
@@ -43,7 +45,7 @@ export async function generateMetadata({ params }: YearlyHolidayPageProps): Prom
       `indonesia public holidays ${year}`,
       'holiday calendar',
       'vacation planning',
-      'long weekend'
+      'long weekend',
     ],
     openGraph: {
       title,
@@ -62,78 +64,102 @@ export async function generateMetadata({ params }: YearlyHolidayPageProps): Prom
         'en-US': `/en/${year}/holidays`,
       },
     },
-  }
+  };
 }
 
-export default async function YearlyHolidayPage({ params }: YearlyHolidayPageProps) {
-  const { locale, year: yearParam } = await params
-  const year = parseInt(yearParam)
-  
+export default async function YearlyHolidayPage({
+  params,
+}: YearlyHolidayPageProps) {
+  const { locale, year: yearParam } = await params;
+  const year = parseInt(yearParam);
+
   // Redirect ID users to /libur instead of /holidays
   if (locale === 'id') {
-    redirect(`/${locale}/${year}/libur`)
+    redirect(`/${locale}/${year}/libur`);
   }
-  
+
   // Validate year
   if (isNaN(year) || year < 2024 || year > 2030) {
-    notFound()
+    notFound();
   }
-  
-  const allHolidays = getHolidaysForYear(year)
-  const availableYears = getAvailableYears()
-  
+
+  const allHolidays = getHolidaysForYear(year);
+  const availableYears = getAvailableYears();
+
   // Filter to show only national holidays and joint leave
-  const holidays = allHolidays.filter(h => 
-    h.type === 'national' || h.type === 'joint_leave'
-  )
-  
-  
+  const holidays = allHolidays.filter(
+    (h) => h.type === 'national' || h.type === 'joint_leave'
+  );
+
   // Group holidays by month
-  const holidaysByMonth = holidays.reduce((groups, holiday) => {
-    const date = new Date(holiday.date)
-    const month = date.getMonth()
-    if (!groups[month]) groups[month] = []
-    groups[month].push(holiday)
-    return groups
-  }, {} as Record<number, typeof holidays>)
-  
+  const holidaysByMonth = holidays.reduce(
+    (groups, holiday) => {
+      const date = new Date(holiday.date);
+      const month = date.getMonth();
+      if (!groups[month]) groups[month] = [];
+      groups[month].push(holiday);
+      return groups;
+    },
+    {} as Record<number, typeof holidays>
+  );
+
   // Sort holidays within each month
-  Object.keys(holidaysByMonth).forEach(month => {
-    holidaysByMonth[parseInt(month)].sort((a, b) => 
-      new Date(a.date).getTime() - new Date(b.date).getTime()
-    )
-  })
-  
+  Object.keys(holidaysByMonth).forEach((month) => {
+    holidaysByMonth[parseInt(month)].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+  });
+
   const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ]
-  
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-    const dayName = dayNames[date.getDay()]
-    return `${dayName}, ${date.getDate()} ${monthNames[date.getMonth()]} ${year}`
-  }
-  
+    const date = new Date(dateString);
+    const dayNames = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
+    const dayName = dayNames[date.getDay()];
+    return `${dayName}, ${date.getDate()} ${monthNames[date.getMonth()]} ${year}`;
+  };
+
   const getTypeLabel = (type: string) => {
-    return type === 'national' ? 'National Holiday' : 'Joint Leave'
-  }
-  
+    return type === 'national' ? 'National Holiday' : 'Joint Leave';
+  };
+
   const getTypeVariant = (_type: string): 'outline' => {
-    return 'outline'
-  }
-  
+    return 'outline';
+  };
+
   const getTypeBadgeClass = (type: string) => {
-    if (type === 'national') return 'bg-red-600 text-white hover:bg-red-700 border-red-600'
-    if (type === 'joint_leave') return 'bg-orange-500 text-white hover:bg-orange-600 border-orange-500'
-    return 'bg-blue-500 text-white hover:bg-blue-600 border-blue-500' // regional fallback
-  }
+    if (type === 'national')
+      return 'bg-red-600 text-white hover:bg-red-700 border-red-600';
+    if (type === 'joint_leave')
+      return 'bg-orange-500 text-white hover:bg-orange-600 border-orange-500';
+    return 'bg-blue-500 text-white hover:bg-blue-600 border-blue-500'; // regional fallback
+  };
 
   return (
     <div className="min-h-screen bg-background">
       <Header locale={locale} />
-      
+
       <main className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-4xl">
           {/* Year Navigation */}
@@ -151,24 +177,31 @@ export default async function YearlyHolidayPage({ params }: YearlyHolidayPagePro
               Indonesian National Holidays {year}
             </h1>
             <p className="text-lg text-muted-foreground mb-6">
-              Complete list of national holidays and joint leave days in Indonesia
+              Complete list of national holidays and joint leave days in
+              Indonesia
             </p>
-            
+
             {/* Statistics */}
             <div className="flex justify-center gap-6 mb-8">
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary">{holidays.length}</div>
-                <div className="text-sm text-muted-foreground">Total Holidays</div>
+                <div className="text-3xl font-bold text-primary">
+                  {holidays.length}
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Total Holidays
+                </div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-red-600">
-                  {holidays.filter(h => h.type === 'national').length}
+                  {holidays.filter((h) => h.type === 'national').length}
                 </div>
-                <div className="text-sm text-muted-foreground">National Holidays</div>
+                <div className="text-sm text-muted-foreground">
+                  National Holidays
+                </div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-orange-600">
-                  {holidays.filter(h => h.type === 'joint_leave').length}
+                  {holidays.filter((h) => h.type === 'joint_leave').length}
                 </div>
                 <div className="text-sm text-muted-foreground">Joint Leave</div>
               </div>
@@ -181,7 +214,7 @@ export default async function YearlyHolidayPage({ params }: YearlyHolidayPagePro
               <Download className="h-4 w-4" />
               Download PDF
             </button>
-            <Link 
+            <Link
               href={`/${locale}`}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
             >
@@ -192,12 +225,15 @@ export default async function YearlyHolidayPage({ params }: YearlyHolidayPagePro
 
           {/* Holiday List by Month */}
           <div className="space-y-8">
-            {Array.from({ length: 12 }, (_, i) => i).map(monthIndex => {
-              const monthHolidays = holidaysByMonth[monthIndex]
-              if (!monthHolidays || monthHolidays.length === 0) return null
-              
+            {Array.from({ length: 12 }, (_, i) => i).map((monthIndex) => {
+              const monthHolidays = holidaysByMonth[monthIndex];
+              if (!monthHolidays || monthHolidays.length === 0) return null;
+
               return (
-                <div key={monthIndex} className="rounded-lg border border-border bg-card p-6 shadow-sm">
+                <div
+                  key={monthIndex}
+                  className="rounded-lg border border-border bg-card p-6 shadow-sm"
+                >
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-2xl font-semibold text-card-foreground flex items-center gap-2">
                       {monthNames[monthIndex]} {year}
@@ -210,7 +246,7 @@ export default async function YearlyHolidayPage({ params }: YearlyHolidayPagePro
                       <ExternalLink className="h-3 w-3" />
                     </Link>
                   </div>
-                  
+
                   <div className="grid gap-4">
                     {monthHolidays.map((holiday) => (
                       <div
@@ -225,8 +261,8 @@ export default async function YearlyHolidayPage({ params }: YearlyHolidayPagePro
                             {formatDate(holiday.date)}
                           </p>
                         </div>
-                        <Badge 
-                          variant={getTypeVariant(holiday.type)} 
+                        <Badge
+                          variant={getTypeVariant(holiday.type)}
                           className={getTypeBadgeClass(holiday.type)}
                         >
                           {getTypeLabel(holiday.type)}
@@ -235,7 +271,7 @@ export default async function YearlyHolidayPage({ params }: YearlyHolidayPagePro
                     ))}
                   </div>
                 </div>
-              )
+              );
             })}
           </div>
 
@@ -246,9 +282,9 @@ export default async function YearlyHolidayPage({ params }: YearlyHolidayPagePro
             </h2>
             <div className="flex flex-wrap gap-2">
               {monthNames.map((monthName, index) => {
-                const hasHolidays = holidaysByMonth[index]?.length > 0
-                if (!hasHolidays) return null
-                
+                const hasHolidays = holidaysByMonth[index]?.length > 0;
+                if (!hasHolidays) return null;
+
                 return (
                   <Link
                     key={monthName}
@@ -257,14 +293,14 @@ export default async function YearlyHolidayPage({ params }: YearlyHolidayPagePro
                   >
                     {monthName} ({holidaysByMonth[index].length})
                   </Link>
-                )
+                );
               })}
             </div>
           </div>
         </div>
       </main>
-      
+
       <Footer locale={locale} />
     </div>
-  )
+  );
 }

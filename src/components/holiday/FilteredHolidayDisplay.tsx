@@ -1,33 +1,42 @@
-'use client'
+'use client';
 
-import { useState, useMemo } from 'react'
-import { Holiday } from '@/types/holiday'
-import { HolidayList } from './HolidayList'
-import { HolidayFilter, HolidayFilterType, filterHolidaysByType, countHolidaysByType } from '@/components/ui/holiday-filter'
+import { useState, useMemo } from 'react';
+import { Holiday } from '@/types/holiday';
+import { HolidayList } from './HolidayList';
+import {
+  HolidayFilter,
+  HolidayFilterType,
+  filterHolidaysByType,
+  countHolidaysByType,
+} from '@/components/ui/holiday-filter';
 
 interface FilteredHolidayDisplayProps {
-  holidays: Holiday[]
-  year: number
-  month: number
-  locale?: string
+  holidays: Holiday[];
+  year: number;
+  month: number;
+  locale?: string;
 }
 
-export function FilteredHolidayDisplay({ 
-  holidays, 
-  year, 
-  month, 
-  locale = 'id' 
+export function FilteredHolidayDisplay({
+  holidays,
+  year,
+  month,
+  locale = 'id',
 }: FilteredHolidayDisplayProps) {
   // Default to showing national and joint leave holidays only
-  const [activeFilter, setActiveFilter] = useState<HolidayFilterType>('national_joint')
+  const [activeFilter, setActiveFilter] =
+    useState<HolidayFilterType>('national_joint');
 
   // Count holidays by type
-  const holidayCounts = useMemo(() => countHolidaysByType(holidays), [holidays])
+  const holidayCounts = useMemo(
+    () => countHolidaysByType(holidays),
+    [holidays]
+  );
 
   // Filter holidays based on active filter
   const filteredHolidays = useMemo(() => {
-    return filterHolidaysByType(holidays, activeFilter)
-  }, [holidays, activeFilter])
+    return filterHolidaysByType(holidays, activeFilter);
+  }, [holidays, activeFilter]);
 
   return (
     <div>
@@ -37,13 +46,13 @@ export function FilteredHolidayDisplay({
         onFilterChange={setActiveFilter}
         holidayCounts={holidayCounts}
       />
-      
-      <HolidayList 
+
+      <HolidayList
         holidays={filteredHolidays}
         year={year}
         month={month}
         locale={locale}
       />
     </div>
-  )
+  );
 }

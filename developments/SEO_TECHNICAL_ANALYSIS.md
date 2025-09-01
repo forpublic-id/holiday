@@ -27,12 +27,13 @@ src/app/
 ## 🔍 Meta Tags Deep Dive
 
 ### **Root Layout Issues** (`src/app/layout.tsx`)
+
 ```typescript
 // ❌ PROBLEM: Conflicting metadata
 export const metadata: Metadata = {
   title: 'Kalender Hari Libur Indonesia | Holiday Calendar Indonesia',
   description: 'Kalender hari libur nasional dan regional Indonesia...',
-}
+};
 
 // This conflicts with [locale]/layout.tsx metadata
 // Next.js will use the most specific layout metadata
@@ -41,12 +42,23 @@ export const metadata: Metadata = {
 **Recommendation**: Remove metadata from root layout, keep only HTML structure.
 
 ### **Locale Layout Analysis** (`src/app/[locale]/layout.tsx`)
+
 ```typescript
 // ✅ GOOD: Comprehensive implementation
 export const metadata: Metadata = {
   title: 'Holiday Calendar Indonesia - ForPublic.id',
-  description: 'Comprehensive Indonesian holiday calendar with national holidays, regional celebrations, joint leave days, and smart planning tools for better vacation planning.',
-  keywords: ['holiday', 'calendar', 'indonesia', 'libur', 'nasional', 'cuti', 'hari libur', 'kalender indonesia'],
+  description:
+    'Comprehensive Indonesian holiday calendar with national holidays, regional celebrations, joint leave days, and smart planning tools for better vacation planning.',
+  keywords: [
+    'holiday',
+    'calendar',
+    'indonesia',
+    'libur',
+    'nasional',
+    'cuti',
+    'hari libur',
+    'kalender indonesia',
+  ],
   authors: [{ name: 'ForPublic.id Team' }],
   creator: 'ForPublic.id',
   publisher: 'ForPublic.id',
@@ -65,7 +77,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Holiday Calendar Indonesia - ForPublic.id',
-    description: 'Comprehensive Indonesian holiday calendar with national holidays, regional celebrations, and planning tools',
+    description:
+      'Comprehensive Indonesian holiday calendar with national holidays, regional celebrations, and planning tools',
     url: 'https://holiday.forpublic.id',
     siteName: 'ForPublic.id',
     images: [
@@ -83,7 +96,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Holiday Calendar Indonesia - ForPublic.id',
-    description: 'Comprehensive Indonesian holiday calendar with national holidays and planning tools',
+    description:
+      'Comprehensive Indonesian holiday calendar with national holidays and planning tools',
     creator: '@forpublicid',
     images: ['/logo.svg'],
   },
@@ -101,10 +115,11 @@ export const metadata: Metadata = {
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION,
   },
-}
+};
 ```
 
 **Analysis**:
+
 - ✅ **Strengths**: Comprehensive coverage, proper OG tags, Twitter cards
 - ❌ **Weaknesses**: Static content, no dynamic generation
 - ⚠️ **Issues**: SVG for OG image (should be PNG/JPG), missing verification env
@@ -114,12 +129,13 @@ export const metadata: Metadata = {
 ## 🗺️ Sitemap Analysis
 
 ### **Current Implementation** (`src/app/sitemap.ts`)
+
 ```typescript
-import { MetadataRoute } from 'next'
+import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://holiday.forpublic.id'
-  
+  const baseUrl = 'https://holiday.forpublic.id';
+
   return [
     {
       url: baseUrl,
@@ -134,7 +150,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/en`, 
+      url: `${baseUrl}/en`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
@@ -145,7 +161,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
-  ]
+  ];
 }
 ```
 
@@ -157,6 +173,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 4. **Missing Priority Logic**: No differentiation for high-value pages
 
 ### **Missing URLs**
+
 ```typescript
 // Should include all these patterns:
 /id/2025/januari, /id/2025/februari, ... /id/2025/desember
@@ -171,9 +188,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 ## 🤖 Robots.txt Analysis
 
 ### **Current Implementation** (`src/app/robots.ts`)
+
 ```typescript
-import { MetadataRoute } from 'next'
- 
+import { MetadataRoute } from 'next';
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
@@ -183,16 +201,18 @@ export default function robots(): MetadataRoute.Robots {
     },
     sitemap: 'https://holiday.forpublic.id/sitemap.xml',
     host: 'https://holiday.forpublic.id',
-  }
+  };
 }
 ```
 
 ### **Analysis**
+
 - ✅ **Good**: Clean implementation, proper sitemap reference
 - ✅ **Good**: No blocking of important content
 - ⚠️ **Note**: `/private/` and `/admin/` paths don't exist (harmless but unnecessary)
 
 ### **Generated robots.txt Output**
+
 ```
 User-agent: *
 Allow: /
@@ -208,10 +228,11 @@ Host: https://holiday.forpublic.id
 ## 📊 URL Structure Analysis
 
 ### **Current Routing Patterns**
+
 ```
 ✅ SEO-Friendly URLs:
 /                           → Root (redirects to /id)
-/id                        → Indonesian homepage  
+/id                        → Indonesian homepage
 /en                        → English homepage
 /id/2025/januari           → Indonesian January 2025
 /en/2025/january           → English January 2025
@@ -220,19 +241,21 @@ Host: https://holiday.forpublic.id
 ### **Routing Implementation Issues**
 
 #### 1. **Redirect Chain Problem**
+
 ```typescript
 // src/app/page.tsx
 export default function RootPage() {
-  redirect('/id')  // 308 Redirect
+  redirect('/id'); // 308 Redirect
 }
 
-// src/middleware.ts  
+// src/middleware.ts
 // May cause additional redirects for locale handling
 ```
 
 **SEO Impact**: Multiple redirects waste crawl budget and dilute link equity.
 
 #### 2. **Dynamic Route Generation**
+
 ```typescript
 // src/app/[locale]/[year]/[month]/page.tsx
 // ✅ Good: Proper dynamic routing structure
@@ -240,21 +263,22 @@ export default function RootPage() {
 ```
 
 **Missing Implementation**:
+
 ```typescript
 export async function generateStaticParams() {
-  const locales = ['id', 'en']
-  const years = [2024, 2025]  
-  const months = getMonthsForLocale()
-  
-  return locales.flatMap(locale => 
-    years.flatMap(year =>
-      months.map(month => ({
+  const locales = ['id', 'en'];
+  const years = [2024, 2025];
+  const months = getMonthsForLocale();
+
+  return locales.flatMap((locale) =>
+    years.flatMap((year) =>
+      months.map((month) => ({
         locale,
         year: year.toString(),
-        month
+        month,
       }))
     )
-  )
+  );
 }
 ```
 
@@ -263,27 +287,34 @@ export async function generateStaticParams() {
 ## 🏷️ Heading Structure Analysis
 
 ### **Current H1-H6 Usage**
+
 ```html
 <!-- Main page -->
-<h1>Kalender Hari Libur Indonesia</h1>          <!-- ✅ Good: Clear H1 -->
+<h1>Kalender Hari Libur Indonesia</h1>
+<!-- ✅ Good: Clear H1 -->
 
-<!-- Features section -->  
-<h2>Fitur Unggulan</h2>                          <!-- ✅ Good: Logical H2 -->
-<h3>📅 Tampilan Kalender</h3>                    <!-- ✅ Good: H3 subsections -->
+<!-- Features section -->
+<h2>Fitur Unggulan</h2>
+<!-- ✅ Good: Logical H2 -->
+<h3>📅 Tampilan Kalender</h3>
+<!-- ✅ Good: H3 subsections -->
 
 <!-- Holiday list -->
-<h2>Hari Libur Januari 2025</h2>                <!-- ✅ Good: Section heading -->
+<h2>Hari Libur Januari 2025</h2>
+<!-- ✅ Good: Section heading -->
 
 <!-- Footer -->
 <!-- ❌ Missing: Footer headings for better structure -->
 ```
 
 ### **Issues**
+
 1. **Static H1**: Same H1 text across all pages
 2. **Missing Semantic Structure**: No H1 variations for different months/years
 3. **No Breadcrumb Headings**: Missing navigation hierarchy
 
 ### **Recommended Structure**
+
 ```html
 <!-- January 2025 page -->
 <h1>Hari Libur Januari 2025 - Kalender Indonesia</h1>
@@ -301,17 +332,20 @@ export async function generateStaticParams() {
 ## 🔧 Technical Performance Issues
 
 ### **Build Warnings Impact on SEO**
+
 ```bash
 Warning: 'setYear' is assigned a value but never used.
 Warning: 'useIsHoliday' is defined but never used.
 ```
 
-**SEO Impact**: 
+**SEO Impact**:
+
 - Code quality affects crawl budget
 - Unused imports increase bundle size
 - May indicate maintenance issues to search engines
 
 ### **Bundle Analysis**
+
 ```
 Route (app)                    Size     First Load JS
 ├ ƒ /[locale]/[year]/[month]   58.7 kB  158 kB
@@ -319,6 +353,7 @@ Route (app)                    Size     First Load JS
 ```
 
 **Analysis**:
+
 - ✅ **Good**: Reasonable bundle sizes
 - ⚠️ **Note**: Dynamic route is heavy (58.7kB)
 - 📈 **Opportunity**: Code splitting for better performance
@@ -328,6 +363,7 @@ Route (app)                    Size     First Load JS
 ## 🔍 Image SEO Analysis
 
 ### **Current Image Implementation**
+
 ```typescript
 // Logo usage
 <Image
@@ -339,11 +375,13 @@ Route (app)                    Size     First Load JS
 ```
 
 ### **Issues**
+
 1. **SVG for OG Images**: Social media prefers PNG/JPG
 2. **No Holiday Images**: Missing visual content for holidays
 3. **Generic Alt Text**: Could be more descriptive
 
 ### **Recommendations**
+
 ```typescript
 // Dynamic alt text
 alt={`${holiday.name} - Indonesian ${holiday.type} holiday on ${holiday.date}`}
@@ -362,11 +400,13 @@ images: [{
 ## ⚡ Performance Metrics Affecting SEO
 
 ### **Core Web Vitals Potential Issues**
+
 1. **LCP (Largest Contentful Paint)**: Calendar rendering may be slow
 2. **CLS (Cumulative Layout Shift)**: Dynamic holiday loading
 3. **FID (First Input Delay)**: Heavy JavaScript for interactions
 
 ### **Optimization Opportunities**
+
 ```typescript
 // Preload critical resources
 <link rel="preload" href="/api/holidays/2025" as="fetch" />
@@ -383,18 +423,21 @@ images: [{
 ## 🎯 Technical SEO Action Items
 
 ### **Immediate Fixes (High Impact)**
+
 1. Remove conflicting metadata from root layout
 2. Add generateStaticParams for better indexing
 3. Implement dynamic metadata generation
 4. Fix redirect chain issues
 
 ### **Performance Improvements**
+
 1. Add resource preloading
 2. Implement image optimization
 3. Add service worker for caching
 4. Bundle size optimization
 
 ### **Schema Implementation**
+
 1. Add Event structured data for holidays
 2. Implement Organization schema
 3. Add WebSite schema with search action

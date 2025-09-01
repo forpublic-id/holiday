@@ -13,16 +13,19 @@ A comprehensive and user-friendly Indonesian holiday calendar application with b
 ## Features
 
 ### Smart Holiday Filtering
+
 - **Default view**: Shows national holidays and joint leave days only
-- **Regional filter**: Toggle to view province-specific holidays  
+- **Regional filter**: Toggle to view province-specific holidays
 - **All holidays**: Option to display all holiday types
 
 ### Bilingual Support
+
 - Complete Indonesian and English interface
 - SEO-friendly URLs for each language (`/id/2025/januari` vs `/en/2025/january`)
 - Easy language switching
 
 ### Interactive Calendar
+
 - Responsive calendar display that works on all devices
 - Smooth month and year navigation
 - Today highlighting with automatic detection
@@ -30,12 +33,12 @@ A comprehensive and user-friendly Indonesian holiday calendar application with b
 
 ### Holiday Types
 
-| Type | Color | Description | Examples |
-|------|-------|-------------|----------|
-| National Holiday | Red | Official national holidays | Independence Day, Eid al-Fitr |
-| Joint Leave | Orange | National leave days set by government | Joint leave for Eid |
-| Regional Holiday | Blue | Province/region-specific holidays | Jakarta Anniversary |
-| Religious Holiday | Purple | Religious celebrations | Vesak, Christmas |
+| Type              | Color  | Description                           | Examples                      |
+| ----------------- | ------ | ------------------------------------- | ----------------------------- |
+| National Holiday  | Red    | Official national holidays            | Independence Day, Eid al-Fitr |
+| Joint Leave       | Orange | National leave days set by government | Joint leave for Eid           |
+| Regional Holiday  | Blue   | Province/region-specific holidays     | Jakarta Anniversary           |
+| Religious Holiday | Purple | Religious celebrations                | Vesak, Christmas              |
 
 ## Technology Stack
 
@@ -48,6 +51,7 @@ A comprehensive and user-friendly Indonesian holiday calendar application with b
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 18+ or Bun
 - Git
 
@@ -75,6 +79,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 We welcome contributions from the community!
 
 ### How to Contribute
+
 1. Fork this repository
 2. Create a new branch: `git checkout -b feature/your-feature`
 3. Make your changes and commit: `git commit -m 'Add some feature'`
@@ -82,7 +87,9 @@ We welcome contributions from the community!
 5. Create a Pull Request
 
 ### Reporting Issues
+
 Found a bug? [Create a new issue](https://github.com/forpublic-id/holiday/issues) with:
+
 - Clear bug description
 - Steps to reproduce
 - Screenshots if applicable

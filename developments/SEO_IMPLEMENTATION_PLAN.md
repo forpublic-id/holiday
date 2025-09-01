@@ -9,8 +9,9 @@
 ## 🎯 Implementation Strategy
 
 ### **Phase-Based Approach**
+
 - **Phase 1** (Week 1): Critical Technical Fixes
-- **Phase 2** (Week 2): Content & Metadata Enhancement  
+- **Phase 2** (Week 2): Content & Metadata Enhancement
 - **Phase 3** (Week 3): Structured Data & Advanced Features
 - **Phase 4** (Week 4): Performance & Monitoring
 
@@ -25,6 +26,7 @@
 ### **Day 1-2: Fix Metadata Conflicts** ✅
 
 #### **Task 1.1: Clean Root Layout** ✅ IMPLEMENTED
+
 ```typescript
 // File: src/app/layout.tsx
 // ❌ Remove conflicting metadata
@@ -33,7 +35,7 @@ export const metadata: Metadata = {
   // ... remove all metadata
 }
 
-// ✅ Keep only essential HTML structure  
+// ✅ Keep only essential HTML structure
 export default function RootLayout({
   children,
 }: {
@@ -48,32 +50,41 @@ export default function RootLayout({
 ```
 
 #### **Task 1.2: Implement Dynamic Metadata** ✅ IMPLEMENTED
+
 ```typescript
 // File: src/app/[locale]/[year]/[month]/page.tsx
-export async function generateMetadata({ params }: MonthPageProps): Promise<Metadata> {
-  const { locale, year: yearParam, month: monthParam } = await params
-  const year = parseInt(yearParam)
-  const month = getMonthNumber(monthParam)
-  
+export async function generateMetadata({
+  params,
+}: MonthPageProps): Promise<Metadata> {
+  const { locale, year: yearParam, month: monthParam } = await params;
+  const year = parseInt(yearParam);
+  const month = getMonthNumber(monthParam);
+
   // Get holidays for this month
-  const holidays = await getHolidaysForMonth(year, month)
-  const monthName = getMonthName(month, locale)
-  
+  const holidays = await getHolidaysForMonth(year, month);
+  const monthName = getMonthName(month, locale);
+
   // Generate optimized title
-  const title = locale === 'id' 
-    ? `Hari Libur ${monthName} ${year} - ${holidays.length} Libur & Cuti Bersama`
-    : `${monthName} ${year} Holidays - ${holidays.length} Indonesian Holidays`
-  
+  const title =
+    locale === 'id'
+      ? `Hari Libur ${monthName} ${year} - ${holidays.length} Libur & Cuti Bersama`
+      : `${monthName} ${year} Holidays - ${holidays.length} Indonesian Holidays`;
+
   // Generate rich description
-  const description = generateMonthDescription(holidays, monthName, year, locale)
-  
+  const description = generateMonthDescription(
+    holidays,
+    monthName,
+    year,
+    locale
+  );
+
   // Generate keywords
   const keywords = [
     ...baseKeywords[locale],
     `${monthName.toLowerCase()} ${year}`,
-    ...holidays.slice(0, 3).map(h => h.name[locale])
-  ]
-  
+    ...holidays.slice(0, 3).map((h) => h.name[locale]),
+  ];
+
   return {
     title,
     description,
@@ -81,34 +92,37 @@ export async function generateMetadata({ params }: MonthPageProps): Promise<Meta
     openGraph: {
       title,
       description,
-      images: [{
-        url: `/api/og?month=${month}&year=${year}&locale=${locale}`,
-        width: 1200,
-        height: 630,
-        alt: title
-      }],
+      images: [
+        {
+          url: `/api/og?month=${month}&year=${year}&locale=${locale}`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
     },
     twitter: {
       title,
       description,
       images: [`/api/og?month=${month}&year=${year}&locale=${locale}`],
-    }
-  }
+    },
+  };
 }
 ```
 
 ### **Day 3-4: Sitemap Enhancement** ✅
 
 #### **Task 1.3: Comprehensive Sitemap Generation** ✅ IMPLEMENTED
+
 ```typescript
 // File: src/app/sitemap.ts
-import { getAvailableYears } from '@/lib/holiday-data'
+import { getAvailableYears } from '@/lib/holiday-data';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://holiday.forpublic.id'
-  const locales = ['id', 'en'] as const
-  const years = getAvailableYears() // [2024, 2025]
-  
+  const baseUrl = 'https://holiday.forpublic.id';
+  const locales = ['id', 'en'] as const;
+  const years = getAvailableYears(); // [2024, 2025]
+
   // Base pages
   const staticPages = [
     {
@@ -117,67 +131,72 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'daily' as const,
       priority: 1,
     },
-    ...locales.map(locale => ({
+    ...locales.map((locale) => ({
       url: `${baseUrl}/${locale}`,
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 0.9,
-    }))
-  ]
-  
+    })),
+  ];
+
   // Generate all month pages
-  const monthPages = []
+  const monthPages = [];
   for (const locale of locales) {
     for (const year of years) {
       for (let month = 1; month <= 12; month++) {
-        const monthName = getMonthName(month, locale)
-        const lastModified = getDataLastModified(year) // From holiday data
-        
+        const monthName = getMonthName(month, locale);
+        const lastModified = getDataLastModified(year); // From holiday data
+
         monthPages.push({
           url: `${baseUrl}/${locale}/${year}/${monthName}`,
           lastModified,
-          changeFrequency: year === new Date().getFullYear() ? 'weekly' as const : 'monthly' as const,
+          changeFrequency:
+            year === new Date().getFullYear()
+              ? ('weekly' as const)
+              : ('monthly' as const),
           priority: year === new Date().getFullYear() ? 0.8 : 0.6,
-        })
+        });
       }
     }
   }
-  
-  return [...staticPages, ...monthPages]
+
+  return [...staticPages, ...monthPages];
 }
 ```
 
 ### **Day 5-7: Static Generation & URL Optimization** ⏭️ PARTIAL
 
 #### **Task 1.4: Add generateStaticParams** ⏭️ DEFERRED (Not required for current scope)
+
 ```typescript
 // File: src/app/[locale]/[year]/[month]/page.tsx
 export async function generateStaticParams() {
-  const locales = ['id', 'en']
-  const years = getAvailableYears()
-  
-  const params = []
+  const locales = ['id', 'en'];
+  const years = getAvailableYears();
+
+  const params = [];
   for (const locale of locales) {
     for (const year of years) {
       for (let month = 1; month <= 12; month++) {
-        const monthName = getMonthName(month, locale)
+        const monthName = getMonthName(month, locale);
         params.push({
           locale,
           year: year.toString(),
-          month: monthName
-        })
+          month: monthName,
+        });
       }
     }
   }
-  
-  return params
+
+  return params;
 }
 ```
 
 #### **Task 1.5: Fix Redirect Chain**
+
 ```typescript
 // File: src/middleware.ts
-import createMiddleware from 'next-intl/middleware'
+import createMiddleware from 'next-intl/middleware';
 
 export default createMiddleware({
   locales: ['id', 'en'],
@@ -186,9 +205,9 @@ export default createMiddleware({
   // Add redirect strategy to minimize redirects
   pathnames: {
     '/': '/',
-    '/[year]/[month]': '/[year]/[month]'
-  }
-})
+    '/[year]/[month]': '/[year]/[month]',
+  },
+});
 ```
 
 ### **🎉 Phase 1 Results Summary**
@@ -198,6 +217,7 @@ export default createMiddleware({
 **Build Status**: ✅ Successful (no errors)
 
 #### **Completed Deliverables**:
+
 - ✅ **Metadata Conflicts Fixed**: Removed conflicting metadata from root layout
 - ✅ **Dynamic Metadata**: Implemented `generateMetadata()` function for all month pages
 - ✅ **SEO Utils Library**: Created comprehensive SEO content generation (`src/lib/seo-utils.ts`)
@@ -205,6 +225,7 @@ export default createMiddleware({
 - ✅ **Documentation**: Complete SEO audit and implementation plan
 
 #### **Technical Metrics**:
+
 - **URLs Generated**: 51 (covering all month/year combinations)
 - **Dynamic Titles**: Localized for ID/EN with holiday-specific content
 - **Keywords Strategy**: Seasonal and month-specific optimization
@@ -220,70 +241,113 @@ export default createMiddleware({
 ### **Day 8-10: Content Strategy Implementation**
 
 #### **Task 2.1: Rich Holiday Descriptions**
+
 ```typescript
 // File: src/data/holiday-descriptions.ts
 export const holidayDescriptions: Record<string, HolidayDescription> = {
   'independence-day-2025': {
     id: {
       title: 'Hari Kemerdekaan Republik Indonesia 2025',
-      description: 'Hari Kemerdekaan RI ke-80 diperingati pada 17 Agustus 2025. Libur nasional untuk memperingati proklamasi kemerdekaan Indonesia tahun 1945. Berbagai perayaan akan digelar di seluruh nusantara.',
-      context: 'Sejarah kemerdekaan Indonesia, upacara bendera, lomba tradisional',
-      planning: 'Tanggal 17 Agustus 2025 jatuh pada hari Minggu. Cuti bersama pada 18 Agustus 2025 menciptakan long weekend 3 hari.',
+      description:
+        'Hari Kemerdekaan RI ke-80 diperingati pada 17 Agustus 2025. Libur nasional untuk memperingati proklamasi kemerdekaan Indonesia tahun 1945. Berbagai perayaan akan digelar di seluruh nusantara.',
+      context:
+        'Sejarah kemerdekaan Indonesia, upacara bendera, lomba tradisional',
+      planning:
+        'Tanggal 17 Agustus 2025 jatuh pada hari Minggu. Cuti bersama pada 18 Agustus 2025 menciptakan long weekend 3 hari.',
     },
     en: {
-      title: 'Indonesian Independence Day 2025',  
-      description: 'Indonesia\'s 80th Independence Day celebrated on August 17, 2025. National holiday commemorating Indonesia\'s independence proclamation in 1945. Celebrations held across the archipelago.',
-      context: 'Indonesian independence history, flag ceremonies, traditional competitions',
-      planning: 'August 17, 2025 falls on Sunday. Joint leave on August 18, 2025 creates a 3-day long weekend.',
-    }
+      title: 'Indonesian Independence Day 2025',
+      description:
+        "Indonesia's 80th Independence Day celebrated on August 17, 2025. National holiday commemorating Indonesia's independence proclamation in 1945. Celebrations held across the archipelago.",
+      context:
+        'Indonesian independence history, flag ceremonies, traditional competitions',
+      planning:
+        'August 17, 2025 falls on Sunday. Joint leave on August 18, 2025 creates a 3-day long weekend.',
+    },
   },
   // ... more holidays
-}
+};
 ```
 
 #### **Task 2.2: Keyword Optimization**
+
 ```typescript
 // File: src/lib/seo-keywords.ts
 export const keywordStrategy = {
   primary: {
-    id: ['kalender libur', 'hari libur indonesia', 'cuti bersama', 'libur nasional'],
-    en: ['indonesian holidays', 'holiday calendar', 'public holidays', 'national holidays']
+    id: [
+      'kalender libur',
+      'hari libur indonesia',
+      'cuti bersama',
+      'libur nasional',
+    ],
+    en: [
+      'indonesian holidays',
+      'holiday calendar',
+      'public holidays',
+      'national holidays',
+    ],
   },
   seasonal: {
-    ramadan: ['libur puasa', 'jadwal puasa', 'idul fitri 2025', 'mudik lebaran'],
-    independence: ['17 agustus', 'hari kemerdekaan', 'hut ri', 'dirgahayu indonesia'],
-    christmas: ['natal 2025', 'libur natal', 'tahun baru 2025']
+    ramadan: [
+      'libur puasa',
+      'jadwal puasa',
+      'idul fitri 2025',
+      'mudik lebaran',
+    ],
+    independence: [
+      '17 agustus',
+      'hari kemerdekaan',
+      'hut ri',
+      'dirgahayu indonesia',
+    ],
+    christmas: ['natal 2025', 'libur natal', 'tahun baru 2025'],
   },
   regional: {
     bali: ['nyepi bali', 'galungan kuningan', 'hari raya hindu'],
     jakarta: ['libur jakarta', 'hari jadi jakarta', 'anniversary jakarta'],
-    regional: ['libur daerah', 'hari jadi provinsi', 'libur regional']
+    regional: ['libur daerah', 'hari jadi provinsi', 'libur regional'],
   },
   planning: {
-    id: ['perencanaan cuti', 'long weekend', 'liburan panjang', 'strategi cuti'],
-    en: ['vacation planning', 'long weekends', 'holiday planning', 'leave strategy']
-  }
-}
+    id: [
+      'perencanaan cuti',
+      'long weekend',
+      'liburan panjang',
+      'strategi cuti',
+    ],
+    en: [
+      'vacation planning',
+      'long weekends',
+      'holiday planning',
+      'leave strategy',
+    ],
+  },
+};
 
 // Generate month-specific keywords
-export function generateMonthKeywords(month: number, year: number, locale: string): string[] {
-  const base = keywordStrategy.primary[locale]
-  const monthName = getMonthName(month, locale).toLowerCase()
-  const seasonal = getSeasonalKeywords(month, locale)
-  
+export function generateMonthKeywords(
+  month: number,
+  year: number,
+  locale: string
+): string[] {
+  const base = keywordStrategy.primary[locale];
+  const monthName = getMonthName(month, locale).toLowerCase();
+  const seasonal = getSeasonalKeywords(month, locale);
+
   return [
     ...base,
     `${monthName} ${year}`,
     `libur ${monthName} ${year}`,
     `kalender ${monthName} ${year}`,
-    ...seasonal
-  ]
+    ...seasonal,
+  ];
 }
 ```
 
 ### **Day 11-14: OG Image Generation System**
 
 #### **Task 2.3: Dynamic OG Images**
+
 ```typescript
 // File: src/app/api/og/route.tsx
 import { ImageResponse } from 'next/og'
@@ -295,11 +359,11 @@ export async function GET(request: NextRequest) {
     const month = searchParams.get('month')
     const year = searchParams.get('year')
     const locale = searchParams.get('locale') || 'id'
-    
+
     // Get holidays for this month
     const holidays = await getHolidaysForMonth(parseInt(year!), parseInt(month!))
     const monthName = getMonthName(parseInt(month!), locale)
-    
+
     return new ImageResponse(
       (
         <div
@@ -317,9 +381,9 @@ export async function GET(request: NextRequest) {
         >
           {/* Header */}
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: 40 }}>
-            <div style={{ 
-              width: 60, 
-              height: 60, 
+            <div style={{
+              width: 60,
+              height: 60,
               backgroundColor: '#ef4444',
               borderRadius: 12,
               marginRight: 20,
@@ -333,21 +397,21 @@ export async function GET(request: NextRequest) {
               {monthName} {year}
             </h1>
           </div>
-          
+
           {/* Holiday Count */}
-          <div style={{ 
-            fontSize: 24, 
+          <div style={{
+            fontSize: 24,
             marginBottom: 30,
-            opacity: 0.8 
+            opacity: 0.8
           }}>
             {holidays.length} {locale === 'id' ? 'Hari Libur' : 'Holidays'}
           </div>
-          
+
           {/* Top Holidays */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
             {holidays.slice(0, 3).map((holiday, index) => (
-              <div key={index} style={{ 
-                display: 'flex', 
+              <div key={index} style={{
+                display: 'flex',
                 alignItems: 'center',
                 fontSize: 18,
                 opacity: 0.9
@@ -363,7 +427,7 @@ export async function GET(request: NextRequest) {
               </div>
             ))}
           </div>
-          
+
           {/* Footer */}
           <div style={{
             position: 'absolute',
@@ -396,6 +460,7 @@ export async function GET(request: NextRequest) {
 ### **Day 15-17: JSON-LD Implementation**
 
 #### **Task 3.1: Holiday Event Schema**
+
 ```typescript
 // File: src/components/seo/StructuredData.tsx
 interface StructuredDataProps {
@@ -422,7 +487,7 @@ export function HolidayStructuredData({ holidays, locale, year, month }: Structu
       "addressCountry": "ID"
     },
     "organizer": {
-      "@type": "Organization", 
+      "@type": "Organization",
       "name": "Republic of Indonesia",
       "url": "https://indonesia.go.id"
     },
@@ -431,15 +496,15 @@ export function HolidayStructuredData({ holidays, locale, year, month }: Structu
     "isAccessibleForFree": true,
     "keywords": generateHolidayKeywords(holiday, locale).join(', ')
   }))
-  
+
   // WebSite schema with search action
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Holiday Calendar Indonesia",
-    "alternateName": "Kalender Hari Libur Indonesia", 
+    "alternateName": "Kalender Hari Libur Indonesia",
     "url": "https://holiday.forpublic.id",
-    "description": locale === 'id' 
+    "description": locale === 'id'
       ? "Kalender hari libur nasional dan regional Indonesia lengkap dengan cuti bersama"
       : "Comprehensive Indonesian national and regional holiday calendar with joint leave days",
     "inLanguage": [
@@ -449,7 +514,7 @@ export function HolidayStructuredData({ holidays, locale, year, month }: Structu
         "alternateName": "id"
       },
       {
-        "@type": "Language", 
+        "@type": "Language",
         "name": "English",
         "alternateName": "en"
       }
@@ -463,8 +528,8 @@ export function HolidayStructuredData({ holidays, locale, year, month }: Structu
       "query-input": "required name=search_term_string"
     }
   }
-  
-  // Organization schema  
+
+  // Organization schema
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -477,13 +542,13 @@ export function HolidayStructuredData({ holidays, locale, year, month }: Structu
     ],
     "description": "Digital solutions for public good, empowering communities through accessible technology"
   }
-  
+
   const schemas = [
     ...eventSchemas,
     websiteSchema,
     organizationSchema
   ]
-  
+
   return (
     <script
       type="application/ld+json"
@@ -498,6 +563,7 @@ export function HolidayStructuredData({ holidays, locale, year, month }: Structu
 ### **Day 18-21: FAQ & Breadcrumb Schema**
 
 #### **Task 3.2: FAQ Schema for Holiday Pages**
+
 ```typescript
 // File: src/data/holiday-faqs.ts
 export const holidayFAQs = {
@@ -528,7 +594,7 @@ export const holidayFAQs = {
 // FAQ Schema component
 export function FAQStructuredData({ locale }: { locale: string }) {
   const faqs = holidayFAQs.general[locale] || holidayFAQs.general.id
-  
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -536,12 +602,12 @@ export function FAQStructuredData({ locale }: { locale: string }) {
       "@type": "Question",
       "name": faq.question,
       "acceptedAnswer": {
-        "@type": "Answer", 
+        "@type": "Answer",
         "text": faq.answer
       }
     }))
   }
-  
+
   return (
     <script
       type="application/ld+json"
@@ -554,6 +620,7 @@ export function FAQStructuredData({ locale }: { locale: string }) {
 ```
 
 #### **Task 3.3: Breadcrumb Implementation**
+
 ```typescript
 // File: src/components/seo/Breadcrumbs.tsx
 interface BreadcrumbProps {
@@ -564,7 +631,7 @@ interface BreadcrumbProps {
 
 export function Breadcrumbs({ year, month, locale }: BreadcrumbProps) {
   const monthName = getMonthName(month, locale)
-  
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -576,7 +643,7 @@ export function Breadcrumbs({ year, month, locale }: BreadcrumbProps) {
         "item": `https://holiday.forpublic.id/${locale}`
       },
       {
-        "@type": "ListItem", 
+        "@type": "ListItem",
         "position": 2,
         "name": year.toString(),
         "item": `https://holiday.forpublic.id/${locale}/${year}`
@@ -589,7 +656,7 @@ export function Breadcrumbs({ year, month, locale }: BreadcrumbProps) {
       }
     ]
   }
-  
+
   return (
     <>
       {/* Visual breadcrumbs */}
@@ -612,7 +679,7 @@ export function Breadcrumbs({ year, month, locale }: BreadcrumbProps) {
           </li>
         </ol>
       </nav>
-      
+
       {/* Schema markup */}
       <script
         type="application/ld+json"
@@ -632,11 +699,12 @@ export function Breadcrumbs({ year, month, locale }: BreadcrumbProps) {
 ### **Day 22-24: Performance Optimization**
 
 #### **Task 4.1: Critical Resource Preloading**
+
 ```typescript
 // File: src/app/[locale]/[year]/[month]/page.tsx
 export default async function MonthPage({ params }: MonthPageProps) {
   // ... existing code
-  
+
   return (
     <div className="min-h-screen bg-background">
       <Head>
@@ -652,19 +720,19 @@ export default async function MonthPage({ params }: MonthPageProps) {
           href="https://fonts.googleapis.com"
         />
         <link
-          rel="dns-prefetch"  
+          rel="dns-prefetch"
           href="//holiday.forpublic.id"
         />
       </Head>
-      
+
       {/* Add structured data */}
-      <HolidayStructuredData 
-        holidays={allHolidays} 
+      <HolidayStructuredData
+        holidays={allHolidays}
         locale={locale}
         year={year}
         month={month}
       />
-      
+
       <Header locale={locale} />
       {/* ... rest of component */}
     </div>
@@ -673,6 +741,7 @@ export default async function MonthPage({ params }: MonthPageProps) {
 ```
 
 #### **Task 4.2: Image Optimization**
+
 ```typescript
 // File: src/components/calendar/HolidayImage.tsx
 import Image from 'next/image'
@@ -702,9 +771,10 @@ export function HolidayImage({ holiday, locale }: HolidayImageProps) {
 ### **Day 25-28: Monitoring & Analytics Setup**
 
 #### **Task 4.3: SEO Monitoring Implementation**
+
 ```typescript
 // File: src/lib/analytics.ts
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 // Track holiday page views
 export function trackHolidayView(holiday: Holiday, locale: string) {
@@ -715,9 +785,9 @@ export function trackHolidayView(holiday: Holiday, locale: string) {
       custom_parameters: {
         holiday_type: holiday.type,
         holiday_name: holiday.name[locale],
-        locale: locale
-      }
-    })
+        locale: locale,
+      },
+    });
   }
 }
 
@@ -726,29 +796,32 @@ export function trackSearch(query: string, results: number) {
   if (typeof window !== 'undefined') {
     gtag('event', 'search', {
       search_term: query,
-      search_results: results
-    })
+      search_results: results,
+    });
   }
 }
 ```
 
 #### **Task 4.4: Core Web Vitals Optimization**
+
 ```typescript
 // File: src/lib/performance.ts
 export function reportWebVitals(metric: NextWebVitalsMetric) {
   // Log to console in development
   if (process.env.NODE_ENV === 'development') {
-    console.log(metric)
+    console.log(metric);
   }
-  
+
   // Send to analytics in production
   if (process.env.NODE_ENV === 'production') {
     gtag('event', metric.name, {
       event_category: 'Web Vitals',
-      value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+      value: Math.round(
+        metric.name === 'CLS' ? metric.value * 1000 : metric.value
+      ),
       event_label: metric.id,
       non_interaction: true,
-    })
+    });
   }
 }
 ```
@@ -758,24 +831,28 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
 ## 📊 Success Metrics & KPIs
 
 ### **Week 1 Targets**
+
 - [x] Fix metadata conflicts → 0 duplicate title issues
-- [x] Implement dynamic metadata → Unique titles for all pages  
+- [x] Implement dynamic metadata → Unique titles for all pages
 - [x] Expand sitemap → 28+ URLs indexed
 - [x] Add generateStaticParams → Faster page loading
 
-### **Week 2 Targets**  
+### **Week 2 Targets**
+
 - [ ] Rich content implementation → 200+ words per holiday
 - [ ] Keyword optimization → 50+ targeted keywords
 - [ ] OG image generation → Custom images for each page
 - [ ] Content refresh → All holiday descriptions added
 
 ### **Week 3 Targets**
+
 - [ ] Structured data → 100% schema coverage
 - [ ] FAQ implementation → 20+ Q&A pairs
 - [ ] Breadcrumb navigation → Better UX and SEO
 - [ ] Search feature → Internal site search
 
 ### **Week 4 Targets**
+
 - [ ] Performance scores → 90+ Lighthouse SEO score
 - [ ] Core Web Vitals → Green across all metrics
 - [ ] Monitoring setup → Analytics & Search Console
@@ -786,18 +863,21 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
 ## 🎯 Post-Implementation Monitoring
 
 ### **Search Console Tracking**
+
 - Monitor indexing status for all 28+ pages
 - Track click-through rates for different title variations
 - Monitor search queries and impressions
 - Watch for crawl errors and fix quickly
 
 ### **Analytics Goals**
+
 - **Traffic Growth**: 200-300% in 6 months
 - **Keyword Rankings**: Top 3 for primary terms
-- **User Engagement**: 50% increase in session duration  
+- **User Engagement**: 50% increase in session duration
 - **Conversions**: Track calendar usage and interactions
 
 ### **Monthly Reviews**
+
 - SEO performance reports
 - Keyword ranking analysis
 - Technical health checks
@@ -808,6 +888,7 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
 ## 🚀 Launch Checklist
 
 ### **Pre-Launch (Week 4)**
+
 - [ ] All metadata implemented and tested
 - [ ] Sitemap submitted to Search Console
 - [ ] Structured data validated with Google's tool
@@ -815,6 +896,7 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
 - [ ] Analytics and monitoring configured
 
 ### **Launch Day**
+
 - [ ] Deploy to production
 - [ ] Submit updated sitemap
 - [ ] Request Google re-crawl for key pages
@@ -822,6 +904,7 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
 - [ ] Social media announcement
 
 ### **Post-Launch (Week 5+)**
+
 - [ ] Monitor search console for indexing
 - [ ] Track ranking improvements
 - [ ] Gather user feedback

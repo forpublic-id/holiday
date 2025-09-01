@@ -1,20 +1,20 @@
-export type HolidayType = 
-  | 'national'        // Hari libur nasional
-  | 'religious'       // Hari libur keagamaan
-  | 'regional'        // Hari libur daerah
-  | 'joint_leave'     // Cuti bersama
-  | 'commemoration'   // Hari peringatan (tidak libur)
+export type HolidayType =
+  | 'national' // Hari libur nasional
+  | 'religious' // Hari libur keagamaan
+  | 'regional' // Hari libur daerah
+  | 'joint_leave' // Cuti bersama
+  | 'commemoration'; // Hari peringatan (tidak libur)
 
-export type Religion = 
+export type Religion =
   | 'islam'
   | 'christian'
   | 'catholic'
   | 'hindu'
   | 'buddhist'
   | 'confucian'
-  | 'secular'
+  | 'secular';
 
-export type Province = 
+export type Province =
   | 'aceh'
   | 'sumatera_utara'
   | 'sumatera_barat'
@@ -52,76 +52,76 @@ export type Province =
   | 'papua_selatan'
   | 'papua_tengah'
   | 'papua_pegunungan'
-  | 'papua_barat_daya'
+  | 'papua_barat_daya';
 
 export interface HolidayName {
-  id: string  // Indonesian name
-  en: string  // English name
+  id: string; // Indonesian name
+  en: string; // English name
 }
 
 export interface Holiday {
-  id: string
-  name: HolidayName
-  date: string  // ISO date string (YYYY-MM-DD)
-  type: HolidayType
-  religion?: Religion
-  provinces?: Province[]  // If empty/undefined, applies to all provinces
-  isVariable: boolean  // Whether the date changes yearly (e.g., religious holidays)
-  description?: HolidayName
-  source?: string  // Government decree reference
-  year: number
+  id: string;
+  name: HolidayName;
+  date: string; // ISO date string (YYYY-MM-DD)
+  type: HolidayType;
+  religion?: Religion;
+  provinces?: Province[]; // If empty/undefined, applies to all provinces
+  isVariable: boolean; // Whether the date changes yearly (e.g., religious holidays)
+  description?: HolidayName;
+  source?: string; // Government decree reference
+  year: number;
 }
 
 export interface HolidayYear {
-  year: number
-  holidays: Holiday[]
-  jointLeaves: Holiday[]  // Cuti bersama specifically
-  lastUpdated: string  // ISO timestamp
-  source: string  // Official source/decree
+  year: number;
+  holidays: Holiday[];
+  jointLeaves: Holiday[]; // Cuti bersama specifically
+  lastUpdated: string; // ISO timestamp
+  source: string; // Official source/decree
 }
 
 export interface HolidayData {
-  years: Record<number, HolidayYear>
+  years: Record<number, HolidayYear>;
   metadata: {
-    lastUpdated: string
-    version: string
-    sources: string[]
-  }
+    lastUpdated: string;
+    version: string;
+    sources: string[];
+  };
 }
 
 // Helper types for filtering and searching
 export interface HolidayFilter {
-  year?: number
-  month?: number
-  type?: HolidayType
-  religion?: Religion
-  province?: Province
+  year?: number;
+  month?: number;
+  type?: HolidayType;
+  religion?: Religion;
+  province?: Province;
 }
 
 export interface HolidaySearchResult {
-  holidays: Holiday[]
-  total: number
-  year: number
+  holidays: Holiday[];
+  total: number;
+  year: number;
 }
 
 // Long weekend calculation types
 export interface LongWeekend {
-  id: string
-  name: HolidayName
-  startDate: string
-  endDate: string
-  totalDays: number
-  holidays: Holiday[]
-  suggestedLeaves: string[]  // Dates to take leave for optimal long weekend
-  leaveRequired: number
+  id: string;
+  name: HolidayName;
+  startDate: string;
+  endDate: string;
+  totalDays: number;
+  holidays: Holiday[];
+  suggestedLeaves: string[]; // Dates to take leave for optimal long weekend
+  leaveRequired: number;
 }
 
 export interface LongWeekendCalculation {
-  year: number
-  longWeekends: LongWeekend[]
+  year: number;
+  longWeekends: LongWeekend[];
   optimalLeaveStrategy: {
-    totalLeaveRequired: number
-    totalDaysOff: number
-    efficiency: number  // Days off per leave day
-  }
+    totalLeaveRequired: number;
+    totalDaysOff: number;
+    efficiency: number; // Days off per leave day
+  };
 }

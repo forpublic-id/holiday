@@ -1,23 +1,29 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import { GoogleAnalytics } from '@next/third-parties/google'
-import { NextIntlClientProvider } from 'next-intl'
-import { getMessages } from 'next-intl/server'
-import { notFound } from 'next/navigation'
-import '../globals.css'
+import type { Metadata } from 'next';
+import { GoogleAnalytics } from '@next/third-parties/google';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import { notFound } from 'next/navigation';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
-
-const locales = ['id', 'en']
+const locales = ['id', 'en'];
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }))
+  return locales.map((locale) => ({ locale }));
 }
 
 export const metadata: Metadata = {
   title: 'Holiday Calendar Indonesia - ForPublic.id',
-  description: 'Comprehensive Indonesian holiday calendar with national holidays, regional celebrations, and smart planning tools.',
-  keywords: ['holiday', 'calendar', 'indonesia', 'libur', 'nasional', 'cuti', 'hari libur', 'kalender indonesia'],
+  description:
+    'Comprehensive Indonesian holiday calendar with national holidays, regional celebrations, and smart planning tools.',
+  keywords: [
+    'holiday',
+    'calendar',
+    'indonesia',
+    'libur',
+    'nasional',
+    'cuti',
+    'hari libur',
+    'kalender indonesia',
+  ],
   metadataBase: new URL('https://holiday.forpublic.id'),
   alternates: {
     canonical: '/',
@@ -28,7 +34,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Holiday Calendar Indonesia - ForPublic.id',
-    description: 'Comprehensive Indonesian holiday calendar with national holidays, regional celebrations, and smart planning tools.',
+    description:
+      'Comprehensive Indonesian holiday calendar with national holidays, regional celebrations, and smart planning tools.',
     url: 'https://holiday.forpublic.id',
     siteName: 'ForPublic.id',
     images: [
@@ -46,7 +53,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Holiday Calendar Indonesia - ForPublic.id',
-    description: 'Comprehensive Indonesian holiday calendar with national holidays, regional celebrations, and smart planning tools.',
+    description:
+      'Comprehensive Indonesian holiday calendar with national holidays, regional celebrations, and smart planning tools.',
     images: ['/logo.svg'],
     creator: '@forpublic_id',
     site: '@forpublic_id',
@@ -69,39 +77,37 @@ export const metadata: Metadata = {
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
-}
+};
 
 export function generateViewport() {
   return {
     width: 'device-width',
     initialScale: 1,
     maximumScale: 1,
-  }
+  };
 }
 
 export default async function LocaleLayout({
   children,
   params,
 }: {
-  children: React.ReactNode
-  params: Promise<{ locale: string }>
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params
-  
+  const { locale } = await params;
+
   if (!locales.includes(locale)) {
-    notFound()
+    notFound();
   }
 
-  const messages = await getMessages()
+  const messages = await getMessages();
 
   return (
-    <html lang={locale} className={inter.variable}>
-      <body className="min-h-screen bg-background font-sans antialiased" suppressHydrationWarning>
-        <NextIntlClientProvider messages={messages}>
-          {children}
-        </NextIntlClientProvider>
-      </body>
-      {process.env.NEXT_PUBLIC_GA_ID && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />}
-    </html>
-  )
+    <NextIntlClientProvider messages={messages}>
+      {children}
+      {process.env.NEXT_PUBLIC_GA_ID && (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+      )}
+    </NextIntlClientProvider>
+  );
 }

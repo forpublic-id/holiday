@@ -1,4 +1,4 @@
-import { MetadataRoute } from 'next'
+import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -16,5 +16,5 @@ export default function robots(): MetadataRoute.Robots {
     ],
     sitemap: 'https://holiday.forpublic.id/sitemap.xml',
     host: 'https://holiday.forpublic.id',
-  }
+  };
 }

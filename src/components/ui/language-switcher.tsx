@@ -1,8 +1,28 @@
-"use client";
+'use client';
 
-import { useRouter, usePathname } from "next/navigation";
-import { Button } from "./button";
-import { useTransition } from "react";
+import { useRouter, usePathname } from 'next/navigation';
+import { Button } from './button';
+import { useTransition } from 'react';
+import Image from 'next/image';
+
+// Flag Components using external SVG files
+const IndonesianFlag = () => (
+  <Image
+    src="/flags/indonesia.svg"
+    alt="Indonesian flag"
+    width={16}
+    height={12}
+  />
+);
+
+const BritishFlag = () => (
+  <Image
+    src="/flags/united-kingdom.svg"
+    alt="British flag"
+    width={16}
+    height={12}
+  />
+);
 
 export function LanguageSwitcher({ locale }: { locale: string }) {
   const router = useRouter();
@@ -14,7 +34,7 @@ export function LanguageSwitcher({ locale }: { locale: string }) {
 
     startTransition(() => {
       // Replace the current locale in the pathname
-      const pathSegments = pathname.split("/");
+      const pathSegments = pathname.split('/');
 
       if (pathSegments[1] === locale) {
         // Replace existing locale
@@ -24,7 +44,7 @@ export function LanguageSwitcher({ locale }: { locale: string }) {
         pathSegments.splice(1, 0, newLocale);
       }
 
-      const newPath = pathSegments.join("/");
+      const newPath = pathSegments.join('/');
       router.push(newPath);
       router.refresh();
     });
@@ -33,23 +53,23 @@ export function LanguageSwitcher({ locale }: { locale: string }) {
   return (
     <div className="flex gap-1">
       <Button
-        variant={locale === "id" ? "default" : "ghost"}
+        variant={locale === 'id' ? 'default' : 'ghost'}
         size="sm"
         className="h-8 px-3 flex items-center gap-1.5 cursor-pointer"
         disabled={isPending}
-        onClick={() => handleLanguageSwitch("id")}
+        onClick={() => handleLanguageSwitch('id')}
       >
-        <span className="text-sm">🇮🇩</span>
+        <IndonesianFlag />
         <span className="font-medium">ID</span>
       </Button>
       <Button
-        variant={locale === "en" ? "default" : "ghost"}
+        variant={locale === 'en' ? 'default' : 'ghost'}
         size="sm"
         className="h-8 px-3 flex items-center gap-1.5 cursor-pointer"
         disabled={isPending}
-        onClick={() => handleLanguageSwitch("en")}
+        onClick={() => handleLanguageSwitch('en')}
       >
-        <span className="text-sm">🇬🇧</span>
+        <BritishFlag />
         <span className="font-medium">EN</span>
       </Button>
     </div>

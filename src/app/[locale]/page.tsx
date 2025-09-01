@@ -1,26 +1,51 @@
-import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation';
 
 interface HomePageProps {
-  params: Promise<{ locale: string }>
+  params: Promise<{ locale: string }>;
 }
 
 export default async function HomePage({ params }: HomePageProps) {
-  const { locale } = await params
-  
+  const { locale } = await params;
+
   // Get current date
-  const now = new Date()
-  const year = now.getFullYear()
-  const month = now.getMonth() + 1
-  
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+
   // Convert month number to name
-  const monthNames = locale === 'id' 
-    ? ['januari', 'februari', 'maret', 'april', 'mei', 'juni',
-       'juli', 'agustus', 'september', 'oktober', 'november', 'desember']
-    : ['january', 'february', 'march', 'april', 'may', 'june',
-       'july', 'august', 'september', 'october', 'november', 'december']
-  
-  const monthName = monthNames[month - 1]
-  
+  const monthNames =
+    locale === 'id'
+      ? [
+          'januari',
+          'februari',
+          'maret',
+          'april',
+          'mei',
+          'juni',
+          'juli',
+          'agustus',
+          'september',
+          'oktober',
+          'november',
+          'desember',
+        ]
+      : [
+          'january',
+          'february',
+          'march',
+          'april',
+          'may',
+          'june',
+          'july',
+          'august',
+          'september',
+          'october',
+          'november',
+          'december',
+        ];
+
+  const monthName = monthNames[month - 1];
+
   // Server-side redirect to current month (SEO-friendly)
-  redirect(`/${locale}/${year}/${monthName}`)
+  redirect(`/${locale}/${year}/${monthName}`);
 }

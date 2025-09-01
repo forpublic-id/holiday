@@ -1,4 +1,4 @@
-import { Holiday } from '@/types/holiday'
+import { Holiday } from '@/types/holiday';
 
 /**
  * Regional holidays for 2025
@@ -10,7 +10,7 @@ export const regionalHolidays2025: Holiday[] = [
     id: 'jakarta-anniversary-2025',
     name: {
       id: 'Hari Jadi DKI Jakarta',
-      en: 'Jakarta Anniversary'
+      en: 'Jakarta Anniversary',
     },
     date: '2025-06-22',
     type: 'regional',
@@ -20,8 +20,8 @@ export const regionalHolidays2025: Holiday[] = [
     year: 2025,
     description: {
       id: 'Hari ulang tahun DKI Jakarta',
-      en: 'Anniversary of Jakarta as the capital city'
-    }
+      en: 'Anniversary of Jakarta as the capital city',
+    },
   },
 
   // Bali
@@ -29,7 +29,7 @@ export const regionalHolidays2025: Holiday[] = [
     id: 'galungan-2025',
     name: {
       id: 'Hari Raya Galungan',
-      en: 'Galungan Day'
+      en: 'Galungan Day',
     },
     date: '2025-05-07',
     type: 'regional',
@@ -39,14 +39,14 @@ export const regionalHolidays2025: Holiday[] = [
     year: 2025,
     description: {
       id: 'Hari raya umat Hindu Bali',
-      en: 'Hindu Balinese religious holiday'
-    }
+      en: 'Hindu Balinese religious holiday',
+    },
   },
   {
     id: 'kuningan-2025',
     name: {
       id: 'Hari Raya Kuningan',
-      en: 'Kuningan Day'
+      en: 'Kuningan Day',
     },
     date: '2025-05-17',
     type: 'regional',
@@ -56,8 +56,8 @@ export const regionalHolidays2025: Holiday[] = [
     year: 2025,
     description: {
       id: 'Hari raya umat Hindu Bali, 10 hari setelah Galungan',
-      en: 'Hindu Balinese religious holiday, 10 days after Galungan'
-    }
+      en: 'Hindu Balinese religious holiday, 10 days after Galungan',
+    },
   },
 
   // Aceh
@@ -65,7 +65,7 @@ export const regionalHolidays2025: Holiday[] = [
     id: 'aceh-special-autonomy-2025',
     name: {
       id: 'Hari Otonomi Khusus Aceh',
-      en: 'Aceh Special Autonomy Day'
+      en: 'Aceh Special Autonomy Day',
     },
     date: '2025-08-15',
     type: 'regional',
@@ -75,8 +75,8 @@ export const regionalHolidays2025: Holiday[] = [
     year: 2025,
     description: {
       id: 'Hari peringatan otonomi khusus Aceh',
-      en: 'Commemoration of Aceh Special Autonomy'
-    }
+      en: 'Commemoration of Aceh Special Autonomy',
+    },
   },
 
   // Papua
@@ -84,18 +84,25 @@ export const regionalHolidays2025: Holiday[] = [
     id: 'papua-anniversary-2025',
     name: {
       id: 'Hari Jadi Papua',
-      en: 'Papua Anniversary'
+      en: 'Papua Anniversary',
     },
     date: '2025-05-01',
     type: 'regional',
     religion: 'secular',
-    provinces: ['papua', 'papua_barat', 'papua_selatan', 'papua_tengah', 'papua_pegunungan', 'papua_barat_daya'],
+    provinces: [
+      'papua',
+      'papua_barat',
+      'papua_selatan',
+      'papua_tengah',
+      'papua_pegunungan',
+      'papua_barat_daya',
+    ],
     isVariable: false,
     year: 2025,
     description: {
       id: 'Hari jadi Provinsi Papua',
-      en: 'Papua Province Anniversary'
-    }
+      en: 'Papua Province Anniversary',
+    },
   },
 
   // Yogyakarta
@@ -103,7 +110,7 @@ export const regionalHolidays2025: Holiday[] = [
     id: 'yogyakarta-anniversary-2025',
     name: {
       id: 'Hari Jadi Kota Yogyakarta',
-      en: 'Yogyakarta City Anniversary'
+      en: 'Yogyakarta City Anniversary',
     },
     date: '2025-10-07',
     type: 'regional',
@@ -113,8 +120,8 @@ export const regionalHolidays2025: Holiday[] = [
     year: 2025,
     description: {
       id: 'Hari jadi Kota Yogyakarta',
-      en: 'Anniversary of Yogyakarta City'
-    }
+      en: 'Anniversary of Yogyakarta City',
+    },
   },
 
   // West Java
@@ -122,7 +129,7 @@ export const regionalHolidays2025: Holiday[] = [
     id: 'west-java-anniversary-2025',
     name: {
       id: 'Hari Jadi Jawa Barat',
-      en: 'West Java Anniversary'
+      en: 'West Java Anniversary',
     },
     date: '2025-04-19',
     type: 'regional',
@@ -132,8 +139,8 @@ export const regionalHolidays2025: Holiday[] = [
     year: 2025,
     description: {
       id: 'Hari jadi Provinsi Jawa Barat',
-      en: 'West Java Province Anniversary'
-    }
+      en: 'West Java Province Anniversary',
+    },
   },
 
   // East Java
@@ -141,7 +148,7 @@ export const regionalHolidays2025: Holiday[] = [
     id: 'east-java-anniversary-2025',
     name: {
       id: 'Hari Jadi Jawa Timur',
-      en: 'East Java Anniversary'
+      en: 'East Java Anniversary',
     },
     date: '2025-10-12',
     type: 'regional',
@@ -151,8 +158,8 @@ export const regionalHolidays2025: Holiday[] = [
     year: 2025,
     description: {
       id: 'Hari jadi Provinsi Jawa Timur',
-      en: 'East Java Province Anniversary'
-    }
+      en: 'East Java Province Anniversary',
+    },
   },
 
   // Central Java
@@ -160,7 +167,7 @@ export const regionalHolidays2025: Holiday[] = [
     id: 'central-java-anniversary-2025',
     name: {
       id: 'Hari Jadi Jawa Tengah',
-      en: 'Central Java Anniversary'
+      en: 'Central Java Anniversary',
     },
     date: '2025-08-15',
     type: 'regional',
@@ -170,7 +177,7 @@ export const regionalHolidays2025: Holiday[] = [
     year: 2025,
     description: {
       id: 'Hari jadi Provinsi Jawa Tengah',
-      en: 'Central Java Province Anniversary'
-    }
-  }
-]
+      en: 'Central Java Province Anniversary',
+    },
+  },
+];

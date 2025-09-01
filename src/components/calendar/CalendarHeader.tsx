@@ -1,19 +1,25 @@
-'use client'
+'use client';
 
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { cn } from '@/lib/utils'
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { cn } from '@/lib/utils';
 
 interface CalendarHeaderProps {
-  year: number
-  month: number
-  onYearChange: (year: number) => void
-  onMonthChange: (month: number) => void
-  onPrevMonth: () => void
-  onNextMonth: () => void
-  locale?: string
-  availableYears?: number[]
+  year: number;
+  month: number;
+  onYearChange: (year: number) => void;
+  onMonthChange: (month: number) => void;
+  onPrevMonth: () => void;
+  onNextMonth: () => void;
+  locale?: string;
+  availableYears?: number[];
 }
 
 export function CalendarHeader({
@@ -24,19 +30,40 @@ export function CalendarHeader({
   onPrevMonth,
   onNextMonth,
   locale = 'id',
-  availableYears = [2024, 2025, 2026, 2027, 2028, 2029, 2030]
+  availableYears = [2024, 2025, 2026, 2027, 2028, 2029, 2030],
 }: CalendarHeaderProps) {
-  const months = locale === 'id' 
-    ? [
-        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-      ]
-    : [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-      ]
+  const months =
+    locale === 'id'
+      ? [
+          'Januari',
+          'Februari',
+          'Maret',
+          'April',
+          'Mei',
+          'Juni',
+          'Juli',
+          'Agustus',
+          'September',
+          'Oktober',
+          'November',
+          'Desember',
+        ]
+      : [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+        ];
 
-  const currentMonth = months[month - 1]
+  const currentMonth = months[month - 1];
 
   return (
     <div className="flex items-center justify-between mb-6 gap-4">
@@ -86,7 +113,10 @@ export function CalendarHeader({
             </SelectTrigger>
             <SelectContent>
               {availableYears.map((availableYear) => (
-                <SelectItem key={availableYear} value={availableYear.toString()}>
+                <SelectItem
+                  key={availableYear}
+                  value={availableYear.toString()}
+                >
                   {availableYear}
                 </SelectItem>
               ))}
@@ -105,5 +135,5 @@ export function CalendarHeader({
         <ChevronRight className="h-4 w-4" />
       </Button>
     </div>
-  )
+  );
 }

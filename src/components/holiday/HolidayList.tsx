@@ -1,123 +1,164 @@
-'use client'
+'use client';
 
-import { Holiday } from '@/types/holiday'
-import { formatHolidayDate, getProvinceName } from '@/lib/holiday-utils'
-import { Badge } from '@/components/ui/badge'
-import { Calendar, MapPin, Clock } from 'lucide-react'
+import { Holiday } from '@/types/holiday';
+import { formatHolidayDate, getProvinceName } from '@/lib/holiday-utils';
+import { Badge } from '@/components/ui/badge';
+import { Calendar, MapPin, Clock } from 'lucide-react';
 
 interface HolidayListProps {
-  holidays: Holiday[]
-  year: number
-  month: number
-  locale?: string
+  holidays: Holiday[];
+  year: number;
+  month: number;
+  locale?: string;
 }
 
-export function HolidayList({ holidays, year, month, locale = 'id' }: HolidayListProps) {
-  const monthNames = locale === 'id' 
-    ? [
-        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-      ]
-    : [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-      ]
+export function HolidayList({
+  holidays,
+  year,
+  month,
+  locale = 'id',
+}: HolidayListProps) {
+  const monthNames =
+    locale === 'id'
+      ? [
+          'Januari',
+          'Februari',
+          'Maret',
+          'April',
+          'Mei',
+          'Juni',
+          'Juli',
+          'Agustus',
+          'September',
+          'Oktober',
+          'November',
+          'Desember',
+        ]
+      : [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+        ];
 
   const getTypeLabel = (type: Holiday['type']) => {
     if (locale === 'id') {
       switch (type) {
-        case 'national': return 'Libur Nasional'
-        case 'religious': return 'Libur Keagamaan'
-        case 'regional': return 'Libur Daerah'
-        case 'joint_leave': return 'Cuti Bersama'
-        case 'commemoration': return 'Hari Peringatan'
-        default: return 'Lainnya'
+        case 'national':
+          return 'Libur Nasional';
+        case 'religious':
+          return 'Libur Keagamaan';
+        case 'regional':
+          return 'Libur Daerah';
+        case 'joint_leave':
+          return 'Cuti Bersama';
+        case 'commemoration':
+          return 'Hari Peringatan';
+        default:
+          return 'Lainnya';
       }
     } else {
       switch (type) {
-        case 'national': return 'National Holiday'
-        case 'religious': return 'Religious Holiday'
-        case 'regional': return 'Regional Holiday'
-        case 'joint_leave': return 'Joint Leave'
-        case 'commemoration': return 'Commemoration Day'
-        default: return 'Other'
+        case 'national':
+          return 'National Holiday';
+        case 'religious':
+          return 'Religious Holiday';
+        case 'regional':
+          return 'Regional Holiday';
+        case 'joint_leave':
+          return 'Joint Leave';
+        case 'commemoration':
+          return 'Commemoration Day';
+        default:
+          return 'Other';
       }
     }
-  }
+  };
 
   const getTypeVariant = (type: Holiday['type']) => {
     switch (type) {
-      case 'national': return 'destructive'
-      case 'religious': return 'secondary'  
-      case 'regional': return 'outline' // Will override with custom colors
-      case 'joint_leave': return 'outline' // Will override with custom colors
-      case 'commemoration': return 'outline'
-      default: return 'outline'
+      case 'national':
+        return 'destructive';
+      case 'religious':
+        return 'secondary';
+      case 'regional':
+        return 'outline'; // Will override with custom colors
+      case 'joint_leave':
+        return 'outline'; // Will override with custom colors
+      case 'commemoration':
+        return 'outline';
+      default:
+        return 'outline';
     }
-  }
+  };
 
   const getTypeBadgeClassName = (type: Holiday['type']) => {
     switch (type) {
-      case 'regional': 
-        return 'bg-blue-500 text-white hover:bg-blue-600 border-blue-500'
-      case 'joint_leave': 
-        return 'bg-orange-500 text-white hover:bg-orange-600 border-orange-500'
-      default: 
-        return '' // Use default badge styling
+      case 'regional':
+        return 'bg-blue-500 text-white hover:bg-blue-600 border-blue-500';
+      case 'joint_leave':
+        return 'bg-orange-500 text-white hover:bg-orange-600 border-orange-500';
+      default:
+        return ''; // Use default badge styling
     }
-  }
+  };
 
   const getDaysUntil = (date: string) => {
-    const today = new Date()
-    const holidayDate = new Date(date)
-    const diffTime = holidayDate.getTime() - today.getTime()
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-    return diffDays
-  }
+    const today = new Date();
+    const holidayDate = new Date(date);
+    const diffTime = holidayDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
 
   // Sort holidays by date
-  const sortedHolidays = [...holidays].sort((a, b) => 
-    new Date(a.date).getTime() - new Date(b.date).getTime()
-  )
+  const sortedHolidays = [...holidays].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
 
   if (sortedHolidays.length === 0) {
     return (
       <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
         <h2 className="text-xl font-semibold text-card-foreground mb-4 flex items-center gap-2">
           <Calendar className="h-5 w-5" />
-          {locale === 'id' 
+          {locale === 'id'
             ? `Hari Libur ${monthNames[month - 1]} ${year}`
-            : `${monthNames[month - 1]} ${year} Holidays`
-          }
+            : `${monthNames[month - 1]} ${year} Holidays`}
         </h2>
         <p className="text-muted-foreground text-center py-8">
-          {locale === 'id' 
+          {locale === 'id'
             ? 'Tidak ada hari libur di bulan ini'
-            : 'No holidays this month'
-          }
+            : 'No holidays this month'}
         </p>
       </div>
-    )
+    );
   }
 
   return (
     <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
       <h2 className="text-xl font-semibold text-card-foreground mb-4 flex items-center gap-2">
         <Calendar className="h-5 w-5" />
-        {locale === 'id' 
+        {locale === 'id'
           ? `Hari Libur ${monthNames[month - 1]} ${year}`
-          : `${monthNames[month - 1]} ${year} Holidays`
-        }
+          : `${monthNames[month - 1]} ${year} Holidays`}
         <Badge variant="outline" className="ml-auto">
           {sortedHolidays.length} {locale === 'id' ? 'hari' : 'days'}
         </Badge>
       </h2>
-      
+
       <div className="space-y-4">
         {sortedHolidays.map((holiday) => {
-          const daysUntil = getDaysUntil(holiday.date)
-          const isUpcoming = daysUntil > 0
-          const isToday = daysUntil === 0
+          const daysUntil = getDaysUntil(holiday.date);
+          const isUpcoming = daysUntil > 0;
+          const isToday = daysUntil === 0;
           // const isPast = daysUntil < 0
 
           return (
@@ -132,7 +173,7 @@ export function HolidayList({ holidays, year, month, locale = 'id' }: HolidayLis
                   <h3 className="font-medium text-card-foreground mb-1">
                     {holiday.name[locale as 'id' | 'en']}
                   </h3>
-                  
+
                   <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                     <Calendar className="h-4 w-4" />
                     <span>{formatHolidayDate(holiday.date, locale)}</span>
@@ -140,24 +181,28 @@ export function HolidayList({ holidays, year, month, locale = 'id' }: HolidayLis
 
                   {/* Holiday type and timing info */}
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <Badge 
+                    <Badge
                       variant={getTypeVariant(holiday.type)}
                       className={getTypeBadgeClassName(holiday.type)}
                     >
                       {getTypeLabel(holiday.type)}
                     </Badge>
-                    
+
                     {isToday && (
-                      <Badge variant="default" className="bg-green-600 hover:bg-green-700">
+                      <Badge
+                        variant="default"
+                        className="bg-green-600 hover:bg-green-700"
+                      >
                         <Clock className="h-3 w-3 mr-1" />
                         {locale === 'id' ? 'Hari Ini' : 'Today'}
                       </Badge>
                     )}
-                    
+
                     {isUpcoming && daysUntil <= 7 && (
                       <Badge variant="outline">
                         <Clock className="h-3 w-3 mr-1" />
-                        {daysUntil} {locale === 'id' ? 'hari lagi' : 'days left'}
+                        {daysUntil}{' '}
+                        {locale === 'id' ? 'hari lagi' : 'days left'}
                       </Badge>
                     )}
                   </div>
@@ -167,13 +212,15 @@ export function HolidayList({ holidays, year, month, locale = 'id' }: HolidayLis
                     <div className="flex items-center gap-1 text-xs text-muted-foreground">
                       <MapPin className="h-3 w-3" />
                       <span>
-                        {holiday.provinces.slice(0, 2).map(province => {
-                          const provinceName = getProvinceName(province)
-                          return provinceName[locale as 'id' | 'en']
-                        }).join(', ')}
-                        {holiday.provinces.length > 2 && 
-                          ` +${holiday.provinces.length - 2} ${locale === 'id' ? 'lainnya' : 'more'}`
-                        }
+                        {holiday.provinces
+                          .slice(0, 2)
+                          .map((province) => {
+                            const provinceName = getProvinceName(province);
+                            return provinceName[locale as 'id' | 'en'];
+                          })
+                          .join(', ')}
+                        {holiday.provinces.length > 2 &&
+                          ` +${holiday.provinces.length - 2} ${locale === 'id' ? 'lainnya' : 'more'}`}
                       </span>
                     </div>
                   )}
@@ -197,9 +244,9 @@ export function HolidayList({ holidays, year, month, locale = 'id' }: HolidayLis
                 </div>
               </div>
             </div>
-          )
+          );
         })}
       </div>
     </div>
-  )
+  );
 }

@@ -1,49 +1,82 @@
-'use client'
+'use client';
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { LanguageSwitcher } from '@/components/ui/language-switcher'
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { LanguageSwitcher } from '@/components/ui/language-switcher';
 
 interface HeaderProps {
-  locale: string
+  locale: string;
 }
 
 function getCurrentMonthUrl(locale: string) {
-  const now = new Date()
-  const year = now.getFullYear()
-  const month = now.getMonth() + 1
-  
-  const monthNames = locale === 'id' 
-    ? ['januari', 'februari', 'maret', 'april', 'mei', 'juni',
-       'juli', 'agustus', 'september', 'oktober', 'november', 'desember']
-    : ['january', 'february', 'march', 'april', 'may', 'june',
-       'july', 'august', 'september', 'october', 'november', 'december']
-  
-  const monthName = monthNames[month - 1]
-  return `/${locale}/${year}/${monthName}`
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+
+  const monthNames =
+    locale === 'id'
+      ? [
+          'januari',
+          'februari',
+          'maret',
+          'april',
+          'mei',
+          'juni',
+          'juli',
+          'agustus',
+          'september',
+          'oktober',
+          'november',
+          'desember',
+        ]
+      : [
+          'january',
+          'february',
+          'march',
+          'april',
+          'may',
+          'june',
+          'july',
+          'august',
+          'september',
+          'october',
+          'november',
+          'december',
+        ];
+
+  const monthName = monthNames[month - 1];
+  return `/${locale}/${year}/${monthName}`;
 }
 
 export function Header({ locale }: HeaderProps) {
-  const currentMonthUrl = getCurrentMonthUrl(locale)
-  const pathname = usePathname()
-  
+  const currentMonthUrl = getCurrentMonthUrl(locale);
+  const pathname = usePathname();
+
   const isActivePage = (path: string) => {
-    return pathname.includes(path)
-  }
-  
+    return pathname.includes(path);
+  };
+
   const isCalendarActive = () => {
     // Active if on year/month pages but NOT on holiday list pages
-    return (pathname.includes('/2024') || pathname.includes('/2025') || pathname.includes('/2026')) && 
-           !pathname.includes('/libur') && !pathname.includes('/holidays')
-  }
-  
+    return (
+      (pathname.includes('/2024') ||
+        pathname.includes('/2025') ||
+        pathname.includes('/2026')) &&
+      !pathname.includes('/libur') &&
+      !pathname.includes('/holidays')
+    );
+  };
+
   const isHolidayListActive = () => {
-    return pathname.includes('/libur') || pathname.includes('/holidays')
-  }
-  
+    return pathname.includes('/libur') || pathname.includes('/holidays');
+  };
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" suppressHydrationWarning>
+    <header
+      className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      suppressHydrationWarning
+    >
       <div className="container mx-auto px-4 md:px-6 lg:px-8 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -71,27 +104,33 @@ export function Header({ locale }: HeaderProps) {
             <Link
               href={currentMonthUrl}
               className={`transition-colors hover:text-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-600 focus:ring-offset-2 rounded-sm px-1 py-1 ${
-                isCalendarActive() ? "text-red-600 font-medium" : "text-gray-600"
+                isCalendarActive()
+                  ? 'text-red-600 font-medium'
+                  : 'text-gray-600'
               }`}
-              aria-current={isCalendarActive() ? "page" : undefined}
+              aria-current={isCalendarActive() ? 'page' : undefined}
             >
               {locale === 'id' ? 'Kalender' : 'Calendar'}
             </Link>
             <Link
               href={`/${locale}/${new Date().getFullYear()}/${locale === 'id' ? 'libur' : 'holidays'}`}
               className={`transition-colors hover:text-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-600 focus:ring-offset-2 rounded-sm px-1 py-1 ${
-                isHolidayListActive() ? "text-red-600 font-medium" : "text-gray-600"
+                isHolidayListActive()
+                  ? 'text-red-600 font-medium'
+                  : 'text-gray-600'
               }`}
-              aria-current={isHolidayListActive() ? "page" : undefined}
+              aria-current={isHolidayListActive() ? 'page' : undefined}
             >
               {locale === 'id' ? 'Daftar Libur' : 'Holiday List'}
             </Link>
             <Link
               href={`/${locale}/about`}
               className={`transition-colors hover:text-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-600 focus:ring-offset-2 rounded-sm px-1 py-1 ${
-                isActivePage('/about') ? "text-red-600 font-medium" : "text-gray-600"
+                isActivePage('/about')
+                  ? 'text-red-600 font-medium'
+                  : 'text-gray-600'
               }`}
-              aria-current={isActivePage('/about') ? "page" : undefined}
+              aria-current={isActivePage('/about') ? 'page' : undefined}
             >
               {locale === 'id' ? 'Tentang' : 'About'}
             </Link>
@@ -109,5 +148,5 @@ export function Header({ locale }: HeaderProps) {
         </div>
       </div>
     </header>
-  )
+  );
 }

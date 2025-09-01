@@ -16,14 +16,17 @@ Default to using Bun instead of Node.js for this project.
 ## Project-Specific Commands
 
 ### Development
+
 ```bash
 bun run dev        # Start development server
-bun run build      # Build for production  
+bun run build      # Build for production
 bun run start      # Start production server
 bun run lint       # Run ESLint
+bun run format     # Format code with Prettier
 ```
 
 ### Testing & Quality
+
 ```bash
 bun test           # Run tests (when implemented)
 bun run build      # Also runs type checking
@@ -34,14 +37,17 @@ bun run build      # Also runs type checking
 This project uses **Next.js 15** with App Router, **TypeScript**, and **Tailwind CSS**.
 
 ### Key Technologies
+
 - **Next.js 15.4.7** - React framework with App Router
-- **TypeScript** - Type safety and better developer experience  
+- **TypeScript** - Type safety and better developer experience
 - **Tailwind CSS** - Utility-first CSS framework
 - **next-intl** - Internationalization (ID/EN support)
 - **Lucide React** - Icon system
 - **Bun** - Runtime and package manager
+- **Prettier** - Code formatting
 
 ### Project Structure
+
 ```
 src/
 ├── app/                    # Next.js App Router pages
@@ -73,31 +79,37 @@ src/
 ## Development Guidelines
 
 ### Holiday Data Management
+
 - Holiday data is stored in `/src/data/holidays/` organized by year
-- Each year has separate files for national and regional holidays  
+- Each year has separate files for national and regional holidays
 - Use the `Holiday` type from `/src/types/holiday.ts` for consistency
 - National holidays take priority in default filtering
 
 ### Component Development
+
 - Follow existing component patterns in `/src/components/`
 - Use Tailwind CSS for styling with consistent design tokens
 - Implement proper TypeScript types for all props
 - Support bilingual content using next-intl
 
 ### Internationalization
+
 - All user-facing text must support ID/EN languages
 - Add translations to `/messages/id.json` and `/messages/en.json`
 - Use `useTranslations()` hook or `getTranslations()` for server components
 - Test both language versions before committing
 
 ### SEO Implementation
+
 - Dynamic metadata generation in `generateMetadata()` functions
 - Sitemap auto-updates with new pages in `/src/app/sitemap.ts`
 - Use SEO utilities from `/src/lib/seo-utils.ts` for consistency
 - Optimize for Indonesian holiday search terms
 
 ### Code Quality
+
 - Always run `bun run build` before committing to catch type errors
+- Run `bun run format` to format code with Prettier
 - Follow existing naming conventions and file organization
 - Keep components focused on single responsibilities
 - Document complex holiday filtering logic
@@ -105,22 +117,26 @@ src/
 ## Key Features Implemented
 
 ### 🎯 Holiday Filtering System
+
 - **Default View**: Shows only national holidays and joint leave days
 - **Regional Filter**: Toggle to view province-specific holidays
 - **Smart Categorization**: Different badge colors for holiday types
 
 ### 🌍 Bilingual Support
+
 - Complete ID/EN interface translation
 - Locale-specific URLs (`/id/2025/januari` vs `/en/2025/january`)
 - SEO-optimized metadata for both languages
 
 ### 📅 Calendar Features
+
 - Interactive month/year navigation
 - Today highlighting and working day detection
 - Color-coded holiday types (national=red, regional=blue, joint_leave=orange)
 - Responsive design for all screen sizes
 
 ### 🔍 SEO Optimization
+
 - Dynamic titles with accurate holiday counts
 - Comprehensive sitemap (53 URLs covering all pages)
 - Smart priority system for search engine indexing
@@ -139,7 +155,7 @@ bun run build
 ## Important Notes
 
 - **Never commit secrets** - Use environment variables for sensitive data
-- **Test both languages** - All features must work in ID and EN  
+- **Test both languages** - All features must work in ID and EN
 - **Verify holiday counts** - SEO titles should reflect default filter (national + joint leave only)
 - **Check mobile responsiveness** - Test on various screen sizes
 - **Validate accessibility** - Ensure proper contrast ratios and keyboard navigation

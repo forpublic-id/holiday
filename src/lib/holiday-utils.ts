@@ -9,7 +9,7 @@ import {
 /**
  * Get all holidays for a specific year
  */
-export function getHolidaysByYear(year: number): Holiday[] {
+export function getHolidaysByYear(): Holiday[] {
   // This will be populated when we load the data
   return [];
 }
@@ -142,6 +142,7 @@ export function calculateLongWeekends(
         holidays: [holiday],
         suggestedLeaves: [],
         leaveRequired: 0,
+        efficiency: 3,
       };
       longWeekends.push(longWeekend);
     }

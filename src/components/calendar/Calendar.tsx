@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense, lazy } from 'react';
 import { useRouter } from 'next/navigation';
 import { Holiday, Province } from '@/types/holiday';
-import { useHolidays, useMonthHolidays } from '@/hooks/use-holidays';
+import { useHolidays } from '@/hooks/use-holidays';
 import { CalendarGrid } from './CalendarGrid';
 import { CalendarHeader } from './CalendarHeader';
-import { HolidayModal } from './HolidayModal';
+const HolidayModal = lazy(() => import('./HolidayModal').then(module => ({ default: module.HolidayModal })));
 import { CalendarLegend } from './CalendarLegend';
 import { getAvailableYears } from '@/lib/holiday-data';
 
@@ -155,12 +155,21 @@ export function Calendar({
       </div>
 
       {/* Holiday Details Modal */}
-      <HolidayModal
-        holiday={selectedHoliday}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        locale={locale}
-      />
+      <Suspense fallback={
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-4 animate-pulse">
+            <div className="h-4 bg-gray-200 rounded w-32 mb-2"></div>
+            <div className="h-3 bg-gray-200 rounded w-24"></div>
+          </div>
+        </div>
+      }>
+        <HolidayModal
+          holiday={selectedHoliday}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          locale={locale}
+        />
+      </Suspense>
     </div>
   );
 }

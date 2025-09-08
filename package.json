@@ -5,12 +5,14 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^15.5.2",
     "@tailwindcss/postcss": "^4.1.13",
     "@types/bun": "^1.2.21",
     "@types/node": "^24.3.1",

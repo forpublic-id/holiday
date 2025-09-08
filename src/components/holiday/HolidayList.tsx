@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { Holiday } from '@/types/holiday';
 import { formatHolidayDate, getProvinceName } from '@/lib/holiday-utils';
 import { Badge } from '@/components/ui/badge';
@@ -12,7 +13,7 @@ interface HolidayListProps {
   locale?: string;
 }
 
-export function HolidayList({
+export const HolidayList = memo(function HolidayList({
   holidays,
   year,
   month,
@@ -250,4 +251,4 @@ export function HolidayList({
       </div>
     </div>
   );
-}
+});

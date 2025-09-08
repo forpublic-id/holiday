@@ -67,6 +67,9 @@ export async function generateMetadata({
   };
 }
 
+// Enable ISR with 1 hour revalidation
+export const revalidate = 3600;
+
 export default async function YearlyHolidayPage({
   params,
 }: YearlyHolidayPageProps) {

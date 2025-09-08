@@ -89,7 +89,7 @@ export interface HolidayData {
   };
 }
 
-// Helper types for filtering and searching
+// Helper types for filtering and searching with generic improvements
 export interface HolidayFilter {
   year?: number;
   month?: number;
@@ -98,30 +98,53 @@ export interface HolidayFilter {
   province?: Province;
 }
 
-export interface HolidaySearchResult {
-  holidays: Holiday[];
+// Generic filter function type
+export type FilterFunction<T> = (item: T, filter: Partial<T>) => boolean;
+
+export interface HolidaySearchResult<T = Holiday> {
+  holidays: T[];
   total: number;
   year: number;
+  filteredCount?: number;
+  facets?: {
+    types: Array<{ type: HolidayType; count: number }>;
+    religions: Array<{ religion: Religion; count: number }>;
+    provinces: Array<{ province: Province; count: number }>;
+  };
 }
 
-// Long weekend calculation types
-export interface LongWeekend {
+// Long weekend calculation types with generics
+export interface LongWeekend<T = Holiday> {
   id: string;
   name: HolidayName;
   startDate: string;
   endDate: string;
   totalDays: number;
-  holidays: Holiday[];
+  holidays: T[];
   suggestedLeaves: string[]; // Dates to take leave for optimal long weekend
   leaveRequired: number;
+  efficiency: number; // Days gained per leave day taken
 }
 
-export interface LongWeekendCalculation {
+export interface LongWeekendCalculation<T = Holiday> {
   year: number;
-  longWeekends: LongWeekend[];
+  longWeekends: LongWeekend<T>[];
   optimalLeaveStrategy: {
     totalLeaveRequired: number;
     totalDaysOff: number;
     efficiency: number; // Days off per leave day
+    recommendations: Array<{
+      period: string;
+      leaveDate: string;
+      daysGained: number;
+      holidays: T[];
+    }>;
   };
 }
+
+// Utility types for better type safety
+export type HolidayKey = keyof Holiday;
+export type LocalizedString<T extends 'id' | 'en' = 'id' | 'en'> = Record<T, string>;
+export type OptionalHoliday = Partial<Holiday>;
+export type HolidayWithoutId = Omit<Holiday, 'id'>;
+export type HolidayUpdate = Partial<Pick<Holiday, 'name' | 'date' | 'type' | 'description'>>;

@@ -1,7 +1,7 @@
 'use client';
 
-import { memo } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { memo } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -90,7 +90,7 @@ export const CalendarHeader = memo(function CalendarHeader({
         <div className="hidden sm:flex items-center gap-2 flex-1 justify-center">
           <Select
             value={month.toString()}
-            onValueChange={(value) => onMonthChange(parseInt(value))}
+            onValueChange={(value) => onMonthChange(parseInt(value, 10))}
           >
             <SelectTrigger className="w-[140px]">
               <SelectValue />
@@ -106,7 +106,7 @@ export const CalendarHeader = memo(function CalendarHeader({
 
           <Select
             value={year.toString()}
-            onValueChange={(value) => onYearChange(parseInt(value))}
+            onValueChange={(value) => onYearChange(parseInt(value, 10))}
           >
             <SelectTrigger className="w-[100px]">
               <SelectValue />

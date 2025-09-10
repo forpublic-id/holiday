@@ -40,7 +40,13 @@ export interface SortConfig<T> {
 // Generic filter configuration
 export interface FilterConfig<T> {
   field: keyof T;
-  operator: 'equals' | 'contains' | 'startsWith' | 'endsWith' | 'in' | 'between';
+  operator:
+    | 'equals'
+    | 'contains'
+    | 'startsWith'
+    | 'endsWith'
+    | 'in'
+    | 'between';
   value: unknown;
 }
 
@@ -58,9 +64,15 @@ export type WithOptionalChildren<T = Record<string, never>> = T & {
 };
 
 // Event handler types
-export type ClickHandler<T = HTMLElement> = (event: React.MouseEvent<T>) => void;
-export type ChangeHandler<T = HTMLInputElement> = (event: React.ChangeEvent<T>) => void;
-export type SubmitHandler<T = HTMLFormElement> = (event: React.FormEvent<T>) => void;
+export type ClickHandler<T = HTMLElement> = (
+  event: React.MouseEvent<T>
+) => void;
+export type ChangeHandler<T = HTMLInputElement> = (
+  event: React.ChangeEvent<T>
+) => void;
+export type SubmitHandler<T = HTMLFormElement> = (
+  event: React.FormEvent<T>
+) => void;
 
 // Form types
 export interface FormField<T = string> {

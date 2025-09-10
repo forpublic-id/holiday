@@ -18,11 +18,12 @@ Default to using Bun instead of Node.js for this project.
 ### Development
 
 ```bash
-bun run dev        # Start development server
-bun run build      # Build for production
-bun run start      # Start production server
-bun run lint       # Run ESLint
-bun run format     # Format code with Prettier
+bun run dev              # Start development server
+bun run build            # Build for production (includes Biome check)
+bun run build:skip-checks # Build without quality checks
+bun run start            # Start production server
+bun run lint             # Run Biome linting
+bun run format           # Format code with Biome
 ```
 
 ### Testing & Quality
@@ -30,6 +31,9 @@ bun run format     # Format code with Prettier
 ```bash
 bun test           # Run tests (when implemented)
 bun run build      # Also runs type checking
+bun run lint       # Run Biome linting
+bun run lint:fix   # Apply automatic fixes
+bun run check      # Run full Biome check (lint + format)
 ```
 
 ## Project Architecture
@@ -44,7 +48,7 @@ This project uses **Next.js 15** with App Router, **TypeScript**, and **Tailwind
 - **next-intl** - Internationalization (ID/EN support)
 - **Lucide React** - Icon system
 - **Bun** - Runtime and package manager
-- **Prettier** - Code formatting
+- **Biome** - Lightning-fast linter and formatter (replacing ESLint + Prettier)
 
 ### Project Structure
 
@@ -109,7 +113,8 @@ src/
 ### Code Quality
 
 - Always run `bun run build` before committing to catch type errors
-- Run `bun run format` to format code with Prettier
+- Run `bun run check` to lint and format code with Biome
+- Run `bun run lint:fix` to automatically fix linting issues
 - Follow existing naming conventions and file organization
 - Keep components focused on single responsibilities
 - Document complex holiday filtering logic

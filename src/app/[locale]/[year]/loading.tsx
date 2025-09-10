@@ -1,6 +1,6 @@
-import { HolidayListSkeleton } from '@/components/ui/loading-skeleton';
-import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { Header } from '@/components/layout/Header';
+import { HolidayListSkeleton } from '@/components/ui/loading-skeleton';
 
 export default function Loading() {
   return (

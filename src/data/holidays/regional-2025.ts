@@ -1,4 +1,4 @@
-import { Holiday } from '@/types/holiday';
+import type { Holiday } from '@/types/holiday';
 
 /**
  * Regional holidays for 2025

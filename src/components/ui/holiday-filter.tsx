@@ -1,9 +1,9 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Filter } from 'lucide-react';
-import { Holiday } from '@/types/holiday';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import type { Holiday } from '@/types/holiday';
 
 export type HolidayFilterType =
   | 'all'
@@ -124,7 +124,6 @@ export function filterHolidaysByType(
       return holidays.filter((h) => h.type === 'national');
     case 'joint_leave':
       return holidays.filter((h) => h.type === 'joint_leave');
-    case 'all':
     default:
       return holidays;
   }

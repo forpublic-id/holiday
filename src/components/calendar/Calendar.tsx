@@ -1,14 +1,18 @@
 'use client';
 
-import { useState, Suspense, lazy } from 'react';
 import { useRouter } from 'next/navigation';
-import { Holiday, Province } from '@/types/holiday';
+import { lazy, Suspense, useState } from 'react';
 import { useHolidays } from '@/hooks/use-holidays';
+import { getAvailableYears } from '@/lib/holiday-data';
+import type { Holiday, Province } from '@/types/holiday';
 import { CalendarGrid } from './CalendarGrid';
 import { CalendarHeader } from './CalendarHeader';
-const HolidayModal = lazy(() => import('./HolidayModal').then(module => ({ default: module.HolidayModal })));
+
+const HolidayModal = lazy(() =>
+  import('./HolidayModal').then((module) => ({ default: module.HolidayModal }))
+);
+
 import { CalendarLegend } from './CalendarLegend';
-import { getAvailableYears } from '@/lib/holiday-data';
 
 interface CalendarProps {
   locale?: string;
@@ -155,14 +159,16 @@ export function Calendar({
       </div>
 
       {/* Holiday Details Modal */}
-      <Suspense fallback={
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-4 animate-pulse">
-            <div className="h-4 bg-gray-200 rounded w-32 mb-2"></div>
-            <div className="h-3 bg-gray-200 rounded w-24"></div>
+      <Suspense
+        fallback={
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-4 animate-pulse">
+              <div className="h-4 bg-gray-200 rounded w-32 mb-2"></div>
+              <div className="h-3 bg-gray-200 rounded w-24"></div>
+            </div>
           </div>
-        </div>
-      }>
+        }
+      >
         <HolidayModal
           holiday={selectedHoliday}
           isOpen={isModalOpen}

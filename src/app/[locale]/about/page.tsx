@@ -1,15 +1,18 @@
-import { getTranslations } from 'next-intl/server';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
 import {
   Calendar,
   Clock,
-  Globe,
   Download,
+  Globe,
   MapPin,
   Smartphone,
 } from 'lucide-react';
 import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { Footer } from '@/components/layout/Footer';
+import { Header } from '@/components/layout/Header';
+import { FAQ } from '@/components/seo/FAQ';
+import { WebsiteSchema } from '@/components/seo/SchemaMarkup';
 
 interface AboutPageProps {
   params: Promise<{ locale: string }>;
@@ -125,12 +128,25 @@ export default async function AboutPage({ params }: AboutPageProps) {
     },
   ];
 
+  const breadcrumbItems = [
+    {
+      name: locale === 'id' ? 'Tentang' : 'About',
+      url: `/${locale}/about`,
+      current: true,
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
+      {/* Schema Markup */}
+      <WebsiteSchema locale={locale} />
+
       <Header locale={locale} />
 
       <main className="container mx-auto px-4 py-12">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-4xl space-y-12">
+          {/* Breadcrumbs */}
+          <Breadcrumbs items={breadcrumbItems} locale={locale} />
           {/* Hero Section */}
           <header className="text-center mb-12">
             <h1 className="mb-6 text-4xl font-bold text-foreground">
@@ -239,6 +255,9 @@ export default async function AboutPage({ params }: AboutPageProps) {
               </div>
             </div>
           </section>
+
+          {/* FAQ Section */}
+          <FAQ locale={locale} />
         </div>
       </main>
 

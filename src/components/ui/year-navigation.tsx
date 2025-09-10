@@ -1,8 +1,8 @@
 'use client';
 
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -32,7 +32,7 @@ export function YearNavigation({
   const nextYear = getNextYear();
 
   const handleYearChange = (value: string) => {
-    const newYear = parseInt(value);
+    const newYear = parseInt(value, 10);
     router.push(`/${locale}/${newYear}/${basePath}`);
   };
 

@@ -1,7 +1,7 @@
 'use client';
 
-import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
+import React, { Component, type ErrorInfo, type ReactNode } from 'react';
 import { Button } from './button';
 
 interface Props {
@@ -42,7 +42,8 @@ export class ErrorBoundary extends Component<Props, State> {
             Oops! Something went wrong
           </h2>
           <p className="text-muted-foreground mb-4 max-w-md">
-            We encountered an unexpected error. Please try refreshing the page or contact support if the problem persists.
+            We encountered an unexpected error. Please try refreshing the page
+            or contact support if the problem persists.
           </p>
           <div className="flex gap-3">
             <Button
@@ -54,7 +55,9 @@ export class ErrorBoundary extends Component<Props, State> {
               Refresh Page
             </Button>
             <Button
-              onClick={() => this.setState({ hasError: false, error: undefined })}
+              onClick={() =>
+                this.setState({ hasError: false, error: undefined })
+              }
               variant="outline"
             >
               Try Again
@@ -95,7 +98,7 @@ export function withErrorBoundary<P extends object>(
 // Hook for manual error throwing
 export function useErrorBoundary() {
   const [, setState] = React.useState();
-  
+
   return React.useCallback((error: Error) => {
     setState(() => {
       throw error;
@@ -133,7 +136,11 @@ export function CalendarErrorBoundary({ children }: { children: ReactNode }) {
 }
 
 // Holiday list error boundary
-export function HolidayListErrorBoundary({ children }: { children: ReactNode }) {
+export function HolidayListErrorBoundary({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <ErrorBoundary
       fallback={
@@ -141,7 +148,9 @@ export function HolidayListErrorBoundary({ children }: { children: ReactNode }) 
           <div className="flex flex-col items-center justify-center py-6">
             <AlertTriangle className="h-6 w-6 text-destructive mb-2" />
             <h4 className="font-medium mb-1">Holiday List Error</h4>
-            <p className="text-sm text-muted-foreground">Unable to load holidays</p>
+            <p className="text-sm text-muted-foreground">
+              Unable to load holidays
+            </p>
           </div>
         </div>
       }

@@ -65,6 +65,7 @@ export function Footer({ locale }: FooterProps) {
                 width={24}
                 height={24}
                 className="w-full h-full"
+                loading="lazy"
               />
             </div>
             <span className="text-lg font-bold">

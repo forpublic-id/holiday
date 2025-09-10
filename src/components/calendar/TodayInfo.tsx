@@ -1,8 +1,8 @@
 'use client';
 
-import { Holiday } from '@/types/holiday';
-import { Badge } from '@/components/ui/badge';
 import { Calendar, CheckCircle2, XCircle } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import type { Holiday } from '@/types/holiday';
 
 interface TodayInfoProps {
   holidays: Holiday[];

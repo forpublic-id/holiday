@@ -1,4 +1,6 @@
+import type { Metadata } from 'next';
 import type { Holiday } from '@/types/holiday';
+import { formatHolidayDate, getProvinceName } from './holiday-utils';
 
 export interface SEOData {
   title: string;
@@ -308,4 +310,185 @@ export function generateMonthTitle(
       return `${monthName} ${year} Holidays - ${holidayCount} Indonesian Holidays | Holiday Calendar`;
     }
   }
+}
+
+/**
+ * Generate metadata for holiday detail page
+ */
+export function generateHolidayDetailMetadata(
+  holiday: Holiday,
+  locale: 'id' | 'en'
+): Metadata {
+  const holidayName = holiday.name[locale];
+  const formattedDate = formatHolidayDate(holiday.date, locale);
+  const year = holiday.year;
+
+  // Generate title
+  const title =
+    locale === 'id'
+      ? `${holidayName} ${year} - ${formattedDate} | Kalender Libur Indonesia`
+      : `${holidayName} ${year} - ${formattedDate} | Indonesian Holiday Calendar`;
+
+  // Generate description
+  let description = '';
+  if (locale === 'id') {
+    description = `${holidayName} jatuh pada ${formattedDate}. `;
+
+    if (holiday.type === 'national') {
+      description += 'Ini adalah hari libur nasional Indonesia. ';
+    } else if (holiday.type === 'regional' && holiday.provinces) {
+      const provinceNames = holiday.provinces
+        .map((p) => getProvinceName(p).id)
+        .join(', ');
+      description += `Hari libur regional untuk provinsi: ${provinceNames}. `;
+    } else if (holiday.type === 'joint_leave') {
+      description += 'Ini adalah hari cuti bersama. ';
+    }
+
+    if (holiday.description) {
+      description += `${holiday.description.id} `;
+    }
+
+    description += `Informasi lengkap tentang ${holidayName} ${year}, termasuk sejarah, tradisi, dan tips perencanaan libur. `;
+    description +=
+      'Kalender resmi hari libur Indonesia dengan informasi akurat untuk perencanaan liburan.';
+  } else {
+    description = `${holidayName} falls on ${formattedDate}. `;
+
+    if (holiday.type === 'national') {
+      description += 'This is an Indonesian national holiday. ';
+    } else if (holiday.type === 'regional' && holiday.provinces) {
+      const provinceNames = holiday.provinces
+        .map((p) => getProvinceName(p).en)
+        .join(', ');
+      description += `Regional holiday for provinces: ${provinceNames}. `;
+    } else if (holiday.type === 'joint_leave') {
+      description += 'This is a joint leave day. ';
+    }
+
+    if (holiday.description) {
+      description += `${holiday.description.en} `;
+    }
+
+    description += `Complete information about ${holidayName} ${year}, including history, traditions, and vacation planning tips. `;
+    description +=
+      'Official Indonesian holiday calendar with accurate information for vacation planning.';
+  }
+
+  // Generate keywords
+  const keywords = generateHolidayDetailKeywords(holiday, locale);
+
+  return {
+    title,
+    description,
+    keywords: keywords.join(', '),
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      publishedTime: `${year}-01-01T00:00:00Z`,
+      tags: keywords,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+    alternates: {
+      canonical: `/${locale}/holiday/${holiday.id}`,
+      languages: {
+        id: `/id/holiday/${holiday.id}`,
+        en: `/en/holiday/${holiday.id}`,
+      },
+    },
+  };
+}
+
+/**
+ * Generate keywords for holiday detail page
+ */
+function generateHolidayDetailKeywords(
+  holiday: Holiday,
+  locale: 'id' | 'en'
+): string[] {
+  const holidayName = holiday.name[locale].toLowerCase();
+  const year = holiday.year.toString();
+
+  const base = baseKeywords[locale] || baseKeywords.id;
+
+  const holidaySpecific =
+    locale === 'id'
+      ? [
+          holidayName,
+          `${holidayName} ${year}`,
+          `kapan ${holidayName} ${year}`,
+          `tanggal ${holidayName} ${year}`,
+          `info ${holidayName}`,
+          `sejarah ${holidayName}`,
+          `tradisi ${holidayName}`,
+          `makna ${holidayName}`,
+          `arti ${holidayName}`,
+          `perayaan ${holidayName}`,
+        ]
+      : [
+          holidayName,
+          `${holidayName} ${year}`,
+          `when is ${holidayName} ${year}`,
+          `${holidayName} ${year} date`,
+          `${holidayName} information`,
+          `${holidayName} history`,
+          `${holidayName} traditions`,
+          `${holidayName} meaning`,
+          `${holidayName} celebration`,
+        ];
+
+  // Add type-specific keywords
+  const typeSpecific =
+    locale === 'id'
+      ? (() => {
+          switch (holiday.type) {
+            case 'national':
+              return [
+                'libur nasional',
+                'hari libur nasional',
+                'tanggal merah nasional',
+              ];
+            case 'regional':
+              return ['libur daerah', 'hari libur regional', 'libur provinsi'];
+            case 'joint_leave':
+              return [
+                'cuti bersama',
+                'hari cuti bersama',
+                'libur cuti bersama',
+              ];
+            case 'religious':
+              return ['hari libur keagamaan', 'perayaan keagamaan'];
+            default:
+              return [];
+          }
+        })()
+      : (() => {
+          switch (holiday.type) {
+            case 'national':
+              return [
+                'national holiday',
+                'public holiday',
+                'national celebration',
+              ];
+            case 'regional':
+              return [
+                'regional holiday',
+                'provincial holiday',
+                'local holiday',
+              ];
+            case 'joint_leave':
+              return ['joint leave', 'collective leave', 'government leave'];
+            case 'religious':
+              return ['religious holiday', 'religious celebration'];
+            default:
+              return [];
+          }
+        })();
+
+  return [...base.slice(0, 10), ...holidaySpecific, ...typeSpecific];
 }

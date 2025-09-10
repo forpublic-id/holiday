@@ -56,5 +56,45 @@
         "description": "Ekspor ke berbagai format kalender dan integrasi dengan aplikasi kalender populer (coming soon)."
       }
     }
+  },
+  "HolidayDetail": {
+    "back": "Kembali",
+    "share": "Bagikan",
+    "copy": "Salin",
+    "copied": "Tersalin",
+    "copyLink": "Salin tautan",
+    "addToCalendar": "Tambah ke Kalender",
+    "downloadICal": "Unduh iCal",
+    "description": "Deskripsi",
+    "additionalInfo": "Informasi Tambahan",
+    "dateStatus": "Status Tanggal",
+    "dateVariable": "Tanggal berubah setiap tahun",
+    "dateFixed": "Tanggal tetap setiap tahun",
+    "year": "Tahun",
+    "officialSource": "Sumber Resmi",
+    "otherHolidays": "Hari Libur Lainnya",
+    "previous": "← Sebelumnya",
+    "next": "Selanjutnya →",
+    "type": "Jenis:",
+    "religion": "Agama:",
+    "applicableIn": "Berlaku di:",
+    "readMore": "Selengkapnya",
+    "showLess": "Tampilkan lebih sedikit",
+    "holidayTypes": {
+      "national": "Libur Nasional",
+      "regional": "Libur Daerah", 
+      "joint_leave": "Cuti Bersama",
+      "religious": "Libur Keagamaan",
+      "commemoration": "Hari Peringatan"
+    },
+    "religions": {
+      "islam": "Islam",
+      "christian": "Kristen",
+      "catholic": "Katolik",
+      "hindu": "Hindu",
+      "buddhist": "Buddha",
+      "confucian": "Konghucu",
+      "secular": "Sekuler"
+    }
   }
 }

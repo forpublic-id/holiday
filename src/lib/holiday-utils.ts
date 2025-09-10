@@ -1,3 +1,4 @@
+import { getHolidaysForYear } from '@/lib/holiday-data';
 import type {
   Holiday,
   HolidayFilter,
@@ -220,4 +221,79 @@ export function getProvinceName(province: Province): {
   };
 
   return provinceNames[province] || { id: province, en: province };
+}
+
+/**
+ * Generate slug from holiday name
+ */
+export function generateHolidaySlug(holiday: Holiday): string {
+  const name = holiday.name.id.toLowerCase();
+  const year = holiday.year.toString();
+  return `${name
+    .replace(/[^a-z0-9\s]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/^-+|-+$/g, '')}-${year}`;
+}
+
+/**
+ * Get holiday by slug
+ */
+export function getHolidayBySlug(slug: string): Holiday | null {
+  // Extract year from slug (last 4 characters)
+  const yearMatch = slug.match(/-(\d{4})$/);
+  if (!yearMatch) return null;
+
+  const year = parseInt(yearMatch[1], 10);
+  const nameSlug = slug.replace(/-\d{4}$/, '');
+
+  const holidays = getHolidaysForYear(year);
+
+  return (
+    holidays.find((holiday) => {
+      const holidaySlug = generateHolidaySlug(holiday).replace(/-\d{4}$/, '');
+      return holidaySlug === nameSlug;
+    }) || null
+  );
+}
+
+/**
+ * Get all holiday IDs for static generation
+ */
+export function getAllHolidayIds(): string[] {
+  const availableYears = [2024, 2025, 2026]; // From holiday-data.ts
+  const slugs: string[] = [];
+
+  availableYears.forEach((year) => {
+    const holidays = getHolidaysForYear(year);
+    holidays.forEach((holiday) => {
+      slugs.push(generateHolidaySlug(holiday));
+    });
+  });
+
+  return slugs;
+}
+
+/**
+ * Get previous and next holidays for navigation
+ */
+export function getAdjacentHolidays(currentHoliday: Holiday): {
+  previous: Holiday | null;
+  next: Holiday | null;
+} {
+  const holidays = getHolidaysForYear(currentHoliday.year);
+  const sortedHolidays = holidays.sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
+
+  const currentIndex = sortedHolidays.findIndex(
+    (h) => h.id === currentHoliday.id
+  );
+
+  return {
+    previous: currentIndex > 0 ? sortedHolidays[currentIndex - 1] : null,
+    next:
+      currentIndex < sortedHolidays.length - 1
+        ? sortedHolidays[currentIndex + 1]
+        : null,
+  };
 }

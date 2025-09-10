@@ -56,5 +56,45 @@
         "description": "Export to various calendar formats and integration with popular calendar apps (coming soon)."
       }
     }
+  },
+  "HolidayDetail": {
+    "back": "Back",
+    "share": "Share",
+    "copy": "Copy",
+    "copied": "Copied",
+    "copyLink": "Copy link",
+    "addToCalendar": "Add to Calendar",
+    "downloadICal": "Download iCal",
+    "description": "Description",
+    "additionalInfo": "Additional Information",
+    "dateStatus": "Date Status",
+    "dateVariable": "Date varies each year",
+    "dateFixed": "Fixed date each year",
+    "year": "Year",
+    "officialSource": "Official Source",
+    "otherHolidays": "Other Holidays",
+    "previous": "← Previous",
+    "next": "Next →",
+    "type": "Type:",
+    "religion": "Religion:",
+    "applicableIn": "Applicable in:",
+    "readMore": "Read more",
+    "showLess": "Show less",
+    "holidayTypes": {
+      "national": "National Holiday",
+      "regional": "Regional Holiday",
+      "joint_leave": "Joint Leave",
+      "religious": "Religious Holiday",
+      "commemoration": "Commemoration Day"
+    },
+    "religions": {
+      "islam": "Islamic",
+      "christian": "Christian",
+      "catholic": "Catholic",
+      "hindu": "Hindu",
+      "buddhist": "Buddhist",
+      "confucian": "Confucian",
+      "secular": "Secular"
+    }
   }
 }

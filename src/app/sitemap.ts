@@ -1,4 +1,5 @@
-import { getAvailableYears } from '@/lib/holiday-data';
+import { getAvailableYears, getHolidaysForYear } from '@/lib/holiday-data';
+import { generateHolidaySlug } from '@/lib/holiday-utils';
 
 // Extended sitemap type to support images
 type SitemapEntry = {
@@ -202,8 +203,64 @@ export default function sitemap(): SitemapEntry[] {
     }
   }
 
+  // Generate holiday detail pages
+  const holidayPages = [];
+  for (const locale of locales) {
+    for (const year of years) {
+      const holidays = getHolidaysForYear(year);
+
+      for (const holiday of holidays) {
+        const slug = generateHolidaySlug(holiday);
+        const lastModified = getDataLastModified(year);
+
+        // Priority based on holiday type and year
+        let priority = 0.4;
+        if (holiday.type === 'national') {
+          priority = 0.7; // National holidays get higher priority
+        } else if (holiday.type === 'joint_leave') {
+          priority = 0.6; // Joint leave days get medium-high priority
+        }
+
+        // Boost priority for current year holidays
+        if (year === currentYear) {
+          priority += 0.1;
+
+          // Boost for upcoming holidays
+          const holidayDate = new Date(holiday.date);
+          const today = new Date();
+          if (holidayDate >= today) {
+            priority += 0.1;
+          }
+        }
+
+        // Cap priority at 1.0
+        priority = Math.min(priority, 1.0);
+
+        const changeFrequency =
+          year === currentYear ? ('weekly' as const) : ('monthly' as const);
+
+        holidayPages.push({
+          url: `${baseUrl}/${locale}/holiday/${slug}`,
+          lastModified,
+          changeFrequency,
+          priority,
+          images: [
+            {
+              url: `${baseUrl}/api/og?holiday=${holiday.id}&locale=${locale}`,
+              title: `${holiday.name[locale]} ${year}`,
+              caption:
+                locale === 'id'
+                  ? `${holiday.name.id} - Hari libur Indonesia ${year}`
+                  : `${holiday.name.en} - Indonesian holiday ${year}`,
+            },
+          ],
+        });
+      }
+    }
+  }
+
   // Sort by priority (highest first) then by date
-  const allPages = [...staticPages, ...monthPages].sort(
+  const allPages = [...staticPages, ...monthPages, ...holidayPages].sort(
     (a, b) => b.priority - a.priority
   );
 

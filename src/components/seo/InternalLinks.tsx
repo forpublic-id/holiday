@@ -139,9 +139,8 @@ export function InternalLinks({
   if (relatedLinks.length === 0) return null;
 
   return (
-    <div className="bg-card rounded-lg p-6 shadow-sm">
-      <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-        <Calendar className="h-5 w-5" />
+    <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
+      <h3 className="text-lg font-semibold mb-4">
         {locale === 'id' ? 'Kalender Terkait' : 'Related Calendars'}
       </h3>
 

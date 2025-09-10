@@ -100,12 +100,12 @@ export function FAQ({ locale }: FAQProps) {
   return (
     <>
       <FAQSchema locale={locale} />
-      <div className="bg-card rounded-lg p-6 shadow-sm">
-        <h2 className="text-2xl font-bold mb-6">
+      <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
+        <h3 className="text-lg font-semibold mb-4">
           {locale === 'id'
             ? 'Pertanyaan yang Sering Diajukan'
             : 'Frequently Asked Questions'}
-        </h2>
+        </h3>
 
         <div className="space-y-4">
           {faqs.map((faq, index) => (

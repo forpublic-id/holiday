@@ -4,6 +4,7 @@ import { Calendar, ChevronLeft, Info, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   formatHolidayDate,
   generateHolidaySlug,
@@ -19,7 +20,6 @@ import ShareButton from './ShareButton';
 interface HolidayDetailPageProps {
   holiday: Holiday;
   locale: 'id' | 'en';
-  messages: any;
 }
 
 export default function HolidayDetailPage({
@@ -28,6 +28,7 @@ export default function HolidayDetailPage({
 }: HolidayDetailPageProps) {
   const router = useRouter();
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const t = useTranslations('HolidayDetail');
 
   const formattedDate = formatHolidayDate(holiday.date, locale);
   const adjacentHolidays = getAdjacentHolidays(holiday);
@@ -37,48 +38,12 @@ export default function HolidayDetailPage({
   };
 
   const getTypeLabel = (type: string) => {
-    const labels = {
-      id: {
-        national: 'Libur Nasional',
-        regional: 'Libur Daerah',
-        joint_leave: 'Cuti Bersama',
-        religious: 'Libur Keagamaan',
-        commemoration: 'Hari Peringatan',
-      },
-      en: {
-        national: 'National Holiday',
-        regional: 'Regional Holiday',
-        joint_leave: 'Joint Leave',
-        religious: 'Religious Holiday',
-        commemoration: 'Commemoration Day',
-      },
-    };
-    return labels[locale][type as keyof typeof labels.id] || type;
+    return t(`holidayTypes.${type}`) || type;
   };
 
   const getReligionLabel = (religion?: string) => {
     if (!religion) return null;
-    const labels = {
-      id: {
-        islam: 'Islam',
-        christian: 'Kristen',
-        catholic: 'Katolik',
-        hindu: 'Hindu',
-        buddhist: 'Buddha',
-        confucian: 'Konghucu',
-        secular: 'Sekuler',
-      },
-      en: {
-        islam: 'Islamic',
-        christian: 'Christian',
-        catholic: 'Catholic',
-        hindu: 'Hindu',
-        buddhist: 'Buddhist',
-        confucian: 'Confucian',
-        secular: 'Secular',
-      },
-    };
-    return labels[locale][religion as keyof typeof labels.id] || religion;
+    return t(`religions.${religion}`) || religion;
   };
 
   return (
@@ -92,7 +57,7 @@ export default function HolidayDetailPage({
         className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors mb-6"
       >
         <ChevronLeft className="w-4 h-4" />
-        {locale === 'id' ? 'Kembali' : 'Back'}
+        {t('back')}
       </button>
 
       <div className="max-w-4xl mx-auto">
@@ -117,8 +82,7 @@ export default function HolidayDetailPage({
                 <div className="flex items-center gap-2">
                   <Info className="w-4 h-4 text-gray-500" />
                   <span className="text-sm font-medium text-gray-700">
-                    {locale === 'id' ? 'Jenis:' : 'Type:'}{' '}
-                    {getTypeLabel(holiday.type)}
+                    {t('type')} {getTypeLabel(holiday.type)}
                   </span>
                 </div>
 
@@ -126,8 +90,7 @@ export default function HolidayDetailPage({
                   <div className="flex items-center gap-2">
                     <Info className="w-4 h-4 text-gray-500" />
                     <span className="text-sm font-medium text-gray-700">
-                      {locale === 'id' ? 'Agama:' : 'Religion:'}{' '}
-                      {getReligionLabel(holiday.religion)}
+                      {t('religion')} {getReligionLabel(holiday.religion)}
                     </span>
                   </div>
                 )}
@@ -137,7 +100,7 @@ export default function HolidayDetailPage({
                     <MapPin className="w-4 h-4 text-gray-500 mt-0.5" />
                     <div>
                       <span className="text-sm font-medium text-gray-700 block">
-                        {locale === 'id' ? 'Berlaku di:' : 'Applicable in:'}
+                        {t('applicableIn')}
                       </span>
                       <div className="flex flex-wrap gap-1 mt-1">
                         {holiday.provinces.map((province) => (
@@ -167,7 +130,7 @@ export default function HolidayDetailPage({
         {holiday.description && (
           <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-3">
-              {locale === 'id' ? 'Deskripsi' : 'Description'}
+              {t('description')}
             </h2>
             <div className="prose prose-gray max-w-none">
               <p className="text-gray-700 leading-relaxed">
@@ -181,13 +144,7 @@ export default function HolidayDetailPage({
                   onClick={() => setShowFullDescription(!showFullDescription)}
                   className="text-blue-600 hover:text-blue-800 text-sm font-medium mt-2"
                 >
-                  {showFullDescription
-                    ? locale === 'id'
-                      ? 'Tampilkan lebih sedikit'
-                      : 'Show less'
-                    : locale === 'id'
-                      ? 'Selengkapnya'
-                      : 'Read more'}
+                  {showFullDescription ? t('showLess') : t('readMore')}
                 </button>
               )}
             </div>
@@ -197,28 +154,22 @@ export default function HolidayDetailPage({
         {/* Additional Information */}
         <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">
-            {locale === 'id' ? 'Informasi Tambahan' : 'Additional Information'}
+            {t('additionalInfo')}
           </h2>
 
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <h3 className="font-medium text-gray-900 mb-2">
-                {locale === 'id' ? 'Status Tanggal' : 'Date Status'}
+                {t('dateStatus')}
               </h3>
               <p className="text-sm text-gray-600">
-                {holiday.isVariable
-                  ? locale === 'id'
-                    ? 'Tanggal berubah setiap tahun'
-                    : 'Date varies each year'
-                  : locale === 'id'
-                    ? 'Tanggal tetap setiap tahun'
-                    : 'Fixed date each year'}
+                {holiday.isVariable ? t('dateVariable') : t('dateFixed')}
               </p>
             </div>
 
             <div>
               <h3 className="font-medium text-gray-900 mb-2">
-                {locale === 'id' ? 'Tahun' : 'Year'}
+                {t('year')}
               </h3>
               <p className="text-sm text-gray-600">{holiday.year}</p>
             </div>
@@ -226,7 +177,7 @@ export default function HolidayDetailPage({
             {holiday.source && (
               <div className="md:col-span-2">
                 <h3 className="font-medium text-gray-900 mb-2">
-                  {locale === 'id' ? 'Sumber Resmi' : 'Official Source'}
+                  {t('officialSource')}
                 </h3>
                 <p className="text-sm text-gray-600">{holiday.source}</p>
               </div>
@@ -238,7 +189,7 @@ export default function HolidayDetailPage({
         {(adjacentHolidays.previous || adjacentHolidays.next) && (
           <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              {locale === 'id' ? 'Hari Libur Lainnya' : 'Other Holidays'}
+              {t('otherHolidays')}
             </h2>
 
             <div className="grid md:grid-cols-2 gap-4">
@@ -248,7 +199,7 @@ export default function HolidayDetailPage({
                   className="block p-4 border rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <div className="text-sm text-gray-500 mb-1">
-                    {locale === 'id' ? '← Sebelumnya' : '← Previous'}
+                    {t('previous')}
                   </div>
                   <div className="font-medium text-gray-900 line-clamp-2">
                     {adjacentHolidays.previous.name[locale]}
@@ -265,7 +216,7 @@ export default function HolidayDetailPage({
                   className="block p-4 border rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <div className="text-sm text-gray-500 mb-1">
-                    {locale === 'id' ? 'Selanjutnya →' : 'Next →'}
+                    {t('next')}
                   </div>
                   <div className="font-medium text-gray-900 line-clamp-2">
                     {adjacentHolidays.next.name[locale]}

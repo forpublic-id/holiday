@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
 import HolidayDetailPage from '@/components/holiday/HolidayDetailPage';
 import { getAllHolidayIds, getHolidayBySlug } from '@/lib/holiday-utils';
 import { generateHolidayDetailMetadata } from '@/lib/seo-utils';
@@ -41,13 +40,10 @@ export default async function Page({ params }: Props) {
     notFound();
   }
 
-  const t = await getTranslations('HolidayDetail');
-
   return (
     <HolidayDetailPage
       holiday={holiday}
       locale={locale as 'id' | 'en'}
-      messages={t}
     />
   );
 }

@@ -1,8 +1,9 @@
-import type { Metadata } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-import { notFound } from 'next/navigation';
+import { WebVitals } from '@/components/WebVitals';
 
 const locales = ['id', 'en'];
 
@@ -106,7 +107,10 @@ export default async function LocaleLayout({
     <NextIntlClientProvider messages={messages}>
       {children}
       {process.env.NEXT_PUBLIC_GA_ID && (
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+        <>
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+          <WebVitals />
+        </>
       )}
     </NextIntlClientProvider>
   );

@@ -1,21 +1,29 @@
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { Calendar, TodayInfo } from '@/components/calendar';
 import { FilteredHolidayDisplay } from '@/components/holiday/FilteredHolidayDisplay';
-import { Header } from '@/components/layout/Header';
+import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { Footer } from '@/components/layout/Footer';
-import { getHolidaysForYear } from '@/lib/holiday-data';
+import { Header } from '@/components/layout/Header';
+import { FAQ } from '@/components/seo/FAQ';
+import { InternalLinks } from '@/components/seo/InternalLinks';
+import {
+  EventSchema,
+  LocalBusinessSchema,
+  WebsiteSchema,
+} from '@/components/seo/SchemaMarkup';
 import { regionalHolidays2024 } from '@/data/holidays/regional-2024';
 import { regionalHolidays2025 } from '@/data/holidays/regional-2025';
+import { getHolidaysForYear } from '@/lib/holiday-data';
 import { getHolidaysInMonth } from '@/lib/holiday-utils';
 import {
-  generateMonthTitle,
   generateMonthDescription,
   generateMonthKeywords,
+  generateMonthTitle,
   getMonthName,
 } from '@/lib/seo-utils';
-import { Holiday } from '@/types/holiday';
-import { notFound } from 'next/navigation';
-import type { Metadata } from 'next';
+import type { Holiday } from '@/types/holiday';
 
 interface MonthPageProps {
   params: Promise<{
@@ -59,7 +67,7 @@ export async function generateMetadata({
   params,
 }: MonthPageProps): Promise<Metadata> {
   const { locale, year: yearParam, month: monthParam } = await params;
-  const year = parseInt(yearParam);
+  const year = parseInt(yearParam, 10);
   const month = getMonthNumber(monthParam);
 
   // Get holidays for this month
@@ -140,11 +148,11 @@ export default async function MonthPage({ params }: MonthPageProps) {
   const { locale, year: yearParam, month: monthParam } = await params;
   const t = await getTranslations('HomePage');
 
-  const year = parseInt(yearParam);
+  const year = parseInt(yearParam, 10);
   const month = getMonthNumber(monthParam);
 
   // Validate year and month
-  if (isNaN(year) || year < 2024 || year > 2030 || month === 0) {
+  if (Number.isNaN(year) || year < 2024 || year > 2030 || month === 0) {
     notFound();
   }
 
@@ -176,12 +184,33 @@ export default async function MonthPage({ params }: MonthPageProps) {
     defaultCalendarHolidays
   );
 
+  const monthName = getMonthName(month, locale);
+  const breadcrumbItems = [
+    {
+      name: year.toString(),
+      url: `/${locale}/${year}/${locale === 'id' ? 'libur' : 'holidays'}`,
+    },
+    {
+      name: monthName,
+      url: `/${locale}/${year}/${monthName.toLowerCase()}`,
+      current: true,
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
+      {/* Schema Markup */}
+      <EventSchema holidays={monthDefaultHolidays} locale={locale} />
+      <WebsiteSchema locale={locale} />
+      <LocalBusinessSchema locale={locale} />
+
       <Header locale={locale} />
 
       <main className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-6xl space-y-8">
+          {/* Breadcrumbs */}
+          <Breadcrumbs items={breadcrumbItems} locale={locale} />
+
           <header className="text-center">
             <h1 className="mb-4 text-4xl font-bold text-foreground">
               {t('title')}
@@ -207,6 +236,17 @@ export default async function MonthPage({ params }: MonthPageProps) {
             month={month}
             locale={locale}
           />
+
+          {/* Internal Links */}
+          <InternalLinks
+            currentYear={year}
+            currentMonth={month}
+            locale={locale}
+            type="month"
+          />
+
+          {/* FAQ Section */}
+          <FAQ locale={locale} />
         </div>
       </main>
 

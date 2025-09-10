@@ -1,14 +1,14 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Holiday, Province } from '@/types/holiday';
-import { useHolidays, useMonthHolidays } from '@/hooks/use-holidays';
+import { useState } from 'react';
+import { useHolidays } from '@/hooks/use-holidays';
+import { getAvailableYears } from '@/lib/holiday-data';
+import type { Holiday, Province } from '@/types/holiday';
 import { CalendarGrid } from './CalendarGrid';
 import { CalendarHeader } from './CalendarHeader';
-import { HolidayModal } from './HolidayModal';
 import { CalendarLegend } from './CalendarLegend';
-import { getAvailableYears } from '@/lib/holiday-data';
+import { HolidayModal } from './HolidayModal';
 
 interface CalendarProps {
   locale?: string;

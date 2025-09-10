@@ -1,9 +1,9 @@
 'use client';
 
-import { useRouter, usePathname } from 'next/navigation';
-import { Button } from './button';
-import { useTransition } from 'react';
 import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+import { useTransition } from 'react';
+import { Button } from './button';
 
 // Flag Components using external SVG files
 const IndonesianFlag = () => (
@@ -12,6 +12,7 @@ const IndonesianFlag = () => (
     alt="Indonesian flag"
     width={16}
     height={12}
+    priority
   />
 );
 
@@ -21,6 +22,7 @@ const BritishFlag = () => (
     alt="British flag"
     width={16}
     height={12}
+    priority
   />
 );
 

@@ -87,6 +87,7 @@ export function Header({ locale }: HeaderProps) {
               width={32}
               height={32}
               className="h-8 w-8"
+              priority
             />
             <div className="flex flex-col min-w-0">
               <span className="text-xl font-bold text-foreground whitespace-nowrap">

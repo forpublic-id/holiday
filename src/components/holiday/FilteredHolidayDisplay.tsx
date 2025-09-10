@@ -1,14 +1,14 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { Holiday } from '@/types/holiday';
-import { HolidayList } from './HolidayList';
+import { useMemo, useState } from 'react';
 import {
-  HolidayFilter,
-  HolidayFilterType,
-  filterHolidaysByType,
   countHolidaysByType,
+  filterHolidaysByType,
+  HolidayFilter,
+  type HolidayFilterType,
 } from '@/components/ui/holiday-filter';
+import type { Holiday } from '@/types/holiday';
+import { HolidayList } from './HolidayList';
 
 interface FilteredHolidayDisplayProps {
   holidays: Holiday[];

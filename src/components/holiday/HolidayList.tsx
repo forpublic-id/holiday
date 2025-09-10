@@ -1,9 +1,9 @@
 'use client';
 
-import { Holiday } from '@/types/holiday';
-import { formatHolidayDate, getProvinceName } from '@/lib/holiday-utils';
+import { Calendar, Clock, MapPin } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, MapPin, Clock } from 'lucide-react';
+import { formatHolidayDate, getProvinceName } from '@/lib/holiday-utils';
+import type { Holiday } from '@/types/holiday';
 
 interface HolidayListProps {
   holidays: Holiday[];

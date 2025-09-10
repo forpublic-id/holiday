@@ -1,12 +1,20 @@
-import { Header } from '@/components/layout/Header';
+import { Calendar, Download, ExternalLink } from 'lucide-react';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound, redirect } from 'next/navigation';
+import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { Footer } from '@/components/layout/Footer';
-import { getHolidaysForYear, getAvailableYears } from '@/lib/holiday-data';
+import { Header } from '@/components/layout/Header';
+import { FAQ } from '@/components/seo/FAQ';
+import { InternalLinks } from '@/components/seo/InternalLinks';
+import {
+  EventSchema,
+  LocalBusinessSchema,
+  WebsiteSchema,
+} from '@/components/seo/SchemaMarkup';
 import { Badge } from '@/components/ui/badge';
 import { YearNavigation } from '@/components/ui/year-navigation';
-import { Calendar, Download, ExternalLink } from 'lucide-react';
-import { notFound, redirect } from 'next/navigation';
-import Link from 'next/link';
-import type { Metadata } from 'next';
+import { getAvailableYears, getHolidaysForYear } from '@/lib/holiday-data';
 
 interface YearlyHolidayPageProps {
   params: Promise<{
@@ -20,7 +28,7 @@ export async function generateMetadata({
   params,
 }: YearlyHolidayPageProps): Promise<Metadata> {
   const { locale, year: yearParam } = await params;
-  const year = parseInt(yearParam);
+  const year = parseInt(yearParam, 10);
 
   // Redirect ID users to /libur instead of /holidays
   if (locale === 'id') {
@@ -71,7 +79,7 @@ export default async function YearlyHolidayPage({
   params,
 }: YearlyHolidayPageProps) {
   const { locale, year: yearParam } = await params;
-  const year = parseInt(yearParam);
+  const year = parseInt(yearParam, 10);
 
   // Redirect ID users to /libur instead of /holidays
   if (locale === 'id') {
@@ -79,7 +87,7 @@ export default async function YearlyHolidayPage({
   }
 
   // Validate year
-  if (isNaN(year) || year < 2024 || year > 2030) {
+  if (Number.isNaN(year) || year < 2024 || year > 2030) {
     notFound();
   }
 
@@ -105,7 +113,7 @@ export default async function YearlyHolidayPage({
 
   // Sort holidays within each month
   Object.keys(holidaysByMonth).forEach((month) => {
-    holidaysByMonth[parseInt(month)].sort(
+    holidaysByMonth[parseInt(month, 10)].sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
   });
@@ -156,12 +164,28 @@ export default async function YearlyHolidayPage({
     return 'bg-blue-500 text-white hover:bg-blue-600 border-blue-500'; // regional fallback
   };
 
+  const breadcrumbItems = [
+    {
+      name: `${year} Holidays`,
+      url: `/${locale}/${year}/holidays`,
+      current: true,
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
+      {/* Schema Markup */}
+      <EventSchema holidays={holidays} locale={locale} />
+      <WebsiteSchema locale={locale} />
+      <LocalBusinessSchema locale={locale} />
+
       <Header locale={locale} />
 
       <main className="container mx-auto px-4 py-8">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-4xl space-y-8">
+          {/* Breadcrumbs */}
+          <Breadcrumbs items={breadcrumbItems} locale={locale} />
+
           {/* Year Navigation */}
           <YearNavigation
             currentYear={year}
@@ -297,6 +321,12 @@ export default async function YearlyHolidayPage({
               })}
             </div>
           </div>
+
+          {/* Internal Links */}
+          <InternalLinks currentYear={year} locale={locale} type="year" />
+
+          {/* FAQ Section */}
+          <FAQ locale={locale} />
         </div>
       </main>
 

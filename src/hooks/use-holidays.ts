@@ -1,25 +1,20 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { regionalHolidays2024 } from '@/data/holidays/regional-2024';
+import { regionalHolidays2025 } from '@/data/holidays/regional-2025';
 import {
-  Holiday,
-  HolidayFilter,
-  HolidaySearchResult,
-  Province,
-} from '@/types/holiday';
-import {
-  getHolidaysForYear,
   getCurrentYear,
+  getHolidaysForYear,
   hasYearData,
 } from '@/lib/holiday-data';
 import {
   filterHolidays,
+  getHolidaysInMonth,
   getNextHoliday,
   isHoliday,
-  getHolidaysInMonth,
 } from '@/lib/holiday-utils';
-import { regionalHolidays2024 } from '@/data/holidays/regional-2024';
-import { regionalHolidays2025 } from '@/data/holidays/regional-2025';
+import type { Holiday, HolidayFilter, Province } from '@/types/holiday';
 
 /**
  * Hook for managing holiday data

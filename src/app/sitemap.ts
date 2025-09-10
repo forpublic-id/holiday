@@ -1,5 +1,24 @@
-import { MetadataRoute } from 'next';
 import { getAvailableYears } from '@/lib/holiday-data';
+
+// Extended sitemap type to support images
+type SitemapEntry = {
+  url: string;
+  lastModified?: string | Date;
+  changeFrequency?:
+    | 'always'
+    | 'hourly'
+    | 'daily'
+    | 'weekly'
+    | 'monthly'
+    | 'yearly'
+    | 'never';
+  priority?: number;
+  images?: Array<{
+    url: string;
+    title?: string;
+    caption?: string;
+  }>;
+};
 
 // Get month name in URL format (lowercase)
 function getMonthName(month: number, locale: string): string {
@@ -49,7 +68,7 @@ function getDataLastModified(year: number): Date {
   return new Date();
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default function sitemap(): SitemapEntry[] {
   const baseUrl = 'https://holiday.forpublic.id';
   const locales = ['id', 'en'] as const;
   const years = getAvailableYears(); // [2024, 2025, 2026]
@@ -62,12 +81,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 1.0,
+      images: [
+        {
+          url: `${baseUrl}/logo.svg`,
+          title: 'Holiday Calendar Indonesia',
+          caption: 'Indonesian Holiday Calendar - ForPublic.id',
+        },
+      ],
     },
     ...locales.map((locale) => ({
       url: `${baseUrl}/${locale}`,
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 0.9,
+      images: [
+        {
+          url: `${baseUrl}/logo.svg`,
+          title: 'Holiday Calendar Indonesia',
+          caption: 'Indonesian Holiday Calendar - ForPublic.id',
+        },
+      ],
     })),
     // About pages
     ...locales.map((locale) => ({
@@ -75,6 +108,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
+      images: [
+        {
+          url: `${baseUrl}/logo.svg`,
+          title: 'About Holiday Calendar Indonesia',
+          caption:
+            locale === 'id'
+              ? 'Tentang Kalender Libur Indonesia'
+              : 'About Indonesian Holiday Calendar',
+        },
+      ],
     })),
     // Yearly holiday list pages
     ...years.flatMap((year) => [
@@ -84,6 +127,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         changeFrequency:
           year === currentYear ? ('weekly' as const) : ('monthly' as const),
         priority: year === currentYear ? 0.8 : 0.6,
+        images: [
+          {
+            url: `${baseUrl}/api/og?year=${year}&locale=id&type=yearly`,
+            title: `Daftar Libur ${year} Indonesia`,
+            caption: `Kalender hari libur nasional dan cuti bersama tahun ${year}`,
+          },
+        ],
       },
       {
         url: `${baseUrl}/en/${year}/holidays`,
@@ -91,6 +141,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         changeFrequency:
           year === currentYear ? ('weekly' as const) : ('monthly' as const),
         priority: year === currentYear ? 0.8 : 0.6,
+        images: [
+          {
+            url: `${baseUrl}/api/og?year=${year}&locale=en&type=yearly`,
+            title: `${year} Indonesian Holidays List`,
+            caption: `Indonesian national holidays and joint leave days for ${year}`,
+          },
+        ],
       },
     ]),
   ];
@@ -125,6 +182,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
           lastModified,
           changeFrequency,
           priority,
+          images: [
+            {
+              url: `${baseUrl}/api/og?month=${month}&year=${year}&locale=${locale}`,
+              title: `${monthName.charAt(0).toUpperCase() + monthName.slice(1)} ${year} Holiday Calendar`,
+              caption:
+                locale === 'id'
+                  ? `Kalender libur ${monthName} ${year} Indonesia`
+                  : `Indonesian holiday calendar for ${monthName} ${year}`,
+            },
+            {
+              url: `${baseUrl}/logo.svg`,
+              title: 'Holiday Calendar Indonesia Logo',
+              caption: 'ForPublic.id Holiday Calendar',
+            },
+          ],
         });
       }
     }

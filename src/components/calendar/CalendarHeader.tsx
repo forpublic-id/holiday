@@ -9,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { cn } from '@/lib/utils';
 
 interface CalendarHeaderProps {
   year: number;
@@ -90,7 +89,7 @@ export function CalendarHeader({
         <div className="hidden sm:flex items-center gap-2 flex-1 justify-center">
           <Select
             value={month.toString()}
-            onValueChange={(value) => onMonthChange(parseInt(value))}
+            onValueChange={(value) => onMonthChange(parseInt(value, 10))}
           >
             <SelectTrigger className="w-[140px]">
               <SelectValue />
@@ -106,7 +105,7 @@ export function CalendarHeader({
 
           <Select
             value={year.toString()}
-            onValueChange={(value) => onYearChange(parseInt(value))}
+            onValueChange={(value) => onYearChange(parseInt(value, 10))}
           >
             <SelectTrigger className="w-[100px]">
               <SelectValue />

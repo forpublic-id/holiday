@@ -1,7 +1,7 @@
-import { HolidayData, HolidayYear, Holiday } from '@/types/holiday';
 import { holidays2024 } from '@/data/holidays/2024';
 import { holidays2025 } from '@/data/holidays/2025';
 import { holidays2026 } from '@/data/holidays/2026';
+import type { Holiday, HolidayData, HolidayYear } from '@/types/holiday';
 
 /**
  * Main holiday data store

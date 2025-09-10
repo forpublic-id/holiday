@@ -1,4 +1,4 @@
-import {
+import type {
   Holiday,
   HolidayFilter,
   HolidaySearchResult,
@@ -9,7 +9,7 @@ import {
 /**
  * Get all holidays for a specific year
  */
-export function getHolidaysByYear(year: number): Holiday[] {
+export function getHolidaysByYear(_year: number): Holiday[] {
   // This will be populated when we load the data
   return [];
 }
@@ -47,7 +47,7 @@ export function filterHolidays(
       (h) =>
         !h.provinces ||
         h.provinces.length === 0 ||
-        h.provinces.includes(filter.province!)
+        (filter.province && h.provinces.includes(filter.province))
     );
   }
 

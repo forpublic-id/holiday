@@ -183,9 +183,13 @@ export default async function MonthPage({ params }: MonthPageProps) {
   const defaultCalendarHolidays = allHolidays.filter(
     (h) => h.type === 'national' || h.type === 'joint_leave'
   );
-  
+
   // Get default holidays for this specific month (for schema markup)
-  const monthDefaultHolidays = getHolidaysInMonth(year, month, defaultCalendarHolidays);
+  const monthDefaultHolidays = getHolidaysInMonth(
+    year,
+    month,
+    defaultCalendarHolidays
+  );
 
   const monthName = getMonthName(month, locale);
   const breadcrumbItems = [

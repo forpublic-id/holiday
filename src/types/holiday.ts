@@ -144,7 +144,12 @@ export interface LongWeekendCalculation<T = Holiday> {
 
 // Utility types for better type safety
 export type HolidayKey = keyof Holiday;
-export type LocalizedString<T extends 'id' | 'en' = 'id' | 'en'> = Record<T, string>;
+export type LocalizedString<T extends 'id' | 'en' = 'id' | 'en'> = Record<
+  T,
+  string
+>;
 export type OptionalHoliday = Partial<Holiday>;
 export type HolidayWithoutId = Omit<Holiday, 'id'>;
-export type HolidayUpdate = Partial<Pick<Holiday, 'name' | 'date' | 'type' | 'description'>>;
+export type HolidayUpdate = Partial<
+  Pick<Holiday, 'name' | 'date' | 'type' | 'description'>
+>;

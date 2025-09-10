@@ -4,7 +4,6 @@ import { getTranslations } from 'next-intl/server';
 import { Calendar, TodayInfo } from '@/components/calendar';
 import { FilteredHolidayDisplay } from '@/components/holiday/FilteredHolidayDisplay';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { CalendarErrorBoundary, HolidayListErrorBoundary } from '@/components/ui/error-boundary';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { FAQ } from '@/components/seo/FAQ';
@@ -14,6 +13,10 @@ import {
   LocalBusinessSchema,
   WebsiteSchema,
 } from '@/components/seo/SchemaMarkup';
+import {
+  CalendarErrorBoundary,
+  HolidayListErrorBoundary,
+} from '@/components/ui/error-boundary';
 import { regionalHolidays2024 } from '@/data/holidays/regional-2024';
 import { regionalHolidays2025 } from '@/data/holidays/regional-2025';
 import { getHolidaysForYear } from '@/lib/holiday-data';
@@ -180,7 +183,9 @@ export default async function MonthPage({ params }: MonthPageProps) {
   const defaultCalendarHolidays = allHolidays.filter(
     (h) => h.type === 'national' || h.type === 'joint_leave'
   );
-
+  
+  // Get default holidays for this specific month (for schema markup)
+  const monthDefaultHolidays = getHolidaysInMonth(year, month, defaultCalendarHolidays);
 
   const monthName = getMonthName(month, locale);
   const breadcrumbItems = [

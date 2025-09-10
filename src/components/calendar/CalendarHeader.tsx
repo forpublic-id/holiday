@@ -1,7 +1,7 @@
 'use client';
 
-import { memo } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { memo } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Select,

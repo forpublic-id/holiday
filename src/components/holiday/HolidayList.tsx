@@ -1,7 +1,7 @@
 'use client';
 
-import { memo } from 'react';
 import { Calendar, Clock, MapPin } from 'lucide-react';
+import { memo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { formatHolidayDate, getProvinceName } from '@/lib/holiday-utils';
 import type { Holiday } from '@/types/holiday';
@@ -204,8 +204,7 @@ export const HolidayList = memo(function HolidayList({
                   {isUpcoming && daysUntil <= 7 && (
                     <Badge variant="outline">
                       <Clock className="h-3 w-3 mr-1" />
-                      {daysUntil}{' '}
-                      {locale === 'id' ? 'hari lagi' : 'days left'}
+                      {daysUntil} {locale === 'id' ? 'hari lagi' : 'days left'}
                     </Badge>
                   )}
                 </div>

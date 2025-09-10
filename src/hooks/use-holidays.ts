@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { regionalHolidays2024 } from '@/data/holidays/regional-2024';
 import { regionalHolidays2025 } from '@/data/holidays/regional-2025';
 import {
@@ -22,13 +22,13 @@ const holidayCache = new Map<string, Holiday[]>();
 function getCachedHolidays(year: number): Holiday[] | null {
   const cacheKey = `holidays-${year}`;
   const cached = holidayCache.get(cacheKey);
-  
+
   if (cached) {
     // For production, always return cached data
     // For development, add cache expiry
     return cached;
   }
-  
+
   return null;
 }
 
@@ -71,10 +71,10 @@ export function useHolidays(initialYear?: number) {
     }
 
     const result = [...nationalHolidays, ...regionalForYear];
-    
+
     // Cache the result
     setCachedHolidays(currentYear, result);
-    
+
     return result;
   }, [currentYear]);
 
@@ -189,7 +189,7 @@ export function useHolidaySearch(holidays: Holiday[]) {
 
     const cacheKey = `${holidays.length}-${searchTerm.toLowerCase()}`;
     const cached = searchCache.get(cacheKey);
-    
+
     if (cached) {
       return cached;
     }
@@ -202,10 +202,10 @@ export function useHolidaySearch(holidays: Holiday[]) {
         holiday.description?.id.toLowerCase().includes(term) ||
         holiday.description?.en.toLowerCase().includes(term)
     );
-    
+
     // Cache results for future use
     searchCache.set(cacheKey, results);
-    
+
     return results;
   }, [holidays, searchTerm]);
 

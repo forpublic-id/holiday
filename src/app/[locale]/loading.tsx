@@ -1,6 +1,6 @@
-import { CalendarSkeleton } from '@/components/ui/loading-skeleton';
-import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { Header } from '@/components/layout/Header';
+import { CalendarSkeleton } from '@/components/ui/loading-skeleton';
 
 export default function Loading() {
   return (
@@ -30,16 +30,21 @@ export default function Loading() {
 
           {/* Calendar Skeleton */}
           <CalendarSkeleton />
-          
+
           {/* Feature Cards Skeleton */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {Array(4).fill(0).map((_, i) => (
-              <div key={i} className="rounded-lg border border-border bg-card p-6 shadow-sm">
-                <div className="h-6 w-16 bg-muted animate-pulse rounded mb-3"></div>
-                <div className="h-5 w-32 bg-muted animate-pulse rounded mb-2"></div>
-                <div className="h-4 w-full bg-muted animate-pulse rounded"></div>
-              </div>
-            ))}
+            {Array(4)
+              .fill(0)
+              .map((_, i) => (
+                <div
+                  key={i}
+                  className="rounded-lg border border-border bg-card p-6 shadow-sm"
+                >
+                  <div className="h-6 w-16 bg-muted animate-pulse rounded mb-3"></div>
+                  <div className="h-5 w-32 bg-muted animate-pulse rounded mb-2"></div>
+                  <div className="h-4 w-full bg-muted animate-pulse rounded"></div>
+                </div>
+              ))}
           </div>
         </div>
       </main>

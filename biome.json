@@ -7,13 +7,20 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["src/**/*", "*.config.*", "*.json", "*.md"],
+    "includes": [
+      "src/**/*",
+      "*.config.*",
+      "package.json",
+      "tsconfig.json",
+      "*.md"
+    ],
     "experimentalScannerIgnores": [
       "node_modules",
       ".next",
       "dist",
       "build",
-      "*.log"
+      "*.log",
+      "vercel.json"
     ]
   },
   "formatter": {

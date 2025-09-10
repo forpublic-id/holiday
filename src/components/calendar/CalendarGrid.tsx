@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { memo, useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -8,7 +9,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { formatHolidayDate, isWeekend } from '@/lib/holiday-utils';
+import {
+  formatHolidayDate,
+  generateHolidaySlug,
+  isWeekend,
+} from '@/lib/holiday-utils';
 import { cn } from '@/lib/utils';
 import type { Holiday } from '@/types/holiday';
 
@@ -147,38 +152,38 @@ export const CalendarGrid = memo(function CalendarGrid({
           {calendarDays.map((calendarDay) => (
             <Tooltip key={calendarDay.date}>
               <TooltipTrigger asChild>
-                <div
-                  className={cn(
-                    'relative h-12 sm:h-16 border border-border rounded-md p-1 cursor-pointer transition-colors hover:bg-accent',
-                    !calendarDay.isCurrentMonth && 'opacity-50',
-                    calendarDay.isToday &&
-                      'ring-2 ring-blue-500 bg-blue-50 shadow-md',
-                    calendarDay.isWeekend && 'bg-muted/50',
-                    calendarDay.holiday && 'bg-accent'
-                  )}
-                  onClick={() => onDateClick?.(calendarDay.date)}
-                >
-                  {/* Day number */}
-                  <div
+                {calendarDay.holiday ? (
+                  <Link
+                    href={`/${locale}/holiday/${generateHolidaySlug(calendarDay.holiday)}`}
                     className={cn(
-                      'text-sm font-medium',
-                      calendarDay.isToday && 'text-blue-700 font-bold',
-                      !calendarDay.isToday &&
-                        (isSunday(calendarDay.date) ||
-                          isNationalHoliday(calendarDay.holiday)) &&
-                        'text-red-600'
+                      'relative h-12 sm:h-16 border border-border rounded-md p-1 cursor-pointer transition-colors hover:bg-accent hover:shadow-md block',
+                      !calendarDay.isCurrentMonth && 'opacity-50',
+                      calendarDay.isToday &&
+                        'ring-2 ring-blue-500 bg-blue-50 shadow-md',
+                      calendarDay.isWeekend && 'bg-muted/50',
+                      'bg-accent'
                     )}
                   >
-                    {calendarDay.day}
-                    {calendarDay.isToday && (
-                      <div className="text-[8px] text-blue-600 font-normal leading-none mt-0.5">
-                        {locale === 'id' ? 'HARI INI' : 'TODAY'}
-                      </div>
-                    )}
-                  </div>
+                    {/* Day number */}
+                    <div
+                      className={cn(
+                        'text-sm font-medium',
+                        calendarDay.isToday && 'text-blue-700 font-bold',
+                        !calendarDay.isToday &&
+                          (isSunday(calendarDay.date) ||
+                            isNationalHoliday(calendarDay.holiday)) &&
+                          'text-red-600'
+                      )}
+                    >
+                      {calendarDay.day}
+                      {calendarDay.isToday && (
+                        <div className="text-[8px] text-blue-600 font-normal leading-none mt-0.5">
+                          {locale === 'id' ? 'HARI INI' : 'TODAY'}
+                        </div>
+                      )}
+                    </div>
 
-                  {/* Holiday indicator */}
-                  {calendarDay.holiday && (
+                    {/* Holiday indicator */}
                     <div className="absolute top-1 right-1">
                       <div
                         className={cn(
@@ -187,10 +192,8 @@ export const CalendarGrid = memo(function CalendarGrid({
                         )}
                       />
                     </div>
-                  )}
 
-                  {/* Holiday name (on larger screens) */}
-                  {calendarDay.holiday && (
+                    {/* Holiday name (on larger screens) */}
                     <div className="hidden sm:block mt-1">
                       <Badge
                         variant={getHolidayTypeBadge(calendarDay.holiday.type)}
@@ -199,8 +202,37 @@ export const CalendarGrid = memo(function CalendarGrid({
                         {calendarDay.holiday.name[locale as 'id' | 'en']}
                       </Badge>
                     </div>
-                  )}
-                </div>
+                  </Link>
+                ) : (
+                  <div
+                    className={cn(
+                      'relative h-12 sm:h-16 border border-border rounded-md p-1 cursor-pointer transition-colors hover:bg-accent',
+                      !calendarDay.isCurrentMonth && 'opacity-50',
+                      calendarDay.isToday &&
+                        'ring-2 ring-blue-500 bg-blue-50 shadow-md',
+                      calendarDay.isWeekend && 'bg-muted/50'
+                    )}
+                    onClick={() => onDateClick?.(calendarDay.date)}
+                  >
+                    {/* Day number */}
+                    <div
+                      className={cn(
+                        'text-sm font-medium',
+                        calendarDay.isToday && 'text-blue-700 font-bold',
+                        !calendarDay.isToday &&
+                          isSunday(calendarDay.date) &&
+                          'text-red-600'
+                      )}
+                    >
+                      {calendarDay.day}
+                      {calendarDay.isToday && (
+                        <div className="text-[8px] text-blue-600 font-normal leading-none mt-0.5">
+                          {locale === 'id' ? 'HARI INI' : 'TODAY'}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </TooltipTrigger>
 
               {calendarDay.holiday && (
@@ -217,6 +249,11 @@ export const CalendarGrid = memo(function CalendarGrid({
                         {calendarDay.holiday.description[locale as 'id' | 'en']}
                       </p>
                     )}
+                    <p className="text-xs text-blue-500 mt-2 font-medium">
+                      {locale === 'id'
+                        ? 'Klik untuk detail →'
+                        : 'Click for details →'}
+                    </p>
                   </div>
                 </TooltipContent>
               )}

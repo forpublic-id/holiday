@@ -1,9 +1,14 @@
 'use client';
 
-import { Calendar, Clock, MapPin } from 'lucide-react';
+import { Calendar, Clock, ExternalLink, MapPin } from 'lucide-react';
+import Link from 'next/link';
 import { memo } from 'react';
 import { Badge } from '@/components/ui/badge';
-import { formatHolidayDate, getProvinceName } from '@/lib/holiday-utils';
+import {
+  formatHolidayDate,
+  generateHolidaySlug,
+  getProvinceName,
+} from '@/lib/holiday-utils';
 import type { Holiday } from '@/types/holiday';
 
 interface HolidayListProps {
@@ -166,16 +171,20 @@ export const HolidayList = memo(function HolidayList({
           // const isPast = daysUntil < 0
 
           return (
-            <div
+            <Link
               key={holiday.id}
+              href={`/${locale}/holiday/${generateHolidaySlug(holiday)}`}
               className={
-                'flex items-center justify-between p-4 rounded-md border border-border bg-secondary/30 hover:bg-secondary/50 transition-colors'
+                'flex items-center justify-between p-4 rounded-md border border-border bg-secondary/30 hover:bg-secondary/50 transition-colors block group'
               }
             >
               <div className="flex-1 min-w-0">
-                <h3 className="font-medium text-secondary-foreground mb-1">
-                  {holiday.name[locale as 'id' | 'en']}
-                </h3>
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="font-medium text-secondary-foreground group-hover:text-primary">
+                    {holiday.name[locale as 'id' | 'en']}
+                  </h3>
+                  <ExternalLink className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
 
                 <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                   <Calendar className="h-4 w-4" />
@@ -244,7 +253,7 @@ export const HolidayList = memo(function HolidayList({
                   {monthNames[month - 1].slice(0, 3)}
                 </div>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

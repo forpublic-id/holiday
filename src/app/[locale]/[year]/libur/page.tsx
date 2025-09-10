@@ -15,6 +15,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { YearNavigation } from '@/components/ui/year-navigation';
 import { getAvailableYears, getHolidaysForYear } from '@/lib/holiday-data';
+import { generateHolidaySlug } from '@/lib/holiday-utils';
 
 interface YearlyHolidayPageProps {
   params: Promise<{
@@ -277,14 +278,18 @@ export default async function YearlyHolidayPage({
 
                   <div className="grid gap-4">
                     {monthHolidays.map((holiday) => (
-                      <div
+                      <Link
                         key={holiday.id}
-                        className="flex items-center justify-between p-4 rounded-md border border-border bg-secondary/30 hover:bg-secondary/50 transition-colors"
+                        href={`/${locale}/holiday/${generateHolidaySlug(holiday)}`}
+                        className="flex items-center justify-between p-4 rounded-md border border-border bg-secondary/30 hover:bg-secondary/50 transition-colors group"
                       >
                         <div className="flex-1">
-                          <h3 className="font-medium text-secondary-foreground mb-1">
-                            {holiday.name.id}
-                          </h3>
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-medium text-secondary-foreground mb-1 group-hover:text-primary">
+                              {holiday.name.id}
+                            </h3>
+                            <ExternalLink className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </div>
                           <p className="text-sm text-muted-foreground">
                             {formatDate(holiday.date)}
                           </p>
@@ -295,7 +300,7 @@ export default async function YearlyHolidayPage({
                         >
                           {getTypeLabel(holiday.type)}
                         </Badge>
-                      </div>
+                      </Link>
                     ))}
                   </div>
                 </div>

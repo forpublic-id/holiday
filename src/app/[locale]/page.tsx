@@ -4,6 +4,9 @@ interface HomePageProps {
   params: Promise<{ locale: string }>;
 }
 
+// Enable ISR with 6 hours revalidation for home page
+export const revalidate = 21600;
+
 export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params;
 

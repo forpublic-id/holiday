@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server';
 import { Calendar, TodayInfo } from '@/components/calendar';
 import { FilteredHolidayDisplay } from '@/components/holiday/FilteredHolidayDisplay';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { CalendarErrorBoundary, HolidayListErrorBoundary } from '@/components/ui/error-boundary';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { FAQ } from '@/components/seo/FAQ';
@@ -144,6 +145,9 @@ export async function generateMetadata({
   };
 }
 
+// Enable ISR with 1 hour revalidation
+export const revalidate = 3600;
+
 export default async function MonthPage({ params }: MonthPageProps) {
   const { locale, year: yearParam, month: monthParam } = await params;
   const t = await getTranslations('HomePage');
@@ -177,12 +181,6 @@ export default async function MonthPage({ params }: MonthPageProps) {
     (h) => h.type === 'national' || h.type === 'joint_leave'
   );
 
-  // Get national + joint leave holidays for this month (for SEO title)
-  const monthDefaultHolidays = getHolidaysInMonth(
-    year,
-    month,
-    defaultCalendarHolidays
-  );
 
   const monthName = getMonthName(month, locale);
   const breadcrumbItems = [
@@ -222,20 +220,24 @@ export default async function MonthPage({ params }: MonthPageProps) {
           <TodayInfo holidays={defaultCalendarHolidays} locale={locale} />
 
           {/* Main Calendar */}
-          <Calendar
-            locale={locale}
-            initialYear={year}
-            initialMonth={month}
-            overrideHolidays={defaultCalendarHolidays}
-          />
+          <CalendarErrorBoundary>
+            <Calendar
+              locale={locale}
+              initialYear={year}
+              initialMonth={month}
+              overrideHolidays={defaultCalendarHolidays}
+            />
+          </CalendarErrorBoundary>
 
           {/* Filtered Holiday List for Current Month */}
-          <FilteredHolidayDisplay
-            holidays={monthHolidays}
-            year={year}
-            month={month}
-            locale={locale}
-          />
+          <HolidayListErrorBoundary>
+            <FilteredHolidayDisplay
+              holidays={monthHolidays}
+              year={year}
+              month={month}
+              locale={locale}
+            />
+          </HolidayListErrorBoundary>
 
           {/* Internal Links */}
           <InternalLinks

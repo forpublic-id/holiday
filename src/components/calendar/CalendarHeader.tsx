@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -21,7 +22,7 @@ interface CalendarHeaderProps {
   availableYears?: number[];
 }
 
-export function CalendarHeader({
+export const CalendarHeader = memo(function CalendarHeader({
   year,
   month,
   onYearChange,
@@ -135,4 +136,4 @@ export function CalendarHeader({
       </Button>
     </div>
   );
-}
+});

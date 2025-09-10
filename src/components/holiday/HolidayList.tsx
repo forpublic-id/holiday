@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { Calendar, Clock, MapPin } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { formatHolidayDate, getProvinceName } from '@/lib/holiday-utils';
@@ -12,7 +13,7 @@ interface HolidayListProps {
   locale?: string;
 }
 
-export function HolidayList({
+export const HolidayList = memo(function HolidayList({
   holidays,
   year,
   month,
@@ -85,8 +86,9 @@ export function HolidayList({
 
   const getTypeVariant = (type: Holiday['type']) => {
     switch (type) {
+      // Align with yearly pages: use outline + custom classes for key types
       case 'national':
-        return 'destructive';
+        return 'outline';
       case 'religious':
         return 'secondary';
       case 'regional':
@@ -102,10 +104,12 @@ export function HolidayList({
 
   const getTypeBadgeClassName = (type: Holiday['type']) => {
     switch (type) {
-      case 'regional':
-        return 'bg-blue-500 text-white hover:bg-blue-600 border-blue-500';
+      case 'national':
+        return 'bg-red-600 text-white hover:bg-red-700 border-red-600';
       case 'joint_leave':
         return 'bg-orange-500 text-white hover:bg-orange-600 border-orange-500';
+      case 'regional':
+        return 'bg-blue-500 text-white hover:bg-blue-600 border-blue-500';
       default:
         return ''; // Use default badge styling
     }
@@ -164,83 +168,81 @@ export function HolidayList({
           return (
             <div
               key={holiday.id}
-              className={`rounded-md border p-4 transition-colors hover:bg-accent ${
-                isToday ? 'border-primary bg-primary/5' : ''
-              }`}
+              className={
+                'flex items-center justify-between p-4 rounded-md border border-border bg-secondary/30 hover:bg-secondary/50 transition-colors'
+              }
             >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-medium text-card-foreground mb-1">
-                    {holiday.name[locale as 'id' | 'en']}
-                  </h3>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-medium text-secondary-foreground mb-1">
+                  {holiday.name[locale as 'id' | 'en']}
+                </h3>
 
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                    <Calendar className="h-4 w-4" />
-                    <span>{formatHolidayDate(holiday.date, locale)}</span>
-                  </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                  <Calendar className="h-4 w-4" />
+                  <span>{formatHolidayDate(holiday.date, locale)}</span>
+                </div>
 
-                  {/* Holiday type and timing info */}
-                  <div className="flex flex-wrap items-center gap-2 mb-2">
+                {/* Holiday type and timing info */}
+                <div className="flex flex-wrap items-center gap-2 mb-2">
+                  <Badge
+                    variant={getTypeVariant(holiday.type)}
+                    className={getTypeBadgeClassName(holiday.type)}
+                  >
+                    {getTypeLabel(holiday.type)}
+                  </Badge>
+
+                  {isToday && (
                     <Badge
-                      variant={getTypeVariant(holiday.type)}
-                      className={getTypeBadgeClassName(holiday.type)}
+                      variant="default"
+                      className="bg-green-600 hover:bg-green-700"
                     >
-                      {getTypeLabel(holiday.type)}
+                      <Clock className="h-3 w-3 mr-1" />
+                      {locale === 'id' ? 'Hari Ini' : 'Today'}
                     </Badge>
-
-                    {isToday && (
-                      <Badge
-                        variant="default"
-                        className="bg-green-600 hover:bg-green-700"
-                      >
-                        <Clock className="h-3 w-3 mr-1" />
-                        {locale === 'id' ? 'Hari Ini' : 'Today'}
-                      </Badge>
-                    )}
-
-                    {isUpcoming && daysUntil <= 7 && (
-                      <Badge variant="outline">
-                        <Clock className="h-3 w-3 mr-1" />
-                        {daysUntil}{' '}
-                        {locale === 'id' ? 'hari lagi' : 'days left'}
-                      </Badge>
-                    )}
-                  </div>
-
-                  {/* Regional info */}
-                  {holiday.provinces && holiday.provinces.length > 0 && (
-                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                      <MapPin className="h-3 w-3" />
-                      <span>
-                        {holiday.provinces
-                          .slice(0, 2)
-                          .map((province) => {
-                            const provinceName = getProvinceName(province);
-                            return provinceName[locale as 'id' | 'en'];
-                          })
-                          .join(', ')}
-                        {holiday.provinces.length > 2 &&
-                          ` +${holiday.provinces.length - 2} ${locale === 'id' ? 'lainnya' : 'more'}`}
-                      </span>
-                    </div>
                   )}
 
-                  {/* Description */}
-                  {holiday.description && (
-                    <p className="text-sm text-muted-foreground mt-2">
-                      {holiday.description[locale as 'id' | 'en']}
-                    </p>
+                  {isUpcoming && daysUntil <= 7 && (
+                    <Badge variant="outline">
+                      <Clock className="h-3 w-3 mr-1" />
+                      {daysUntil}{' '}
+                      {locale === 'id' ? 'hari lagi' : 'days left'}
+                    </Badge>
                   )}
                 </div>
 
-                {/* Date display */}
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-card-foreground">
-                    {new Date(holiday.date).getDate()}
+                {/* Regional info */}
+                {holiday.provinces && holiday.provinces.length > 0 && (
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <MapPin className="h-3 w-3" />
+                    <span>
+                      {holiday.provinces
+                        .slice(0, 2)
+                        .map((province) => {
+                          const provinceName = getProvinceName(province);
+                          return provinceName[locale as 'id' | 'en'];
+                        })
+                        .join(', ')}
+                      {holiday.provinces.length > 2 &&
+                        ` +${holiday.provinces.length - 2} ${locale === 'id' ? 'lainnya' : 'more'}`}
+                    </span>
                   </div>
-                  <div className="text-xs text-muted-foreground uppercase">
-                    {monthNames[month - 1].slice(0, 3)}
-                  </div>
+                )}
+
+                {/* Description */}
+                {holiday.description && (
+                  <p className="text-sm text-muted-foreground mt-2">
+                    {holiday.description[locale as 'id' | 'en']}
+                  </p>
+                )}
+              </div>
+
+              {/* Date display */}
+              <div className="text-right">
+                <div className="text-2xl font-bold text-card-foreground">
+                  {new Date(holiday.date).getDate()}
+                </div>
+                <div className="text-xs text-muted-foreground uppercase">
+                  {monthNames[month - 1].slice(0, 3)}
                 </div>
               </div>
             </div>
@@ -249,4 +251,4 @@ export function HolidayList({
       </div>
     </div>
   );
-}
+});

@@ -9,8 +9,9 @@ import type {
 /**
  * Get all holidays for a specific year
  */
-export function getHolidaysByYear(_year: number): Holiday[] {
+export function getHolidaysByYear(year: number): Holiday[] {
   // This will be populated when we load the data
+  // For now, we'll ignore the year parameter but keep it for future implementation
   return [];
 }
 
@@ -142,6 +143,7 @@ export function calculateLongWeekends(
         holidays: [holiday],
         suggestedLeaves: [],
         leaveRequired: 0,
+        efficiency: 3,
       };
       longWeekends.push(longWeekend);
     }

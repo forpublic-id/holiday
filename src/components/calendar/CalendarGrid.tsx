@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import {
   Tooltip,
@@ -8,7 +8,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-// import { useIsHoliday } from '@/hooks/use-holidays'
 import { formatHolidayDate, isWeekend } from '@/lib/holiday-utils';
 import { cn } from '@/lib/utils';
 import type { Holiday } from '@/types/holiday';
@@ -30,7 +29,7 @@ interface CalendarDay {
   holiday: Holiday | null;
 }
 
-export function CalendarGrid({
+export const CalendarGrid = memo(function CalendarGrid({
   year,
   month,
   holidays,
@@ -227,4 +226,4 @@ export function CalendarGrid({
       </div>
     </TooltipProvider>
   );
-}
+});

@@ -274,3 +274,70 @@ export function FAQSchema({ locale }: { locale: string }) {
     />
   );
 }
+
+/**
+ * FAQ Schema component for holiday detail pages
+ */
+export function HolidayFAQSchema({
+  holiday,
+  locale,
+}: {
+  holiday: Holiday;
+  locale: string;
+}) {
+  const { generateHolidayFAQSchema } = require('@/lib/seo-utils');
+  const schema = generateHolidayFAQSchema(holiday, locale as 'id' | 'en');
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+/**
+ * Organization Schema component
+ */
+export function OrganizationSchema({ locale }: { locale: string }) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Holiday Calendar Indonesia - ForPublic.id',
+    description:
+      locale === 'id'
+        ? 'Platform kalender hari libur Indonesia terpercaya dengan data resmi pemerintah, mendukung 34 provinsi dan fitur perencanaan cuti strategis.'
+        : 'Trusted Indonesian holiday calendar platform with official government data, supporting 34 provinces and strategic leave planning features.',
+    url: 'https://holiday.forpublic.id',
+    logo: 'https://holiday.forpublic.id/logo.svg',
+    foundingDate: '2024',
+    sameAs: [
+      'https://github.com/forpublic-id/holiday',
+      'https://forpublic.id',
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      url: 'https://forpublic.id',
+      availableLanguage: ['Indonesian', 'English'],
+    },
+    areaServed: {
+      '@type': 'Country',
+      name: 'Indonesia',
+    },
+    knowsAbout: [
+      'Indonesian National Holidays',
+      'Regional Holidays Indonesia',
+      'Joint Leave Days',
+      'Vacation Planning',
+      'Holiday Calendar',
+    ],
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}

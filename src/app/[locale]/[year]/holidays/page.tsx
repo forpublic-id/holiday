@@ -16,6 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { YearNavigation } from '@/components/ui/year-navigation';
 import { getAvailableYears, getHolidaysForYear } from '@/lib/holiday-data';
 import { generateHolidaySlug } from '@/lib/holiday-utils';
+import { generateYearlyComparison } from '@/lib/seo-utils';
 
 interface YearlyHolidayPageProps {
   params: Promise<{
@@ -41,8 +42,29 @@ export async function generateMetadata({
     (h) => h.type === 'national' || h.type === 'joint_leave'
   );
 
+  // Generate yearly comparison data
+  const comparison = generateYearlyComparison(year, holidays);
+
   const title = `Indonesian National Holidays ${year} - ${nationalAndJointLeave.length} Days | Holiday Calendar Indonesia`;
-  const description = `Complete list of Indonesian national holidays and joint leave days for ${year}. Total ${nationalAndJointLeave.length} holidays including New Year, Eid al-Fitr, Eid al-Adha, Independence Day, and joint leave days.`;
+  
+  let description = `Complete list of Indonesian national holidays and joint leave days for ${year} with total ${nationalAndJointLeave.length} holidays including New Year, Eid al-Fitr, Eid al-Adha, Independence Day, and joint leave days. `;
+  
+  // Add comparison context
+  if (comparison.difference !== 0) {
+    const moreOrFewer = comparison.isMore ? 'more' : 'fewer';
+    description += `Year ${year} has ${Math.abs(comparison.difference)} ${moreOrFewer} holidays compared to ${year - 1} (${comparison.previousCount} days). `;
+  }
+  
+  // Add long weekend opportunities
+  if (comparison.longWeekendOpportunities > 0 || comparison.strategicOpportunities > 0) {
+    description += `Enjoy ${comparison.longWeekendOpportunities} natural long weekend opportunities`;
+    if (comparison.strategicOpportunities > 0) {
+      description += ` and ${comparison.strategicOpportunities} additional long weekend chances with strategic leave planning`;
+    }
+    description += '. ';
+  }
+  
+  description += `Use strategic vacation planning guide to maximize family holidays and rest time in ${year}. Official Indonesian government calendar with accurate and up-to-date information.`;
 
   return {
     title,
@@ -55,6 +77,13 @@ export async function generateMetadata({
       'holiday calendar',
       'vacation planning',
       'long weekend',
+      `leave strategy ${year}`,
+      `vacation planning ${year}`,
+      `long weekend ${year} indonesia`,
+      `strategic leave ${year}`,
+      `maximize holidays ${year}`,
+      `holiday comparison ${year}`,
+      `vacation tips ${year}`,
     ],
     openGraph: {
       title,
@@ -102,6 +131,9 @@ export default async function YearlyHolidayPage({
   const holidays = allHolidays.filter(
     (h) => h.type === 'national' || h.type === 'joint_leave'
   );
+
+  // Generate comparison data for display
+  const comparison = generateYearlyComparison(year, allHolidays);
 
   // Group holidays by month
   const holidaysByMonth = holidays.reduce(

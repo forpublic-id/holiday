@@ -106,7 +106,8 @@ export async function generateMetadata({
     monthDefaultHolidays,
     monthName,
     year,
-    locale
+    locale,
+    month
   );
   const keywords = generateMonthKeywords(month, year, locale);
 

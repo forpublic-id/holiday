@@ -6,11 +6,12 @@ import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import {
   EventSchema,
+  HolidayFAQSchema,
   LocalBusinessSchema,
   WebsiteSchema,
 } from '@/components/seo/SchemaMarkup';
 import { getAllHolidayIds, getHolidayBySlug } from '@/lib/holiday-utils';
-import { generateHolidayDetailMetadata } from '@/lib/seo-utils';
+import { generateEnhancedHolidayDetailMetadata } from '@/lib/seo-utils';
 
 type Props = {
   params: Promise<{
@@ -37,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  return generateHolidayDetailMetadata(holiday, locale as 'id' | 'en');
+  return generateEnhancedHolidayDetailMetadata(holiday, locale as 'id' | 'en');
 }
 
 export default async function Page({ params }: Props) {
@@ -113,6 +114,7 @@ export default async function Page({ params }: Props) {
     <div className="min-h-screen bg-background">
       {/* Schema Markup */}
       <EventSchema holidays={[holiday]} locale={locale} />
+      <HolidayFAQSchema holiday={holiday} locale={locale} />
       <WebsiteSchema locale={locale} />
       <LocalBusinessSchema locale={locale} />
 

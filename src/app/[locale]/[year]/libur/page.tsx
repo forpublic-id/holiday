@@ -16,6 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { YearNavigation } from '@/components/ui/year-navigation';
 import { getAvailableYears, getHolidaysForYear } from '@/lib/holiday-data';
 import { generateHolidaySlug } from '@/lib/holiday-utils';
+import { generateYearlyComparison } from '@/lib/seo-utils';
 
 interface YearlyHolidayPageProps {
   params: Promise<{
@@ -41,8 +42,29 @@ export async function generateMetadata({
     (h) => h.type === 'national' || h.type === 'joint_leave'
   );
 
+  // Generate yearly comparison data
+  const comparison = generateYearlyComparison(year, holidays);
+
   const title = `Daftar Libur Nasional ${year} - ${nationalAndJointLeave.length} Hari Libur | Holiday Calendar Indonesia`;
-  const description = `Daftar lengkap hari libur nasional dan cuti bersama ${year} di Indonesia. Total ${nationalAndJointLeave.length} hari libur meliputi Tahun Baru, Idul Fitri, Idul Adha, Kemerdekaan, dan cuti bersama lainnya.`;
+
+  let description = `Daftar lengkap hari libur nasional dan cuti bersama ${year} di Indonesia dengan total ${nationalAndJointLeave.length} hari libur meliputi Tahun Baru, Idul Fitri, Idul Adha, Kemerdekaan, dan cuti bersama lainnya. `;
+  
+  // Add comparison context
+  if (comparison.difference !== 0) {
+    const moreOrLess = comparison.isMore ? 'lebih banyak' : 'lebih sedikit';
+    description += `Tahun ${year} memiliki ${Math.abs(comparison.difference)} hari ${moreOrLess} dibanding ${year - 1} (${comparison.previousCount} hari). `;
+  }
+  
+  // Add long weekend opportunities with strategic info
+  if (comparison.longWeekendOpportunities > 0 || comparison.strategicOpportunities > 0) {
+    description += `Nikmati ${comparison.longWeekendOpportunities} peluang long weekend alami`;
+    if (comparison.strategicOpportunities > 0) {
+      description += ` dan ${comparison.strategicOpportunities} kesempatan long weekend tambahan dengan strategi cuti optimal`;
+    }
+    description += '. ';
+  }
+  
+  description += `Gunakan panduan perencanaan cuti strategis untuk maksimalkan liburan keluarga dan waktu istirahat di ${year}. Kalender resmi pemerintah Indonesia dengan informasi akurat dan terbaru.`;
 
   return {
     title,
@@ -55,6 +77,13 @@ export async function generateMetadata({
       'kalender libur',
       'perencanaan cuti',
       'long weekend',
+      `strategi cuti ${year}`,
+      `perencanaan liburan ${year}`,
+      `long weekend ${year} indonesia`,
+      `cuti sandwich ${year}`,
+      `maksimalkan libur ${year}`,
+      `perbandingan libur ${year}`,
+      `tips liburan hemat ${year}`,
     ],
     openGraph: {
       title,
@@ -102,6 +131,9 @@ export default async function YearlyHolidayPage({
   const holidays = allHolidays.filter(
     (h) => h.type === 'national' || h.type === 'joint_leave'
   );
+
+  // Generate comparison data for display
+  const comparison = generateYearlyComparison(year, allHolidays);
 
   // Group holidays by month
   const holidaysByMonth = holidays.reduce(
@@ -208,17 +240,22 @@ export default async function YearlyHolidayPage({
               Daftar lengkap hari libur nasional dan cuti bersama di Indonesia
             </p>
 
-            {/* Statistics */}
-            <div className="flex justify-center gap-6 mb-8">
-              <div className="text-center">
+            {/* Enhanced Statistics */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              <div className="text-center p-4 rounded-lg border border-border bg-card">
                 <div className="text-3xl font-bold text-primary">
                   {holidays.length}
                 </div>
                 <div className="text-sm text-muted-foreground">
                   Total Hari Libur
                 </div>
+                {comparison.difference !== 0 && (
+                  <div className={`text-xs mt-1 ${comparison.isMore ? 'text-green-600' : 'text-orange-600'}`}>
+                    {comparison.isMore ? '+' : ''}{comparison.difference} vs {year - 1}
+                  </div>
+                )}
               </div>
-              <div className="text-center">
+              <div className="text-center p-4 rounded-lg border border-border bg-card">
                 <div className="text-3xl font-bold text-red-600">
                   {holidays.filter((h) => h.type === 'national').length}
                 </div>
@@ -226,12 +263,23 @@ export default async function YearlyHolidayPage({
                   Libur Nasional
                 </div>
               </div>
-              <div className="text-center">
+              <div className="text-center p-4 rounded-lg border border-border bg-card">
                 <div className="text-3xl font-bold text-orange-600">
                   {holidays.filter((h) => h.type === 'joint_leave').length}
                 </div>
                 <div className="text-sm text-muted-foreground">
                   Cuti Bersama
+                </div>
+              </div>
+              <div className="text-center p-4 rounded-lg border border-border bg-card">
+                <div className="text-3xl font-bold text-green-600">
+                  {comparison.longWeekendOpportunities}
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Long Weekend Alami
+                </div>
+                <div className="text-xs text-muted-foreground mt-1">
+                  +{comparison.strategicOpportunities} dengan cuti
                 </div>
               </div>
             </div>

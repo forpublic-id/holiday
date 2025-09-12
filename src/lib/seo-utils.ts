@@ -547,10 +547,10 @@ export function generateHolidayDetailMetadata(
       description,
     },
     alternates: {
-      canonical: `/${locale}/holiday/${holiday.id}`,
+      canonical: `https://holiday.forpublic.id/${locale}/holiday/${holiday.id}`,
       languages: {
-        id: `/id/holiday/${holiday.id}`,
-        en: `/en/holiday/${holiday.id}`,
+        id: `https://holiday.forpublic.id/id/holiday/${holiday.id}`,
+        en: `https://holiday.forpublic.id/en/holiday/${holiday.id}`,
       },
     },
   };
@@ -858,10 +858,10 @@ export function generateEnhancedHolidayDetailMetadata(
       description,
     },
     alternates: {
-      canonical: `/${locale}/holiday/${holiday.id}`,
+      canonical: `https://holiday.forpublic.id/${locale}/holiday/${holiday.id}`,
       languages: {
-        id: `/id/holiday/${holiday.id}`,
-        en: `/en/holiday/${holiday.id}`,
+        id: `https://holiday.forpublic.id/id/holiday/${holiday.id}`,
+        en: `https://holiday.forpublic.id/en/holiday/${holiday.id}`,
       },
     },
     other: {

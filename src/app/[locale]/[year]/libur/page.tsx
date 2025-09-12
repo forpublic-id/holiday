@@ -99,10 +99,10 @@ export async function generateMetadata({
       description,
     },
     alternates: {
-      canonical: `/id/${year}/libur`,
+      canonical: `https://holiday.forpublic.id/id/${year}/libur`,
       languages: {
-        'id-ID': `/id/${year}/libur`,
-        'en-US': `/en/${year}/holidays`,
+        'id-ID': `https://holiday.forpublic.id/id/${year}/libur`,
+        'en-US': `https://holiday.forpublic.id/en/${year}/holidays`,
       },
     },
   };

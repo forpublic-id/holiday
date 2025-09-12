@@ -140,10 +140,10 @@ export async function generateMetadata({
       images: [`/api/og?month=${month}&year=${year}&locale=${locale}`],
     },
     alternates: {
-      canonical: `/${locale}/${year}/${monthParam}`,
+      canonical: `https://holiday.forpublic.id/${locale}/${year}/${monthParam}`,
       languages: {
-        'id-ID': `/id/${year}/${getMonthName(month, 'id').toLowerCase()}`,
-        'en-US': `/en/${year}/${getMonthName(month, 'en').toLowerCase()}`,
+        'id-ID': `https://holiday.forpublic.id/id/${year}/${getMonthName(month, 'id').toLowerCase()}`,
+        'en-US': `https://holiday.forpublic.id/en/${year}/${getMonthName(month, 'en').toLowerCase()}`,
       },
     },
   };

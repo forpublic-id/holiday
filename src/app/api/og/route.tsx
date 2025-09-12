@@ -63,24 +63,28 @@ export async function GET(request: NextRequest) {
       // Handle holiday-specific OG image
       holiday = findHolidayById(holidayId);
       if (holiday) {
-        title = holiday.name[locale as keyof typeof holiday.name] || holiday.name.id;
-        subtitle = locale === 'id' ? 'Hari Libur Indonesia' : 'Indonesian Holiday';
-        
+        title =
+          holiday.name[locale as keyof typeof holiday.name] || holiday.name.id;
+        subtitle =
+          locale === 'id' ? 'Hari Libur Indonesia' : 'Indonesian Holiday';
+
         // Parse date and create formatted date display
         const holidayDate = new Date(holiday.date + 'T00:00:00');
         const holidayDay = holidayDate.getDate();
         const holidayMonth = holidayDate.getMonth() + 1;
         const holidayYear = holidayDate.getFullYear();
-        
+
         // Create formatted date display
         const monthName = getMonthName(holidayMonth, locale);
-        dateDisplay = locale === 'id' 
-          ? `${holidayDay} ${monthName} ${holidayYear}`
-          : `${monthName} ${holidayDay}, ${holidayYear}`;
+        dateDisplay =
+          locale === 'id'
+            ? `${holidayDay} ${monthName} ${holidayYear}`
+            : `${monthName} ${holidayDay}, ${holidayYear}`;
       } else {
         // Holiday not found
         title = locale === 'id' ? 'Libur Tidak Ditemukan' : 'Holiday Not Found';
-        subtitle = locale === 'id' ? 'Hari Libur Indonesia' : 'Indonesian Holiday';
+        subtitle =
+          locale === 'id' ? 'Hari Libur Indonesia' : 'Indonesian Holiday';
       }
     } else if (type === 'yearly') {
       title = locale === 'id' ? `Daftar Libur ${year}` : `${year} Holiday List`;

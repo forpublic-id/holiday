@@ -55,7 +55,7 @@ export function getYearData(year: number): HolidayYear | null {
 export function findHolidayById(holidayId: string): Holiday | null {
   for (const year of Object.keys(holidayData.years)) {
     const holidays = getHolidaysForYear(Number(year));
-    const holiday = holidays.find(h => h.id === holidayId);
+    const holiday = holidays.find((h) => h.id === holidayId);
     if (holiday) {
       return holiday;
     }

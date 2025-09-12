@@ -1,5 +1,6 @@
 import { ImageResponse } from '@vercel/og';
 import type { NextRequest } from 'next/server';
+import { findHolidayById } from '@/lib/holiday-data';
 
 export const runtime = 'edge';
 
@@ -49,12 +50,37 @@ export async function GET(request: NextRequest) {
     const year = searchParams.get('year');
     const locale = searchParams.get('locale') || 'id';
     const type = searchParams.get('type') || 'monthly';
+    const holidayId = searchParams.get('holiday');
 
     // Determine content based on type
     let title = '';
     let subtitle = '';
+    let dateText = '';
+    let monthText = '';
+    let iconEmoji = '📅';
+    let holiday = null;
 
-    if (type === 'yearly') {
+    if (holidayId) {
+      // Handle holiday-specific OG image
+      holiday = findHolidayById(holidayId);
+      if (holiday) {
+        title = holiday.name[locale as keyof typeof holiday.name] || holiday.name.id;
+        subtitle = locale === 'id' ? 'Hari Libur Indonesia' : 'Indonesian Holiday';
+        
+        // Parse date and create icon
+        const holidayDate = new Date(holiday.date + 'T00:00:00');
+        const holidayDay = holidayDate.getDate();
+        const holidayMonth = holidayDate.getMonth() + 1;
+        
+        // Create calendar icon with correct date
+        dateText = String(holidayDay).padStart(2, '0');
+        monthText = getMonthName(holidayMonth, 'id').slice(0, 3).toUpperCase();
+      } else {
+        // Holiday not found
+        title = locale === 'id' ? 'Libur Tidak Ditemukan' : 'Holiday Not Found';
+        subtitle = locale === 'id' ? 'Hari Libur Indonesia' : 'Indonesian Holiday';
+      }
+    } else if (type === 'yearly') {
       title = locale === 'id' ? `Daftar Libur ${year}` : `${year} Holiday List`;
       subtitle =
         locale === 'id'
@@ -119,6 +145,7 @@ export async function GET(request: NextRequest) {
               background: 'rgba(255, 255, 255, 0.2)',
               borderRadius: '30px',
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
               marginBottom: '30px',
@@ -126,14 +153,44 @@ export async function GET(request: NextRequest) {
               border: '2px solid rgba(255, 255, 255, 0.3)',
             }}
           >
-            <div
-              style={{
-                fontSize: '60px',
-                color: 'white',
-              }}
-            >
-              📅
-            </div>
+            {dateText ? (
+              <>
+                {/* Calendar header */}
+                <div
+                  style={{
+                    fontSize: '12px',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    marginBottom: '2px',
+                    background: '#dc2626',
+                    padding: '2px 8px',
+                    borderRadius: '4px',
+                  }}
+                >
+                  {monthText || 'JUL'}
+                </div>
+                {/* Calendar date */}
+                <div
+                  style={{
+                    fontSize: '36px',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    lineHeight: 1,
+                  }}
+                >
+                  {dateText}
+                </div>
+              </>
+            ) : (
+              <div
+                style={{
+                  fontSize: '60px',
+                  color: 'white',
+                }}
+              >
+                {iconEmoji}
+              </div>
+            )}
           </div>
 
           {/* Main title */}

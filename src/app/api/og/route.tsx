@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
     let title = '';
     let subtitle = '';
     let dateDisplay = '';
-    let iconEmoji = '📅';
+    let iconEmoji = '🗓️'; // Spiral calendar - neutral for all pages
     let holiday = null;
 
     if (holidayId) {

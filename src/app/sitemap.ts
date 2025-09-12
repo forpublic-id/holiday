@@ -85,13 +85,8 @@ export default function sitemap(): SitemapEntry[] {
       priority: 1.0,
       images: [`${baseUrl}/logo.svg`],
     },
-    ...locales.map((locale) => ({
-      url: `${baseUrl}/${locale}`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.9,
-      images: [`${baseUrl}/logo.svg`],
-    })),
+    // Note: Removing /id and /en redirect pages from sitemap to avoid Google Search Console "Page with redirect" warnings
+    // These pages only redirect to current month and shouldn't be indexed
     // About pages
     ...locales.map((locale) => ({
       url: `${baseUrl}/${locale}/about`,
@@ -108,7 +103,9 @@ export default function sitemap(): SitemapEntry[] {
         changeFrequency:
           year === currentYear ? ('weekly' as const) : ('monthly' as const),
         priority: year === currentYear ? 0.8 : 0.6,
-        images: [escapeXmlUrl(`${baseUrl}/api/og?year=${year}&locale=id&type=yearly`)],
+        images: [
+          escapeXmlUrl(`${baseUrl}/api/og?year=${year}&locale=id&type=yearly`),
+        ],
       },
       {
         url: `${baseUrl}/en/${year}/holidays`,
@@ -116,7 +113,9 @@ export default function sitemap(): SitemapEntry[] {
         changeFrequency:
           year === currentYear ? ('weekly' as const) : ('monthly' as const),
         priority: year === currentYear ? 0.8 : 0.6,
-        images: [escapeXmlUrl(`${baseUrl}/api/og?year=${year}&locale=en&type=yearly`)],
+        images: [
+          escapeXmlUrl(`${baseUrl}/api/og?year=${year}&locale=en&type=yearly`),
+        ],
       },
     ]),
   ];
@@ -152,8 +151,10 @@ export default function sitemap(): SitemapEntry[] {
           changeFrequency,
           priority,
           images: [
-            escapeXmlUrl(`${baseUrl}/api/og?month=${month}&year=${year}&locale=${locale}`),
-            `${baseUrl}/logo.svg`
+            escapeXmlUrl(
+              `${baseUrl}/api/og?month=${month}&year=${year}&locale=${locale}`
+            ),
+            `${baseUrl}/logo.svg`,
           ],
         });
       }
@@ -201,7 +202,11 @@ export default function sitemap(): SitemapEntry[] {
           lastModified,
           changeFrequency,
           priority,
-          images: [escapeXmlUrl(`${baseUrl}/api/og?holiday=${holiday.id}&locale=${locale}`)],
+          images: [
+            escapeXmlUrl(
+              `${baseUrl}/api/og?holiday=${holiday.id}&locale=${locale}`
+            ),
+          ],
         });
       }
     }

@@ -6,12 +6,12 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/_next/', '/.*'],
+        disallow: ['/api/', '/_next/', '/.*', '/id$', '/en$'],
       },
       {
         userAgent: 'Googlebot',
         allow: '/',
-        disallow: ['/api/', '/_next/'],
+        disallow: ['/api/', '/_next/', '/id$', '/en$'],
       },
     ],
     sitemap: 'https://holiday.forpublic.id/sitemap.xml',

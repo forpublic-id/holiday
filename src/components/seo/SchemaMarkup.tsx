@@ -311,10 +311,7 @@ export function OrganizationSchema({ locale }: { locale: string }) {
     url: 'https://holiday.forpublic.id',
     logo: 'https://holiday.forpublic.id/logo.svg',
     foundingDate: '2024',
-    sameAs: [
-      'https://github.com/forpublic-id/holiday',
-      'https://forpublic.id',
-    ],
+    sameAs: ['https://github.com/forpublic-id/holiday', 'https://forpublic.id'],
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer service',

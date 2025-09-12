@@ -46,24 +46,27 @@ export async function generateMetadata({
   const comparison = generateYearlyComparison(year, holidays);
 
   const title = `Indonesian National Holidays ${year} - ${nationalAndJointLeave.length} Days | Holiday Calendar Indonesia`;
-  
+
   let description = `Complete list of Indonesian national holidays and joint leave days for ${year} with total ${nationalAndJointLeave.length} holidays including New Year, Eid al-Fitr, Eid al-Adha, Independence Day, and joint leave days. `;
-  
+
   // Add comparison context
   if (comparison.difference !== 0) {
     const moreOrFewer = comparison.isMore ? 'more' : 'fewer';
     description += `Year ${year} has ${Math.abs(comparison.difference)} ${moreOrFewer} holidays compared to ${year - 1} (${comparison.previousCount} days). `;
   }
-  
+
   // Add long weekend opportunities
-  if (comparison.longWeekendOpportunities > 0 || comparison.strategicOpportunities > 0) {
+  if (
+    comparison.longWeekendOpportunities > 0 ||
+    comparison.strategicOpportunities > 0
+  ) {
     description += `Enjoy ${comparison.longWeekendOpportunities} natural long weekend opportunities`;
     if (comparison.strategicOpportunities > 0) {
       description += ` and ${comparison.strategicOpportunities} additional long weekend chances with strategic leave planning`;
     }
     description += '. ';
   }
-  
+
   description += `Use strategic vacation planning guide to maximize family holidays and rest time in ${year}. Official Indonesian government calendar with accurate and up-to-date information.`;
 
   return {

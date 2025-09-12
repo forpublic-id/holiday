@@ -12,7 +12,10 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { FAQ } from '@/components/seo/FAQ';
-import { OrganizationSchema, WebsiteSchema } from '@/components/seo/SchemaMarkup';
+import {
+  OrganizationSchema,
+  WebsiteSchema,
+} from '@/components/seo/SchemaMarkup';
 
 interface AboutPageProps {
   params: Promise<{ locale: string }>;
@@ -126,9 +129,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
     {
       number: '100K+',
       label:
-        locale === 'id'
-          ? 'Pengguna Aktif Bulanan'
-          : 'Monthly Active Users',
+        locale === 'id' ? 'Pengguna Aktif Bulanan' : 'Monthly Active Users',
     },
     {
       number: '99.9%',

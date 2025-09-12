@@ -48,22 +48,25 @@ export async function generateMetadata({
   const title = `Daftar Libur Nasional ${year} - ${nationalAndJointLeave.length} Hari Libur | Holiday Calendar Indonesia`;
 
   let description = `Daftar lengkap hari libur nasional dan cuti bersama ${year} di Indonesia dengan total ${nationalAndJointLeave.length} hari libur meliputi Tahun Baru, Idul Fitri, Idul Adha, Kemerdekaan, dan cuti bersama lainnya. `;
-  
+
   // Add comparison context
   if (comparison.difference !== 0) {
     const moreOrLess = comparison.isMore ? 'lebih banyak' : 'lebih sedikit';
     description += `Tahun ${year} memiliki ${Math.abs(comparison.difference)} hari ${moreOrLess} dibanding ${year - 1} (${comparison.previousCount} hari). `;
   }
-  
+
   // Add long weekend opportunities with strategic info
-  if (comparison.longWeekendOpportunities > 0 || comparison.strategicOpportunities > 0) {
+  if (
+    comparison.longWeekendOpportunities > 0 ||
+    comparison.strategicOpportunities > 0
+  ) {
     description += `Nikmati ${comparison.longWeekendOpportunities} peluang long weekend alami`;
     if (comparison.strategicOpportunities > 0) {
       description += ` dan ${comparison.strategicOpportunities} kesempatan long weekend tambahan dengan strategi cuti optimal`;
     }
     description += '. ';
   }
-  
+
   description += `Gunakan panduan perencanaan cuti strategis untuk maksimalkan liburan keluarga dan waktu istirahat di ${year}. Kalender resmi pemerintah Indonesia dengan informasi akurat dan terbaru.`;
 
   return {
@@ -250,8 +253,11 @@ export default async function YearlyHolidayPage({
                   Total Hari Libur
                 </div>
                 {comparison.difference !== 0 && (
-                  <div className={`text-xs mt-1 ${comparison.isMore ? 'text-green-600' : 'text-orange-600'}`}>
-                    {comparison.isMore ? '+' : ''}{comparison.difference} vs {year - 1}
+                  <div
+                    className={`text-xs mt-1 ${comparison.isMore ? 'text-green-600' : 'text-orange-600'}`}
+                  >
+                    {comparison.isMore ? '+' : ''}
+                    {comparison.difference} vs {year - 1}
                   </div>
                 )}
               </div>

@@ -1,7 +1,12 @@
 import { getAvailableYears, getHolidaysForYear } from '@/lib/holiday-data';
 import { generateHolidaySlug } from '@/lib/holiday-utils';
 
-// Extended sitemap type to support images
+// Escape URL for XML to prevent parsing errors
+function escapeXmlUrl(url: string): string {
+  return url.replace(/&/g, '&amp;');
+}
+
+// Next.js sitemap type - images should be string URLs only
 type SitemapEntry = {
   url: string;
   lastModified?: string | Date;
@@ -14,11 +19,7 @@ type SitemapEntry = {
     | 'yearly'
     | 'never';
   priority?: number;
-  images?: Array<{
-    url: string;
-    title?: string;
-    caption?: string;
-  }>;
+  images?: string[];
 };
 
 // Get month name in URL format (lowercase)
@@ -82,26 +83,14 @@ export default function sitemap(): SitemapEntry[] {
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 1.0,
-      images: [
-        {
-          url: `${baseUrl}/logo.svg`,
-          title: 'Holiday Calendar Indonesia',
-          caption: 'Indonesian Holiday Calendar - ForPublic.id',
-        },
-      ],
+      images: [`${baseUrl}/logo.svg`],
     },
     ...locales.map((locale) => ({
       url: `${baseUrl}/${locale}`,
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 0.9,
-      images: [
-        {
-          url: `${baseUrl}/logo.svg`,
-          title: 'Holiday Calendar Indonesia',
-          caption: 'Indonesian Holiday Calendar - ForPublic.id',
-        },
-      ],
+      images: [`${baseUrl}/logo.svg`],
     })),
     // About pages
     ...locales.map((locale) => ({
@@ -109,16 +98,7 @@ export default function sitemap(): SitemapEntry[] {
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
-      images: [
-        {
-          url: `${baseUrl}/logo.svg`,
-          title: 'About Holiday Calendar Indonesia',
-          caption:
-            locale === 'id'
-              ? 'Tentang Kalender Libur Indonesia'
-              : 'About Indonesian Holiday Calendar',
-        },
-      ],
+      images: [`${baseUrl}/logo.svg`],
     })),
     // Yearly holiday list pages
     ...years.flatMap((year) => [
@@ -128,13 +108,7 @@ export default function sitemap(): SitemapEntry[] {
         changeFrequency:
           year === currentYear ? ('weekly' as const) : ('monthly' as const),
         priority: year === currentYear ? 0.8 : 0.6,
-        images: [
-          {
-            url: `${baseUrl}/api/og?year=${year}&locale=id&type=yearly`,
-            title: `Daftar Libur ${year} Indonesia`,
-            caption: `Kalender hari libur nasional dan cuti bersama tahun ${year}`,
-          },
-        ],
+        images: [escapeXmlUrl(`${baseUrl}/api/og?year=${year}&locale=id&type=yearly`)],
       },
       {
         url: `${baseUrl}/en/${year}/holidays`,
@@ -142,13 +116,7 @@ export default function sitemap(): SitemapEntry[] {
         changeFrequency:
           year === currentYear ? ('weekly' as const) : ('monthly' as const),
         priority: year === currentYear ? 0.8 : 0.6,
-        images: [
-          {
-            url: `${baseUrl}/api/og?year=${year}&locale=en&type=yearly`,
-            title: `${year} Indonesian Holidays List`,
-            caption: `Indonesian national holidays and joint leave days for ${year}`,
-          },
-        ],
+        images: [escapeXmlUrl(`${baseUrl}/api/og?year=${year}&locale=en&type=yearly`)],
       },
     ]),
   ];
@@ -184,19 +152,8 @@ export default function sitemap(): SitemapEntry[] {
           changeFrequency,
           priority,
           images: [
-            {
-              url: `${baseUrl}/api/og?month=${month}&year=${year}&locale=${locale}`,
-              title: `${monthName.charAt(0).toUpperCase() + monthName.slice(1)} ${year} Holiday Calendar`,
-              caption:
-                locale === 'id'
-                  ? `Kalender libur ${monthName} ${year} Indonesia`
-                  : `Indonesian holiday calendar for ${monthName} ${year}`,
-            },
-            {
-              url: `${baseUrl}/logo.svg`,
-              title: 'Holiday Calendar Indonesia Logo',
-              caption: 'ForPublic.id Holiday Calendar',
-            },
+            escapeXmlUrl(`${baseUrl}/api/og?month=${month}&year=${year}&locale=${locale}`),
+            `${baseUrl}/logo.svg`
           ],
         });
       }
@@ -244,16 +201,7 @@ export default function sitemap(): SitemapEntry[] {
           lastModified,
           changeFrequency,
           priority,
-          images: [
-            {
-              url: `${baseUrl}/api/og?holiday=${holiday.id}&locale=${locale}`,
-              title: `${holiday.name[locale]} ${year}`,
-              caption:
-                locale === 'id'
-                  ? `${holiday.name.id} - Hari libur Indonesia ${year}`
-                  : `${holiday.name.en} - Indonesian holiday ${year}`,
-            },
-          ],
+          images: [escapeXmlUrl(`${baseUrl}/api/og?holiday=${holiday.id}&locale=${locale}`)],
         });
       }
     }

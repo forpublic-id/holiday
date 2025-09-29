@@ -2,9 +2,9 @@ import type { HolidayYear } from '@/types/holiday';
 
 export const holidays2026: HolidayYear = {
   year: 2026,
-  lastUpdated: '2025-08-25T12:00:00Z',
+  lastUpdated: '2025-09-29T12:00:00Z',
   source:
-    'Tanggalans.id, Tenggulangbaru.id, Harilibur.pages.dev - Data per 25 Agustus 2025',
+    'SKB 3 Menteri - Pemerintah Tetapkan 17 Hari Libur Nasional dan 8 Cuti Bersama 2026 (Kemenko PMK)',
   holidays: [
     // National Holidays
     {
@@ -34,19 +34,19 @@ export const holidays2026: HolidayYear = {
     {
       id: 'imlek-2026',
       name: {
-        id: 'Tahun Baru Imlek',
-        en: 'Chinese New Year',
+        id: 'Tahun Baru Imlek 2577 Kongzili',
+        en: 'Chinese New Year 2577 Kongzili',
       },
       date: '2026-02-17',
       type: 'national',
-      religion: 'buddhist',
+      religion: 'confucian',
       isVariable: true,
       year: 2026,
     },
     {
       id: 'nyepi-2026',
       name: {
-        id: 'Hari Suci Nyepi',
+        id: 'Hari Suci Nyepi (Tahun Baru Saka)',
         en: 'Day of Silence (Nyepi)',
       },
       date: '2026-03-19',
@@ -58,20 +58,8 @@ export const holidays2026: HolidayYear = {
     {
       id: 'eid-fitr-1-2026',
       name: {
-        id: 'Hari Raya Idul Fitri',
-        en: 'Eid al-Fitr',
-      },
-      date: '2026-03-20',
-      type: 'national',
-      religion: 'islam',
-      isVariable: true,
-      year: 2026,
-    },
-    {
-      id: 'eid-fitr-2-2026',
-      name: {
-        id: 'Hari Raya Idul Fitri',
-        en: 'Eid al-Fitr',
+        id: 'Idul Fitri 1447 Hijriah',
+        en: 'Eid al-Fitr 1447 H',
       },
       date: '2026-03-21',
       type: 'national',
@@ -80,12 +68,36 @@ export const holidays2026: HolidayYear = {
       year: 2026,
     },
     {
+      id: 'eid-fitr-2-2026',
+      name: {
+        id: 'Idul Fitri 1447 Hijriah',
+        en: 'Eid al-Fitr 1447 H',
+      },
+      date: '2026-03-22',
+      type: 'national',
+      religion: 'islam',
+      isVariable: true,
+      year: 2026,
+    },
+    {
       id: 'good-friday-2026',
       name: {
-        id: 'Wafat Yesus Kristus / Jumat Agung',
+        id: 'Wafat Yesus Kristus',
         en: 'Good Friday',
       },
       date: '2026-04-03',
+      type: 'national',
+      religion: 'christian',
+      isVariable: true,
+      year: 2026,
+    },
+    {
+      id: 'easter-2026',
+      name: {
+        id: 'Kebangkitan Yesus Kristus',
+        en: 'Easter Sunday',
+      },
+      date: '2026-04-05',
       type: 'national',
       religion: 'christian',
       isVariable: true,
@@ -118,8 +130,8 @@ export const holidays2026: HolidayYear = {
     {
       id: 'eid-adha-2026',
       name: {
-        id: 'Hari Raya Idul Adha',
-        en: 'Eid al-Adha',
+        id: 'Idul Adha 1447 Hijriah',
+        en: 'Eid al-Adha 1447 H',
       },
       date: '2026-05-27',
       type: 'national',
@@ -130,8 +142,8 @@ export const holidays2026: HolidayYear = {
     {
       id: 'vesak-2026',
       name: {
-        id: 'Hari Raya Waisak',
-        en: 'Vesak Day',
+        id: 'Hari Raya Waisak 2570 BE',
+        en: 'Vesak Day 2570 BE',
       },
       date: '2026-05-31',
       type: 'national',
@@ -154,8 +166,8 @@ export const holidays2026: HolidayYear = {
     {
       id: 'islamic-new-year-2026',
       name: {
-        id: 'Tahun Baru Islam',
-        en: 'Islamic New Year',
+        id: '1 Muharram / Tahun Baru Islam 1448 H',
+        en: '1 Muharram / Islamic New Year 1448 H',
       },
       date: '2026-06-16',
       type: 'national',
@@ -190,7 +202,7 @@ export const holidays2026: HolidayYear = {
     {
       id: 'christmas-2026',
       name: {
-        id: 'Hari Raya Natal',
+        id: 'Kelahiran Yesus Kristus',
         en: 'Christmas Day',
       },
       date: '2026-12-25',
@@ -201,7 +213,101 @@ export const holidays2026: HolidayYear = {
     },
   ],
   jointLeaves: [
-    // Joint leave days will be announced by the government
-    // This will be updated once official announcement is made
+    {
+      id: 'imlek-joint-leave-2026',
+      name: {
+        id: 'Cuti Bersama Imlek',
+        en: 'Chinese New Year Joint Leave',
+      },
+      date: '2026-02-16',
+      type: 'joint_leave',
+      religion: 'confucian',
+      isVariable: true,
+      year: 2026,
+    },
+    {
+      id: 'nyepi-joint-leave-2026',
+      name: {
+        id: 'Cuti Bersama Nyepi',
+        en: 'Nyepi Joint Leave',
+      },
+      date: '2026-03-18',
+      type: 'joint_leave',
+      religion: 'hindu',
+      isVariable: true,
+      year: 2026,
+    },
+    {
+      id: 'eid-fitr-joint-leave-1-2026',
+      name: {
+        id: 'Cuti Bersama Idul Fitri',
+        en: 'Eid al-Fitr Joint Leave',
+      },
+      date: '2026-03-20',
+      type: 'joint_leave',
+      religion: 'islam',
+      isVariable: true,
+      year: 2026,
+    },
+    {
+      id: 'eid-fitr-joint-leave-2-2026',
+      name: {
+        id: 'Cuti Bersama Idul Fitri',
+        en: 'Eid al-Fitr Joint Leave',
+      },
+      date: '2026-03-23',
+      type: 'joint_leave',
+      religion: 'islam',
+      isVariable: true,
+      year: 2026,
+    },
+    {
+      id: 'eid-fitr-joint-leave-3-2026',
+      name: {
+        id: 'Cuti Bersama Idul Fitri',
+        en: 'Eid al-Fitr Joint Leave',
+      },
+      date: '2026-03-24',
+      type: 'joint_leave',
+      religion: 'islam',
+      isVariable: true,
+      year: 2026,
+    },
+    {
+      id: 'ascension-joint-leave-2026',
+      name: {
+        id: 'Cuti Bersama Kenaikan Yesus Kristus',
+        en: 'Ascension Day Joint Leave',
+      },
+      date: '2026-05-15',
+      type: 'joint_leave',
+      religion: 'christian',
+      isVariable: true,
+      year: 2026,
+    },
+    {
+      id: 'eid-adha-joint-leave-2026',
+      name: {
+        id: 'Cuti Bersama Idul Adha',
+        en: 'Eid al-Adha Joint Leave',
+      },
+      date: '2026-05-28',
+      type: 'joint_leave',
+      religion: 'islam',
+      isVariable: true,
+      year: 2026,
+    },
+    {
+      id: 'christmas-eve-joint-leave-2026',
+      name: {
+        id: 'Cuti Bersama Natal',
+        en: 'Christmas Eve Joint Leave',
+      },
+      date: '2026-12-24',
+      type: 'joint_leave',
+      religion: 'christian',
+      isVariable: true,
+      year: 2026,
+    },
   ],
 };
